@@ -5,3 +5,8 @@
 [dev]
   command = "astro dev"
   targetPort = 4321
+
+[[redirects]]
+  from = "/rss.xml"
+  to = "https://api.riverside.com/hosting/Vx6O326l.rss"
+  status = 302
