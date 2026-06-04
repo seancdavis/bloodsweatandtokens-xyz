@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { EpisodeMediaPlayer } from '../../../components/podcast/EpisodeMediaPlayer';
+import { EpisodeList } from '../../../components/podcast/EpisodeList';
+import {
+  durationClock,
+  episodeCode,
+  episodePath,
+  episodes,
+  formatEpisodeDate,
+  latestEpisode,
+  site,
+  transcriptPreview,
+  type Episode,
+} from '../../../data/podcast';
+
+export function getStaticPaths() {
+  return episodes.map((episode) => ({
+    params: { slug: episode.slug },
+    props: { episode },
+  }));
+}
+
+interface Props {
+  episode: Episode;
+}
+
+const { episode } = Astro.props;
+const relatedEpisodes = episodes.filter((item) => item.id !== episode.id).slice(0, 3);
+const transcriptParagraphs = episode.transcript.split(/\n{2,}/).filter(Boolean);
+const episodeJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'PodcastEpisode',
+  name: episode.shortTitle,
+  description: episode.summary,
+  url: new URL(episodePath(episode), Astro.site ?? site.url).toString(),
+  datePublished: episode.publishedAt,
+  duration: `PT${Math.round(episode.durationSeconds / 60)}M`,
+  partOfSeries: {
+    '@type': 'PodcastSeries',
+    name: site.name,
+    url: site.url,
+  },
+  associatedMedia: [
+    {
+      '@type': 'MediaObject',
+      contentUrl: episode.audioUrl,
+      encodingFormat: 'audio/mpeg',
+    },
+    {
+      '@type': 'VideoObject',
+      embedUrl: `https://www.youtube-nocookie.com/embed/${episode.videoId}`,
+      name: episode.shortTitle,
+      uploadDate: episode.publishedAt,
+    },
+  ],
+  transcript: transcriptPreview(episode.transcript, 1200),
+};
+---
+
+<BaseLayout
+  title={episode.shortTitle}
+  description={episode.summary}
+  image={site.coverArt}
+  type="article"
+  jsonLd={episodeJsonLd}
+>
+  <main class="page-main">
+    <section class="episode-hero" aria-labelledby="episode-heading">
+      <div>
+        <p class="terminal-command">bst@pressure:~$ open episodes/{episodeCode(episode)}.txt</p>
+        <h1 id="episode-heading">{episode.shortTitle}</h1>
+      </div>
+      <aside class="episode-hero__meta">
+        <strong>EP {episodeCode(episode)}</strong>
+        {formatEpisodeDate(episode.publishedAt)} · {durationClock(episode.duration)}
+      </aside>
+    </section>
+
+    <EpisodeMediaPlayer
+      client:load
+      id="episode-player"
+      episodeCode={episodeCode(episode)}
+      title={episode.shortTitle}
+      duration={episode.duration}
+      audioUrl={episode.audioUrl}
+      videoId={episode.videoId}
+      defaultMode={episode.id === latestEpisode.id ? 'audio' : 'video'}
+    />
+
+    <section class="episode-body">
+      <article class="copy-block">
+        <h2>show notes</h2>
+        <div set:html={episode.descriptionHtml} />
+      </article>
+      <aside class="episode-notes" aria-labelledby="episode-takeaways">
+        <h2 id="episode-takeaways">takeaways</h2>
+        <ul>
+          {episode.takeaways.map((takeaway) => <li>{takeaway}</li>)}
+        </ul>
+        <h2>chapters</h2>
+        <ul>
+          {episode.chapters.map((chapter) => <li>{chapter}</li>)}
+        </ul>
+        <p>
+          <a href={episode.transcriptUrl} target="_blank" rel="noreferrer">source transcript</a>
+        </p>
+      </aside>
+    </section>
+
+    <section class="transcript" aria-labelledby="transcript-heading">
+      <details>
+        <summary id="transcript-heading">transcript</summary>
+        <div class="transcript__content">
+          {transcriptParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </details>
+    </section>
+
+    <EpisodeList episodes={relatedEpisodes} heading="keep listening" />
+  </main>
+</BaseLayout>

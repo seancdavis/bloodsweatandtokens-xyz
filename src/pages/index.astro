@@ -1,17 +1,97 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { EpisodeList } from '../components/podcast/EpisodeList';
+import { EpisodeMediaPlayer } from '../components/podcast/EpisodeMediaPlayer';
+import { HostGrid } from '../components/podcast/HostGrid';
+import { SubscribePanel } from '../components/podcast/SubscribePanel';
+import {
+  episodeCode,
+  episodes,
+  hosts,
+  latestEpisode,
+  platformLinks,
+  site,
+} from '../data/podcast';
 
+const podcastJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'PodcastSeries',
+  name: site.name,
+  description: site.description,
+  url: site.url,
+  image: site.coverArt,
+  inLanguage: 'en',
+  sameAs: platformLinks.map((link) => link.url),
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={site.name} description={site.description} image={site.coverArt} jsonLd={podcastJsonLd}>
+  <main class="page-main">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div>
+        <p class="terminal-command">bst@pressure:~$ ./podcast --live</p>
+        <p class="hero__kicker">[ok] pressure vessel online · streaming tokens at 94%</p>
+        <h1 id="hero-heading">Blood, Sweat <span>&amp; Tokens</span></h1>
+        <p class="hero__subtitle"># {site.tagline}</p>
+        <div class="hero__actions">
+          <a class="button-link" href="#latest-player">play latest</a>
+          <a class="button-link button-link--quiet" href="#subscribe">subscribe</a>
+        </div>
+      </div>
+      <aside class="hero__diagnostics" aria-label="Show diagnostics">
+        <p class="terminal-command">cat season/001.txt</p>
+        <dl>
+          <dt>season</dt>
+          <dd>{site.seasonTitle}</dd>
+          <dt>cadence</dt>
+          <dd>weekly</dd>
+          <dt>hosts</dt>
+          <dd>Taylor MacDonald + Sean C. Davis</dd>
+          <dt>source</dt>
+          <dd>Riverside RSS</dd>
+        </dl>
+      </aside>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <span>SHIP THE PROTOTYPE</span>
+      <span>DELETE YOUR CMS</span>
+      <span>FOLLOW THE TOKENS</span>
+      <span>REAL DEADLINES</span>
+      <span>NO SLIDES</span>
+      <span>SHIP THE PROTOTYPE</span>
+      <span>DELETE YOUR CMS</span>
+      <span>FOLLOW THE TOKENS</span>
+    </div>
+
+    <EpisodeMediaPlayer
+      client:load
+      id="latest-player"
+      episodeCode={episodeCode(latestEpisode)}
+      title={latestEpisode.shortTitle}
+      duration={latestEpisode.duration}
+      audioUrl={latestEpisode.audioUrl}
+      videoId={latestEpisode.videoId}
+      defaultMode="audio"
+    />
+
+    <section class="feature-grid" aria-label="Show premise">
+      <article class="feature-card">
+        <h3>Real builds</h3>
+        <p>Every episode comes from work happening between recordings: prototypes, dead ends, and production pressure.</p>
+      </article>
+      <article class="feature-card">
+        <h3>AI under load</h3>
+        <p>The show is about agentic workflows as they behave in real product systems, not just demos.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Season 1</h3>
+        <p>{site.seasonTitle} asks whether natural language, agents, and a thin data layer can replace the admin UI.</p>
+      </article>
+    </section>
+
+    <EpisodeList episodes={episodes} limit={4} heading="recent episodes" />
+    <HostGrid hosts={hosts} />
+    <SubscribePanel links={platformLinks} />
+  </main>
+</BaseLayout>

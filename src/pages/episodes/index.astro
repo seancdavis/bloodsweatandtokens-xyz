@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { EpisodeList } from '../../components/podcast/EpisodeList';
+import { SubscribePanel } from '../../components/podcast/SubscribePanel';
+import { episodes, platformLinks, site } from '../../data/podcast';
+---
+
+<BaseLayout
+  title="Episodes"
+  description="Browse every Blood, Sweat & Tokens episode with audio, video, show notes, and transcripts."
+  image={site.coverArt}
+>
+  <main class="page-main">
+    <section class="episode-hero" aria-labelledby="episodes-heading">
+      <div>
+        <p class="terminal-command">bst@pressure:~$ ls -l episodes/</p>
+        <h1 id="episodes-heading">Episode <span>feed</span></h1>
+      </div>
+      <aside class="episode-hero__meta">
+        <strong>{episodes.length}</strong>
+        published episodes · {site.seasonLabel}: {site.seasonTitle}
+      </aside>
+    </section>
+    <EpisodeList episodes={episodes} heading="all episodes" />
+    <SubscribePanel links={platformLinks} />
+  </main>
+</BaseLayout>
