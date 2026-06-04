@@ -1,0 +1,255 @@
+Taylor MacDonald: All right, we are back. Hi, Sean, how are you doing today?
+
+Sean C Davis: Good, what's up, Taylor?
+
+Taylor MacDonald: not much. It's Thursday. I'm looking forward to the weekend. We just redid our patio. Like we just bought a big patio set and I got the cool, ⁓ my gosh. So you know how everybody buys these smokeless fire pits by Solo or whatever. There's like, there's this whole running debate in my house about whether or not they're actually smokeless because it seems like you have to kind of get it going. You know, it has to be basically like a funeral pyre before it's officially smokeless. you, do you own one of those?
+
+Sean C Davis: ⁓ yeah, know all about these things. I bought one for my parents maybe two years ago and the thing that they love it but the thing that really annoyed me was that we had the budget for their present and then bought this stove but you'd need like three other things for the thing to actually work which costs another 150 bucks and I thought they need it once they got the stand to put the stove on because it doesn't come with the stand then the air really started flowing through so they love it. I haven't done it.
+
+Taylor MacDonald: So I bought one when they first came out a few years ago and it is like the ugliest thing now. Like you know it's beautiful when you first buy it. It's like this pristine brushed steel and now it just looks, I mean it looks like an art project. It's just tarnished and gross and so anyway so we bought this new, it's awesome, we bought this, you're gonna love this. It is a 29 inch wide
+
+Sean C Davis: Yeah.
+
+Taylor MacDonald: cast iron bowl. It looks like a cauldron. It's by this company called Ash and Ember. ⁓ It is the most beautiful thing I've ever seen. I haven't used it. I haven't built a fire and it just got delivered yesterday, but I like unboxed it and kind of wiggled it out to its spot because it's so dang heavy. I couldn't lift it or whatever, but ⁓ man, it was amazing. Like it's beautiful. It's the coolest thing ever. Anyway, we're not here to talk about my patio.
+
+Sean C Davis: Okay. No, but we can talk about burning things, but anyways, we'll get out of here.
+
+Taylor MacDonald: We are- ⁓ okay. Well, this is, that's a good setup. ⁓ all right. So welcome. What is this episode four? Welcome to episode four of blood, sweat and tokens. This is the podcast where we get together weekly and talk about product development in the age of AI, agentic workflows, more modern architecture and tooling that has been enabled through things like natural language search in particular, this season of blood, sweat and tokens. We're talking a lot about natural language.
+
+Sean C Davis: I think so.
+
+Taylor MacDonald: which processing and how that could reduce friction by eliminating interfaces and other things like that. ⁓ Sean, what do you want to talk about today? So we kind of touched base a little bit on Slack before we got on the call and you told me you kind of ran through a litany of thoughts that you had since we talked last week. So maybe let's start there.
+
+Sean C Davis: Yeah, okay, so I think it seems like where we were headed toward at the end of last week, or maybe it was after we jumped off the show, we were talking a lot about kind of like voices and speaking to AI, and I think we could go deep there. I guess it relates to the time I've spent building in the last week. One of the things I ran into, so the main focus was around these. instant previews, right? Like you have, when you stitch these systems together, you have latency every step of the way. And with, for me personally, when I'm sitting in front of the computer, whether it's cloud desktop, cloud code, whatever it is, you get a little bit of feedback and over time, you're kind of like, okay, I know it's thinking, I know it's gonna take a little bit of time to think. And I think you can push some of that through the UI. But what I started thinking about was if I'm a user and I wanna make a content change, ⁓ what I wanna see when I'm using this application is... basically I needed to be essentially as fast as it would be if I were working locally. And it's not that every user would necessarily have that context, but I think it's that with all of these other ways to build code and content today, we've ⁓ got to measure up with that ⁓ reactivity. And so what I've, I went down this rabbit hole of, All right, you and I last week were talking about you make this change, shouldn't you, you know, know, in theory where the content is and contentful, you just swap out the DOM and that will be fine. And in theory that sounds good, but then you have to take into account what happens when the user changes the page. What happens if clicking some button has some use effect hook in react, and then all of a sudden it wipes away all your changes and the user's like, I don't know what just happened. And so I kept thinking about like, All right, how do we map these changes back to what's happening in the DOM? And what was really interesting was I kind of left it open-ended and let Claude tell me what it thought it was going to do. And what it came back with was this spec that had basically followed this pattern that is exactly what we built at ⁓ Stackbit, which was you, the developer needs to go into the code and map the entries from Contentful into the HTML nodes in the DOM. And then you've got this mapping. And what's really interesting to me is that in the early days of StackBit, so that was like StackBit v2. In the early days of StackBit, there was a kind of like magical inference that was trying to do a lot of, ⁓ it had a ton of logic baked in to figure out how those mappings actually exist so the developers didn't have to do that work. We blew that up because it was not a sustainable way to develop. But my argument was, well, with AI agents today, we could go back to that magic. We should be able to have that magic. We shouldn't put weeks of development work on a team to be able to adopt this tool. So what I'm playing with right now, which is in a really messy state, is I started thinking, how can we do these? take these actions in kind of a meaningful, in a meaningful way, in a consistent way that reduces latency. And what I've got right now is user types in, I wanna, like just natural chat, right? Or not even type, but talk, say, I want to, here's an image, change the hero image to this, change the headline to this, left align the hero and make the heading bigger. And then, I've got that feeding into this first agent, which is figuring out what we should do and minimizing that latency. So that agent's like, okay, cool. The image and the content for the heading are in Contentful. So I'm going to dispatch something else to do that work, update that content. And I'm going to send that change and back. to your front end widget, so to speak. And then there's these other two changes where I'm like, ⁓ you know what, these take code changes and I'm not yet authorized to make those changes. So I'm gonna send that message back to the widget as well, which I eventually will stub in something there where it's like, hey, I can send a Slack message to the development team or post a GitHub issue or something like that. So on the user side of things, what the feedback they get should be, it should be, essentially three things really quickly. One, they should see the DOM swap out and so they get a quick preview of it. Two, they see that there is an agent currently working to update that content in Contentful and which will then eventually trigger a new Netlify build so that status should be persistent. And then three, they should see hey, these other changes you don't want, we're gonna make them in the DOM so you see what they could be. And maybe eventually you could take like a snapshot or something of that. ⁓ But it's not gonna be part of the preview, these take code changes sort of a thing. So it kind of this like systematic stepping through of ⁓ different, of this type of workflow when I want a change. ⁓ it was such a big jump in terms of complexity, which is why it's taking a while, but. ⁓ Yeah, I'm curious if your initial reactions to that compared to, yeah, just swap out the dumb.
+
+Taylor MacDonald: I think that's really interesting. I mean, we've been using these multi-agent workflows now quite a bit. ⁓ You know, a lot of the discussion in the industry today is like, you know, you have these different models that have different capabilities. Some of them are really good at text. Some of them are really good at, you know, vision, being able to read things out of an image or out of a document, that kind of stuff. And so I think the prevailing wisdom is that right now you should use or you should be more granular, more selective about which agent you use or which task. If you've made the mistake of like wiring up Opus 4.6 to one of these multi-agent processes and it does everything with that model, you might wake up next morning to a $500 bill just like that, because it burns so many tokens. And so that kind of paradigm of
+
+Sean C Davis: Yeah.
+
+Taylor MacDonald: use different agents for different tasks, use different models for different tasks. know, like the strategy and upfront sort of business objective stuff, that's great for those higher level inference, really smart, super capable models. Whereas the rote level, go update the CSS selector with this thing ⁓ is probably better suited for some of those cheaper, lower cost models that, you know, are gonna yield the same output anyway. So I think that's an interesting idea. Like taking the workload and splitting it into these different verticals and then dispatching individual agents to go off and do the thing while at the same time you're giving that user the feedback loop I think is real interesting. ⁓ You said something earlier though, when you were at Stackbit you mentioned that the kind of inference model or the way that you were kind of making it magical for the developer was not sustainable. Could you clarify, was that not sustainable for the end user like me as the engineer that's implementing stack bit or was it not sustainable for stack bit because it became too resource intensive or too complex or what?
+
+Sean C Davis: It was a, it was a, accuracy and consistency sort of issue. So it was, you know, there's trade-offs in every decision that we make. that first version of Stackbit was the, or at least the Stackbit editor portion of it was, Hey, we're going to try to guess where this intelligently guess, of course, where this content coming from this content management system maps. to someplace in your code base or in the DOM, I should say, as we're running a preview at the same time. And by doing that, what we do is the product takes on a significant amount of complexity to benefit the developer who's working on the other side who doesn't have to touch their code or has to touch it minimally to implement stack bit. And eventually the decision we made was we want to adjust this lever in the trade-offs because we felt like developers having more control was going to increase the accuracy and we could provide them with the tools to be able to move quickly to implement those changes and be very declarative. I feel like that time that was like 2022 and the hot topic around then was code is conf...
+
+Taylor MacDonald: you
+
+Sean C Davis: config is code or something like that. And everything was very declarative, like moving things into configuration based files. Developers want a lot of control over what's happening, which is kind of hilarious now because we're in a totally different world, but that was sort of the trend. But yeah, that was basically it. was like, hey, if instead we hand the control over to the developers, it adds some level of work. We think we can create some education to...
+
+Taylor MacDonald: Mm-hmm. We've seen it all, control. you
+
+Sean C Davis: minimize that level of work and drastically increase the level of confidence that the updates are going to actually stick.
+
+Taylor MacDonald: I'm struck by, think right around the time we had a conversation, and I think about this all the time, you know, for these highly technical products, it's so interesting. And it's so, I mean, I pity the sales engineer at Contentful or Stackbit or frankly, Netlify even, where it's like, hey, in order to use my product, you have to have a extremely high degree of nuanced awareness about tools, technology and so forth. So it's like, in the case of, you know, the... kind of umbrella topic that we've been ratcheting towards is the total cost of ownership for both implementing and maintaining long-term ACMS in a front-end application that speaks to it, particularly a headless CMS. And I've always thought that is interesting. Like if you're selling an extremely expensive product, and I want to call back to like some of the things we said last time that like,
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: you know, the sheer, here's some stats I put together on CMS costs. Let's see. Enterprise CMS total cost of ownership exceeds a million dollars in five years. A million dollars, like what? That's just insane. ⁓ Now that's total cost of ownership, right? So it probably factors in some of that initial bill, but seriously, I mean, a lot of these, ⁓ big software as a service companies are targeting six figure annual contracts, you know, with their clients. ⁓ For example, let's see, Forrester found in 2024 that AEM was rated as a quote, very high total cost of ownership. ⁓ Let's see.
+
+Sean C Davis: Hmm.
+
+Taylor MacDonald: The CMS market, get this, in 2025, the CMS market was valued, according to Yahoo Finance, was valued at $35 billion and it is expected to increase to $79 billion. That's with a B dollars by 2033. What? It's just amazing. So I just think that's fascinating that you build a product that I, you know, let's say that I'm not.
+
+Sean C Davis: Yeah
+
+Taylor MacDonald: I don't build websites or whatever, I'm just a business owner. And you're trying to sell me your CMS product. I think it looks good, it sounds good. There's no way for me to utilize this product. I could pay $100,000 this year for it, but there's no way for me to utilize it without also paying an engineer, probably somebody with a fair amount of experience and a fairly high salary rate as well, in order to implement said product. What an unbelievable nightmare from a sales standpoint. So I digress. I just think that is fascinating. so anyway, I recall a conversation we had around 2022 where you were like, you got on the phone and you showed me stack bit. You showed me the orchestration of getting all this wired up. And I remember thinking, and I may have said it to you at the time, I'm like, I'm not going to learn this shit. Like every single
+
+Sean C Davis: Yeah, yeah.
+
+Taylor MacDonald: you know, modern software tool or architectural thing that you want to implement, it all comes with this technical educational debt. You know, you got to become an expert in order to do it right. And if you don't do it right, it's probably going to go up in smoke. But then if it's a hundred thousand dollar price tag, there's a lot at stake there. So you better become the expert. There's a lot of that pressure on engineers today. And so it's interesting, you know, we all kind of
+
+Sean C Davis: Yeah, yep.
+
+Taylor MacDonald: I think I gravitated here because I'm at my core kind of control freak. You know this about me. I like to have my hands on it and make sure that I can be confident what the outcomes are going to be. But to your point, now with natural language, now with AI and all this stuff, it's really challenging that sensibility of like I must maintain control.
+
+Sean C Davis: Yes, and I think the other thing that feels really related to this, because in my stack bit years were really interesting because we're selling to a user who's ultimately not going to touch the implementation for a little while until the thing gets implemented. But what they're...
+
+Taylor MacDonald: Yeah.
+
+Sean C Davis: buying is the communication. I mean, what they're buying is the underlying infrastructure, but as the marketing team who's going to make the purchase, they're really buying that experience of this is the communication surface and the visual surface that I'm interacting with. And one of the things you and I have talked a lot about recently is what's the future of the UI? Does everything move more chat-based? Like, yeah, we've got these websites where people are going to interact with things. maybe, but I need to update that. You know, what I've been building out is this, the surface is a little bit different than the classic CMS in that it's, it's kind of your web, it's, you've got your website and then we've got this widget kind of slapped on top of that thing. And it would be the same sort of pattern with a Chrome extension, a Netlify extension, et cetera. But When you're, because you're talking to marketing teams and selling to marketing teams consistently, what is your sense of, is that the right step in terms of communication surface? Or if we were to move all of this into Slack, this is top of mind because I'm also. in parallel building out a workflow, actually for my dad to update his website and it's all contained within Slack because we're already communicating there. So he's like, change the heading to blah, blah, blah. A bunch of stuff happens and he talks back and forth with an agent. And then it's like, you know, a few minutes go by and it says, here's your deploy preview on Netlify. Take a look. So there's longer tail there, but Slack's an option. I mean, there's plenty of other surfaces that you could dream up, but what's your sense of what, what, what do people want or, ⁓ or does this tie back into what we talked about a couple of weeks ago with, you, need to get somewhere incrementally. And this feels like a natural progression.
+
+Taylor MacDonald: So it's an interesting question. I don't know. I think different clients want different things, but if the one common thread is control, why do you need a CMS? Why does a company be like, well, I want a CMS, right? The argument is, well, I can manage my own website. But CMS implementations are not all equal, and one might be... Okay, I didn't say great because nobody again reminder. Nobody likes their same ass, right? ⁓ And and and another implementation might just be abysmal like it's either laborious to update or it's brittle you touch one thing it breaks five things and other places on the website and like ⁓ Eventually, you just kind of stop going but it's weird It's like the or you just you start to tolerate some of that stuff and that either becomes call your agency to update it have
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: one person whose life is just miserable, they're the web person in the office and they have to manage all this stuff or whatever because what you're really doing is you're trying to... Reap the benefit of the investment that you've already made So if you put six figures into the implementation and now you've got a healthy License fee every quarter every year and we're gonna pay for access to that thing Well, by God, you know, it should there's some value we get out of this so but inevitably It becomes a control problem and it's also an evolutionary problem. Businesses evolve. There's always new campaigns. There's people that roll off the team and roll onto the team that have different idea. They don't like the naming convention. They don't want the way that this is structured or they need more control over the layout or the flexibility of the content or they've got this new campaign. So they're just gonna repurpose the contact us page for the campaign. But then it's now it's all colliding in the, you know. ⁓ In the CMS so it's confusing what's what and what you can edit what you can't it just over time it compounds and just gets Messier and Messier and Messier I have often I have often pontificated on the idea that Clients should just pay the agency to manage it in the end like if you're gonna pay a hundred thousand dollars a year Just to have access to the tool
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: and you're gonna pay $100,000 just to build the initial upfront, right? Because you don't have that expertise in your team. And you're gonna potentially burn, in the case of an enterprise, you're gonna burn half a million, or sorry, did I say a million dollars in five years total cost of ownership. That's insane. You could give that million dollars to an agency that's capable that you've established trust and rapport and can respond quickly. save all that money on license, save all that thing, and just literally have a well-designed static website where the engineer can focus on expediency for content updates, ⁓ where they can focus on performance, accessibility, compliance, branding. ⁓ you know, all the other things that nobody ever talks about when they're talking about a CMS, know, contentful for all their powerful sales and marketing strategy, they don't ever like really put a ton of emphasis into the other 90 % of stuff that has to go into the build. They're just selling the interface where you plug your data into. So, you know, I don't know, like in my mind, does there even need to be a service, right? And in a lot of ways, I've made this pitch and I literally only have one client that has ever taken us up on it. And I would argue it's actually been a great service because the products themselves are rock solid. We can update them. We've got it so streamlined that our project managers, all they have to do is edit YAML files.
+
+Sean C Davis: Right. Yeah.
+
+Taylor MacDonald: And because of Netlify's infrastructure, just automatically picks those up. They'll go direct, they don't even have a CMA. We don't have a WYSIWYG, nothing. They go directly into ⁓ GitHub, find the markdown file they need to edit, make the change, submit or commit that change, and in a couple of minutes it's done. Obviously that's great for like rote level changes, but the point being is like if the agency or the engineering staff or the product team could just like shoulder the burden of having to manage the content, which sounds insane. And I'd love to get your opinion on how insane that actually is because as an engineer, you hear that and you're like, well, I'm not. I don't want to manage content. I don't mean that. mean, if you could bridge the gap, right? Like managing content is a tedious exercise, no matter what you're talking about, no matter what industry, what client, you know, what domain of influence, whether you're writing a white paper or a PDF or otherwise, managing content is a bear. If you could just wire that up to some sort of natural language processor and be like, update the page to do this, well, you've immediately and drastically reduced the amount of time to get to market. Why do you need a CMS? Like why do you need any, like all this software, like we just glue that stuff together. What's your thoughts on that?
+
+Sean C Davis: Mm-hmm. I agree with all of it and I think what I'm really trying to get to is what's the... Okay, actually, let me distill this a little bit differently. Because I think that with the way you explain that, sounds like you're arguing for it doesn't... The surface actually doesn't really matter. What matters is the results and the control and where is that? And so I kind of bring that back to how important is, what's way I want to say this? How important is the preview itself and the immediacy of the feedback? is it more about the control? Is it more about the feedback? What matters more?
+
+Taylor MacDonald: Whoa. Think about it like this. you work in a marketing department for your company and your responsibility is to update the webpage today. You get into the CMS, it's a poor experience, right? So you make a change, you go refresh the front end. Let's say it's even if it was a monolithic app. I mean, you have this problem in WordPress or any of these others, right? We've talked a lot about the latency and speed to delivery of previews of pages in your CMS, which has absolutely made a thousand times worse via the decoupled architecture that we're all playing in.
+
+Sean C Davis: Yes. Yep.
+
+Taylor MacDonald: I mean, it is like a problem we created for ourselves that just like, it still hasn't really fully been addressed. Okay, so you've got, your boss comes to you and like, hey, I need to get this PR up on the website, do it now, right? So the employee in the marketing department gets the document, does the formatting, proofreads it, checks it, it goes to legal, know, whatever those steps are to get it on. So now it's ready to go, they get into the CMS, they put it up there, it looks like crap. formatting's weird, try to put this image in, didn't work, I wanted to do this thing, I can't bold this line, what, I don't know, how do I, I forget, it's been a month since I've been in here, so I'm not even really sure what the publishing process is. So they're going through all that stuff. Now, in an alternate world, that same person picks up the phone. and calls the agency, the people who designed the website, who understand the branding, who understand the content model, because they're in it every single day, and says, hey, I need this PR published. right? What's gonna happen? It's effectively the same, I'm making the argument that if you can pick up the phone and use your words to say, please update the website with this pull request, or sorry, ⁓ my gosh.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: PR, I press release, but a simple request, goodness. Anyway, please update the website with this press release and shoot me a link so I can review it before it goes live. A couple things happen, and an hour later, there's an email in inbox with a link to that press release. Now you can shop it around, your boss can review, you're good, right? How is that any different than what we're talking about here? What we're saying is if you could just speak words at the system,
+
+Sean C Davis: Yeah
+
+Taylor MacDonald: then you don't need a surface and inevitably whoever's doing that work today is doing like, I'm making a change, refreshing, making a change, refreshing, making a change, refreshing. This goes on for hours. And so my argument would be that if you could just liquidate all of that effort, whether you're talking to an agent or you're talking to an agency, that's effectively the same value proposition. The only thing you've liquidated is that
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: kind of OCD control that a lot of your employees might have because they want it to look good, but it's a pain in the butt anyway because, you know, the implementation and perhaps the software, the interface is brittle.
+
+Sean C Davis: Right, and when they're communicating, if they give up that control, they're communicating with the agency and then they care more about that review. They're also accepting this, ⁓ essentially that latency in that response. Like they might wanna, okay, yeah, we hear you, we're working on it, it's gonna be a day. And so if we can then shrink that and like, yeah, we hear you immediately.
+
+Taylor MacDonald: It's built in. Yeah, it's built into the process.
+
+Sean C Davis: Give me like 15 minutes and then we'll have something for you.
+
+Taylor MacDonald: Exactly. So what I think is interesting about this is that, yeah, the expectation that we have when we're building systems and you're interacting with something online is it needs to be immediate, right? So the value proposition is like, ⁓ you are in complete control of your, you can manage your own website, right? ⁓ But it's not true. In episode one, we said that clients don't even use the, or I think this is not a hard stat, but our assumption based on 30 years of industry experience is that 50 % of clients may not even log into the CMS, right? The content goes stale, and these are more like small to medium-sized businesses, right? Like the enterprise, the groups that have the big marketing teams, I mean,
+
+Sean C Davis: Right. Yep.
+
+Taylor MacDonald: Understand these people are updating their stuff every day. There's constant churn stuff like that But for the more small to medium-sized businesses They may not update the footer from that copyright because they don't know how or they can't find it or it's pain in the ass Or I don't want to pay the agency to do this stuff anyway, right? So it'll just go Untouched for years sometimes and it's I guess in a lot of ways it just
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: If you empower somebody with less friction, they can tolerate more of the delay, right? Because they know that they're gonna get a better outcome as a result. I think the problem with CMS is the thing that pisses me off the most when I log in is that round trip. Find the field, make the change, wait for it to update. Nope, it was wrong.
+
+Sean C Davis: Yes.
+
+Taylor MacDonald: Find the field, make the change, wait for it to update. Okay, that's right. Now move on to the next task. Do that 10 times and it's your day. It's just infuriating.
+
+Sean C Davis: Yeah. And so a lot of it is the style of communication and that you have to piecemeal your changes. But it sounds like a big part of that is also confidence that you can solve the problem in one step, essentially.
+
+Taylor MacDonald: Well, I have this rule that if you ask me the same question three times in a row, I just stop answering. Like it just annoys me. If I have to answer the same, like I do this with my kids, right? If they ask me the same thing three times.
+
+Sean C Davis: Yeah.
+
+Taylor MacDonald: That's because I don't have tolerance for time waste. You know what I mean? And I think most industry professionals today, a lot of people in marketing departments have a lot going on. Everybody's, mean, hell, a lot of companies are cutting costs and so they're asking, you know, they'll lay off somebody, but then they won't replace them. And so a lot of folks are stretched. They're doing, you know, double the amount of work or sometimes triple the amount of work. I know a woman who lives down the block from me who's working.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: you know, 60 hours a week on average, which that's terrible. And she has two kids and you know, it's life, right? Like that's, that's a disaster. And I don't think she's spending all her time at CMSs for what it's worth. But the point being is it's like, if you could, if you could just reduce that friction a little bit, that you're gonna, you're gonna serve those people by not pissing them off by having, if I have to look at the same thing three times in a row, I just get frustrated.
+
+Sean C Davis: Hope not.
+
+Taylor MacDonald: But the truth is, if it still has to get out, there's no exit hatch. You know what mean? Like if I get pissed off when I'm running code, I just get up and walk away. And I feel better when I come back. Like an hour after I get a sandwich, take the dog on a walk, and when I'm back, the solution often presents itself. I don't know that if you're dealing with CMSs and brittle interfaces that you have that luxury. Sure, you can walk away and get a sandwich, but...
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: If the problem doesn't alleviate itself when you come back, because it still sucks. It's not like the solution is up in your brain. The solution is just brute force, you know, manual data entry, and it blows.
+
+Sean C Davis: Yes, yes. Okay, so my wheels are turning and what's really interesting about this is that these two projects I was talking about that are going and working in parallel right now, I think there's a lot of overlap and so that's gonna be my, that's my build for next week and I'll leave us in suspense there but something was that has come up repeatedly has been the talking over, typing to the to your computer that we know we're talking about natural language but you also said a few times even today pick up the phone and call your agency and it's like yes because i'm using my voice it's faster than me typing i can think on the fly and we don't and we don't correct ourselves as much either we just keep going and something that i've been i've been i've been thinking a lot about
+
+Taylor MacDonald: Mm-hmm.
+
+Sean C Davis: that model and I think there's, let me start a little bit more broadly and say, think one thing we touched on last week was do you bring your own service or do you build, do you expect users to bring their own service or do you build the ability to dictate into the software And then on the flip side, I've been using a lot of these voice modes or talk modes with things like chat GPT and Claude. And is there a value in a tool like this for it to talk back to you versus typing back to you?
+
+Taylor MacDonald: Absolutely, I use it too. What I've been the most recent application of those voice assistants is usually what I'll do. So I'm running a permies agent here at my house on Mac mini and I've got that connected.
+
+Sean C Davis: Okay.
+
+Taylor MacDonald: ⁓ through tail scale and all the, you know, so I'm using Slack as my primary communication medium too, like you guys. It's okay, I'm tolerating it. I wish that there was, to your point, better solution for voice assist. So what I've been doing is having my Hermes agent do a lot of the upfront planning and preparation. And what it'll do is like a FAQ style question. We had a big pitch earlier this week. And so I had all this information in my head But I needed to like exercise that, you know, and kind of go through, it was an open-ended Q &A style interview that we were doing on their, some of their marketing problems. And so what I did was I had Chad GBT read the planning documents that was generated by my Hermes agent. And then I was able to facilitate that voice assistant through Chad GBT's interface to just be like, okay, quiz me, know, act like you're the client and start peppering me with hard questions and let's just, let's do this. And it was great. And I've been doing this quite a bit. like often when I'm on my way to a pitch or I'm on my way to meet with a client or something like that, I will just have it on in the car. and we're just dialoguing back and forth. And it's been great. And it has really kind of taken the, ⁓ I don't know, like the ants in my pants, you before I walk in there, the butterflies, it has reduced my anxiety walking into those meetings because I feel like I've already started the conversation before I got there. ⁓ So that's been helpful. And from a psychological standpoint, I think that's great. To your question about...
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: Do you bring your own voice agent or should it be built into the interfaces? I don't know. I would assume that probably, I know that a lot of people, even people that are highly ⁓ motivated to be playing with these tools are not using the voice assistant tools yet, or they haven't caught on in a way that you might expect. And I'm not sure why. I taught, or I introduced my wife to Whisper Flow. And it took her like two weeks to get comfortable with talking out loud, which is weird. Yeah, that's weird. Like, I don't know. So we sit in this house and her, you know, her office is right next door to mine. And so we'll chit chat a lot throughout the day. And she'll hear me talking. She'll be like, what? And I'm like.
+
+Sean C Davis: Yeah, yeah.
+
+Taylor MacDonald: I'm not, talking to the computer despite the fact that there's just two of us here and I'm talking, I'm not talking to you. ⁓ it's just been kind of a weird shift, but yeah, I've thought the same, know, like I'm waiting for, well, I'm for a couple of things. Like one, I assume Apple or, you know, Google or somebody's gonna build the inference layer that lives on top of your phone, right? The, the, And I guess they already are, right? Cause there's Siri, there's Alexa, these things exist, but they're not, they're not well executed yet. One thing that I don't like on my phone, so I've got whisper flow on my phone and it operates as like a, like a additional keyboard. You know, you got to like tab through and I'm also, I'm at 1,499 days on Duolingo for French, I will say today. So tomorrow is my 1,500th day in a streak.
+
+Sean C Davis: Right, yep. Right. you Hey-o!
+
+Taylor MacDonald: I still can't, I can't speak French for shit, I've enjoyed it. Anyway, yeah, so like, I don't like that I have to toggle between the different keyboards in order to activate Voice Flow. Like I want Apple to acquire Voice Flow and just bake it right into the interface so that at some point the keyboard is less of a thing.
+
+Sean C Davis: Hahaha Yes.
+
+Taylor MacDonald: you know, and the primary interface mechanism is just me saying, hey, do the thing, I need this, what time is that? And I think they're trying to get there. I also, but back to the original question is like, I don't know that everybody's using the whisper flows or, you know, those similar tools, super whisper and so forth, yet when they do, I think everything will shift and it will be more of a, you know, I wanna control my own, ⁓ voice assistant, assuming it integrates well into these other interfaces.
+
+Sean C Davis: Yeah, that makes that makes a lot of sense. And do you? OK, so this is this is a little off topic, but I think I'm trying to validate my emotional reaction to some of these things, because I love voice mode. ⁓ I find an interesting thing with it and I have one problem with it. The problem I have with it is that it's the way it's designed, at least in Claude, is it can only do so much. so very frequently it's like. I don't know, I think you should switch back to text mode. And so I do feel like if you could build it into a tool, you can be like, you're allowed to do this and this is how you should speak back to it. But the emotional part of it is, okay, when you and I, Taylor are talking here, I'm like, you know, it's like we're talking like we're in person and that's how I'm receiving your message. When you type to me on Slack, I read it in your voice. It's like you're talking to me. I do this with Claude, I...
+
+Taylor MacDonald: You
+
+Sean C Davis: I a very specific voice and I have this like, my brain is sort of doing this thing as though I'm communicating with an actual human. When I then switch to text mode and type with Claude, when I read the voice in my head, I don't know exactly what it is, but it is not that voice agent. It's much more sterile and procedural. Does that same thing happen to you?
+
+Taylor MacDonald: No, that's interesting. well, so, okay. I don't think I've processed it in those terms. That's fascinating. You know, I got a degree in psychology and so.
+
+Sean C Davis: Amazing. No ⁓ I am, yes.
+
+Taylor MacDonald: What I will say is that ⁓ I don't know that I, I usually am like having a voice discussion or I'm having a text-based discussion. Rarely do I like interweave those two. I also have almost exclusively used chat in that, or chat GPT in that capacity. I don't care for Claude's voice interface, or at least the last time I tried. It felt limiting. I didn't care for the, the,
+
+Sean C Davis: Mmm, okay.
+
+Taylor MacDonald: It felt like I was talking to a robot. Whereas, ChatGPT, I feel like they've nailed it. Like, it feels conversational. I honestly don't understand anything about what Anthropic is doing from a business standpoint. I feel like they, it's like a flood the zone kind of ⁓ business strategy where... If they would just spend a little bit more time on some of the the real value adds like voice assistant when when my wife was the first person I saw like really leaning into it and that that encouraged me to lean into it and it's a Such a fluid natural kind of like exchange that once you try that I I don't know anybody that that hasn't been like, shit, this is revolutionary and this is how I want to interface with this system. ⁓ So I don't know, do you use chat GPT or are you almost exclusively Claude at this point?
+
+Sean C Davis: I am mostly Claude, but I do have a, I've got a codex subscription because I like to mix the providers for ⁓ QA work. Yes, yes. So if I have Claude doing them.
+
+Taylor MacDonald: and pit them against each other. Yeah. I like to instigate, like, I like to tell Claude that ChatGBT thought its code sucked, you know? And like, instigate social conflict between the agents just to see what happens. Anyway, one thing, so okay, lately what I've been doing, so I'm using Hermes. So I started with OpenClaude back in January.
+
+Sean C Davis: Mm-hmm. Yes. Yes. Exactly.
+
+Taylor MacDonald: And it was fascinating, revolutionary. And then I got tired of having to constantly tweak it and patch it and fix it and restart it and all that crap. So then I moved over to Hermes and that has been like rock solid. I had a couple of issues early on, but those have been addressed. And what I used when I moved to Hermes was a open router. So I decided I would benefit from trying other models and things like that.
+
+Sean C Davis: Okay.
+
+Taylor MacDonald: What I've got now is a open router subscription where I can just toggle between all the different models and oh my goodness, the difference in cost between some of these. So ZAI has a GLM 5.1 model that is amazing. Like, holy shit, it's as good as Opus or... Codex or any of these like it is fascinatingly ⁓ talented and it moves really quick and that's one the Gemini Flash light is apparently really impressive. I haven't played with that one yet, but that's next on my list and Kimi K2. There's so many models out there. I think a lot of people don't know that all of these things are out there. I mean, it's like all we hear about is chat and ⁓ or chat GPT and Claude. And yet there's so many other options. And I mean, we're talking significant, we're like 13 times cheaper to do the same stuff. Yeah. And I mean, you get, yeah, it's so, so I would take a look at that. mean, if I don't know if your experiments have resulted in any significant expenditures like they have for me, but I keep watching the cost go up, you know, and then, so I'm trying to figure out how to empower the team.
+
+Sean C Davis: Interesting.
+
+Taylor MacDonald: at Ample to use other models that could significantly reduce our total cost of ownership.
+
+Sean C Davis: That's interesting. So I could, in theory, you could take OpenRouter and then plug that into something like 11 Labs and try to stitch together this kind of voice response, which I think would be interesting.
+
+Taylor MacDonald: Yeah, so there's ⁓ OpenAI, right? ⁓ And so far, I think this is still the best, but OpenAI has a Whisper API. ⁓ Whisper is kind of like, it's kind of the term we're using for text to speech everywhere, right? And I think what ChatGBT has done that has made it so great is they've figured out the...
+
+Sean C Davis: Yes, I have used that.
+
+Taylor MacDonald: plumbing between, I'm gonna say a word. All it's doing is hitting that whisper API, translating your words into text, reading the text, and then giving you the reverse, a text to speech response audibly. And they built in all sorts of like, you know, human-like.
+
+Sean C Davis: Yes.
+
+Taylor MacDonald: you know, idiosyncrasies like saying the word ⁓ or pauses or, you know, pregnant pauses, you know, that kind of stuff. Inflections and things like that. So, ⁓ we're so close, you know, Whisper Flow, for example, has an API available. You can use that to do the exact same thing. You can send a chunk of text. You can get speech, or sorry, you could send a... audio file and get text transcription back from that. So theoretically you could stitch this together and I'm sure there's probably products out there that are already doing it as well if not better. But yeah, I agree. I think that that voice assistant is like the first emotional connection that a lot of like you can text. Like generating text and images is really cool. But being able to have a fluid conversation just like we're having here. One where I make mistakes, maybe I say the wrong thing, but your resiliency in that conversation, being able to move right past that, being able to infer what the hell I was talking about, even though I screwed up my words or whatever, that's innately human. That has never existed. And now it does. And it's so cool.
+
+Sean C Davis: Yeah, yeah. And it's so much faster too, because even when it doesn't, it doesn't even matter if I'm, it's another psychological thing for me, but even if I'm typing to Claude and I'm like, no human's ever gonna see this message, if I'm typing, I still fix typos. And so it takes longer.
+
+Taylor MacDonald: Same. Yeah, same. I just wrote a post for LinkedIn about that, about how like my C key is dying because I always have to backspace, or my backspace key is dying. Someone was like, ⁓ you know? And I've gotten really good. Like I learned all the shortcuts. if, know, I don't know how, I have done this so much over the years that I don't even have to like my muscle memory. So if you, I'm on a Mac, but if you have a word highlighted.
+
+Sean C Davis: Yep, yep.
+
+Taylor MacDonald: text document, you can hold the option shift key and arrow left and right to expand the highlight across the words, right? You can hold, if you just hold option as you're arrowing, it'll like hit the word boundary like one by one. So you can arrow all the way back to the beginning of the line. When you're in the terminal, can do command or sorry, control A to get your cursor at the beginning, control E to get your cursor at the end. And so I built like all these muscle memory shortcut things.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: to solve this damn problem that I'm a terrible fucking typer. Like I'm just terrible. I'm not good at it. And so it's so funny because when, think about muscle memory in general, like where does that shit get stored? Somewhere, you know, in your lizard brain, there's like, here's 12 things you do on a daily basis just to work around the other thing that you constantly do that you can't seem to fix.
+
+Sean C Davis: Very low, right? Yeah.
+
+Taylor MacDonald: You know, being a human committing typos, instead of just figuring out how to not commit the typo, I've developed muscle memory mechanisms to expedite the resolution of those problems that I've created for myself.
+
+Sean C Davis: Yeah, yeah, yeah, yeah. Yes, it's so interesting that it's so much more powerful, that you have to more actively work to get better at something than just learn the work around for it.
+
+Taylor MacDonald: It really is, man. It really is. Okay, so we're getting closer on time. I have one last question, but I lost it. Okay. So let me ask you this. Based on everything we've talked about, and I know this is all conceptual right now, but we've talked about the numbers, cost of ownership. You've been playing around with this tool. It's you to kind of explore different ways to activate these systems, to voice assistance and so forth. Five years from now, is there still a 73 billion dollar industry that is the CMS industry? Or is it literally just a whole bunch of plumbing, a whole bunch of agents orchestrating that plumbing, effectively emulating that pick up the phone call your agency, but possibly for lower cost?
+
+Sean C Davis: Yeah, I think it's the latter. when you initially read that number out earlier in that session, I was thinking, OK, 2033, when did they come up with that? Because it was probably before we're working the way we are today.
+
+Taylor MacDonald: I'm sure it was. In fact, I could tell you, but yeah, let's see. was October of 2025. So not that far ago, you know?
+
+Sean C Davis: No, yeah, think what's maybe the right way to answer this is to say... I think that the dollar volume spent on updating the content of websites, that's probably realistic. That's probably a realistic number. Whether or not we're capable of tracking that at that time, I think is a whole different thing because it's very likely that that just gets consumed in a totally different way of working, which is much more, hey, I'm working with this machine. the machine is going to do the most of the work. And then we've got these humans that are connected in the loop so that they can help guide when something goes wrong. Because I don't know, one thing I've been thinking about a lot that feels related to this in the future is, a lot ⁓ of conversations are all doom and gloom and we're not going to need people anymore. And I'm still very steadfast on.
+
+Taylor MacDonald: you
+
+Sean C Davis: people just need to elevate what they're doing and it's gonna change. We're not making the usefulness of, or the utility of humans obsolete, we're changing the utility of humans. And so as somebody who has spent a lot of my career really trying to learn and educate then ⁓ other developers, I've noticed even in the last few months, I don't think that's going away, because there's always still, there's different tools that we're using to interact with machines, and those machines are getting better at being able to teach you, but there's always just like a new technique or something else you can learn to be a little bit better at it. So I trailed a little bit there, but I think to answer your question, my particular take is, I think the market might actually be bigger than that 73 million or billion, billion, Billion. 79 billion, yeah. It might actually be bigger than that by 2033, but I think it's probably gonna be really hard to distinguish between are you updating the code, are you updating the content? ⁓ And then related to this, which I think you were kind of hinting at, I feel like I flip-flop on the fence all the time when it comes to are we gonna have a UI on the web in 20...
+
+Taylor MacDonald: I'm sorry, it was billion. Yeah, and was actually 79 on the spark, but yeah.
+
+Sean C Davis: 33 or not. Part of me is like, I want it to, because I kind of love the visual aspect of browsing the web, but maybe it doesn't need to be, maybe it's not a necessity.
+
+Taylor MacDonald: you I'm still hoping they bring flashback. Just kidding. All right, dude, I think that's good. Well, let's end on that note. But yeah, great conversation today. I appreciate this. So next week, let's circle back on some of these thoughts and maybe we can make some progress on some of the demos that you've been working on. And we can kind of show some of that stuff off and see where we're going next. Cool.
+
+Sean C Davis: Yes, yes. Love that, yeah, pleasure is always chatting with you, Taylor.
+
+Taylor MacDonald: Likewise, thanks man. This has been Blood Sweat & Tokens, episode 4. We'll see you next week and ⁓ yeah, thanks so much for listening.
+
+Sean C Davis: See y'all.

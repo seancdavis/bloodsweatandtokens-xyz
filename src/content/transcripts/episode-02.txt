@@ -1,0 +1,283 @@
+Taylor MacDonald: Well, welcome. ⁓ Welcome to episode two of blood, sweat and tokens. is the podcast where we're about product engineering in the age of AI automation and workflow, agent, a coding ⁓ tools, that kind of stuff. ⁓ My name is Taylor McDonald. ⁓ I am ⁓ ⁓ partner and CTO at Ample, a digital agency in Cincinnati, where we're a of AI enablement stuff. Sean, how you doing?
+
+Sean C Davis: I'm doing good, yeah. ⁓ I felt like week one was a great conversation and ⁓ excited as always to keep this thing rolling.
+
+Taylor MacDonald: I agree. Could you introduce yourself just for those folks who may have missed episode one?
+
+Sean C Davis: ⁓ yes, I am Sean C. Davis. I work at Netlify and ⁓ in developer experience, but that currently means a lot of different things. So we'll say I wear a lot of different hats. I got a different hat this week.
+
+Taylor MacDonald: You do have a lot of different hats. In fact, you have a lot of physical different, how many hats would you say that you own? Like, do you have a hat rack?
+
+Sean C Davis: so no, I don't have a hat rack that's been. It's a long story. I've over engineered my approach to hats, because when you get a hat rack, this is how my life goes. You.
+
+Taylor MacDonald: Surprise, surprise.
+
+Sean C Davis: you expand the amount of real estate that is required to store the hats as opposed to, know, like shoving. actually, feel like I have, do I have two? Oh yeah, look, I have a second one here. You know, you can see, fold them and then you put another one here and then you can compress them and just like throw them in a drawer, which is what I'm currently doing. It's like solo cups. I would say...
+
+Taylor MacDonald: Yeah. It's like solo cups. Yeah, nice stack.
+
+Sean C Davis: probably in the somewhere between 20 and 30 and they randomly disappear and reappear.
+
+Taylor MacDonald: Holy crap. Do you match your hat to your outfit or your shoes or the weather, the attitude you have getting out of bed? You feel grumpy, so do you grab the you know, the black sort of torn up hat that, you know, you can pull down over your brow and just sit sullenly at the coffee shop or what?
+
+Sean C Davis: Ha ha! I'm never grumpy, but yeah.
+
+Taylor MacDonald: I know. know that about you. Man, this reminds me crimson for her podcast, she she bought these, these goofy little hats. They're like, they're like rainbow colored umbrella hats that just kind of like fit on on your crown. They're amazing. I wish I had one available. She had like a whole pack of them. There might be one around here. I'll have to dig it up for next week. Anyway, all right, so let's get to it. So ⁓
+
+Sean C Davis: ⁓ yes. All right, I need to get one of these.
+
+Taylor MacDonald: Maybe why don't you do me a favor and just in your own words, kind of recap the conversation we had last week. Cause I agree. thought it was really substantive. thought we touched on some really interesting and pertinent points and as we are want to do with done a couple of rabbit holes here and there. But yeah, give us a quick kind of review in your words of, of, know, what you came away with from that last episode.
+
+Sean C Davis: Yeah, I like that what we did was we started with the problem, which I think is it's the way to start, because it's so easy to be really excited and have ⁓ an idea of what that solution might be. But we spent a lot of time on the problem around content management and how content management systems have been evolving for the last 20 to 30 years and really still. I think one of the rabbit holes we followed was that they still have this layer of friction between the user and what the user is trying to accomplish because we have to create this. structure so that both engineers and computers can understand how to translate content into what you see on the screen. And that what we're seeing now in this new age of AI is that we have this opportunity to eliminate all of that friction and just let people talk to each other like you and me and say, Hey, I want to change this thing, which is what was already happening because people were doing it was just person to person was doing that. And then we had to go through this structure to make that happen. And now you can use, kind of like compress that process a little bit because the client can think and speak in the same way they would have ⁓ previously, but a machine can now interpret that and make that change on their behalf. And I think there's a real opportunity to help folks get out of this era that we've been stuck in with traditional content management systems.
+
+Taylor MacDonald: I completely agree. And you can even extrapolate that thought beyond just content management systems, right? Like it's literally any system. If you think about playing video games, you're from a video game, like, where maybe like a button is getting worn out. And every time you hit it, maybe you get like 70 % of the time it works and 30 % of the time it doesn't work. And it ends up, you end up, you know, losing the game or to be clear, I don't play a ton of video games, but I know that's a thing.
+
+Sean C Davis: Yes. Yeah, yep.
+
+Taylor MacDonald: Keyboards, man, like I beat the shit out of my laptop. I'm routinely pilloried for my abuse of laptop keyboards. I don't know why, like, you know, when I get going, man, like you've sat next to me, it's kind of embarrassing. ⁓ As a result though, the command key will stop working or the C key or whatever the number, you know, and then it's just maddening, right? And when you get into this world of like inconsistent feedback loops from your input output devices, it is absolutely infuriating.
+
+Sean C Davis: Yeah. Mm-hmm.
+
+Taylor MacDonald: ⁓ so I'm the secretary of the forest conservancy here where we live. ⁓ And this past weekend, we had our earth day celebration. It was awesome. Great event. ⁓ One of members or sorry, I guess, ⁓ a new member came up to the booth and wanted to do a thing. And we keep CRM is in MailChimp. So I was like, well, I'll just pull up the MailChimp app and I'll plug her in. There was some validation error that just wouldn't let me save, but it was not clear to me where in the interface the error was. ⁓ it took me, I had to go back home to a desktop machine to figure it out. I forget what it was, but at the end of the day, ⁓ it was a really simple thing, but it was infuriating. I was in the moment. There were people lined up at the booth. My daughter was standing next to me, asking me a million questions. And I'm trying to plug in ⁓ Sylvia's information it like, save won't work, save won't work, save won't work. And I finally just ended up taking a screenshot. of the filled out form, right? Because it had like her address and her phone number and all the stuff that I needed in order to facilitate the membership she had just paid for, but I couldn't do it in that moment because the stupid validation error was getting in my way and I didn't know how to fix it. So imagine if I could just like MailChimp, what are you doing? Like, I want you to ⁓ tell what the hell the problem is. And it could be like, ⁓ you know, you didn't format her birthday, right? Or whatever.
+
+Sean C Davis: You
+
+Taylor MacDonald: Seems like you could break down a whole lot of ⁓ human level frustration across pretty much all industries and all devices. ⁓
+
+Sean C Davis: 100 %
+
+Taylor MacDonald: Well, based on that, why don't you talk to me a little bit about your approach to this? I know you've been prototyping some stuff over the last week and you have some thoughts. so, you know, ostensibly, I think the plan for this podcast is we're going to, we're going to put together a real world product using a lot of these tools, but aimed at this, you know, with, like a, like a real specific focus on taking advantage of natural language processing in order to interface with the system. ⁓ So ⁓ what have you come up with and bring me up to speed on where your head is?
+
+Sean C Davis: Yeah, so I did work through it a little bit last week just to think like, well, what, here's, I fed the problem that we discussed into an AI agent to try to come up with prototype and I ended up going down two different rabbit holes and the, ⁓ I think there were two interesting threads that came out of it. And one of them was about the, the approach. So I think even before we get to what is the surface area and the communication method for the actual user and their experience, I'm thinking a little bit about what's the approach that the product is trying to solve. And one thing that we talked about last week was that ideally you don't even need the content management system and we get to this point where, as long as you've got the, so you have your code underneath everything, and then you've got this set of rules that we wanna get to so we can say, hey, no matter what I put in, as long as I'm following the rules, I can do whatever. So I can spin up content, but I can also edit the code. And so I think that's. That's one approach to take and if an existing site is already using that ideal case where it's all coupled together or that content lives in something that we're managing, that seems like kind of one bucket. But then the other approach that came up was... ⁓ Okay, well, what about those folks today who have hundreds or thousands of pages and objects in Contentful? Is there a stepping stone ⁓ in terms of, hey, we could just put this interface in front of Contentful today and kind of slowly migrate them into this ideal system. But it's sort of two different architectures and it's sort of a stepping stone to get them there. And I know you and I have talked a lot about kind of that gradual migration over time. And so while I was tinkering with the prototypes, one thing I really wanted to pick your brain on was that approach with, you know, all the different clients, most of whom for you are on an existing CMS. Would you just say like, nah, screw it, this, is the ideal solution. We're going to go in, we're going to sell you and we're going to, we're going to migrate you over. Or do you feel like there's kind of this There's also this sort of like lightweight layer in front of the CMS that helps us do that gradual migration to the ideal state.
+
+Taylor MacDonald: So ⁓ great questions. ⁓ Let me ask you this. How old is your car? Sorry, I'm still on the car thing. Do you have a reasonably new car with all the bells and whistles?
+
+Sean C Davis: Yes, it was was of you know, one of the higher trims of ⁓ it's a Kia Sorento got like the second from the top highest trim. It's a year and a half old and it's a great week to tell me this because I just had to take it into the dealership this week.
+
+Taylor MacDonald: Does it do? Oh, okay. Does it, um, does it do all like the lane assist thing? Like when you turn on cruise control? Okay. That's one thing that the Bronco did that I was like, Oh, this is fancy. mean, I was driving an old 2007 for a long time, you know, and I bought this in 2021. like I leveled up from 2007 to 2021. And when I turned on cruise control for the first time, it was like, what's like, this is nuts. Like it almost even like steer. sort of centers you in the lane.
+
+Sean C Davis: Yes, yep. Mm-hmm. Mm-hmm. Yep.
+
+Taylor MacDonald: as you're driving, fancy tech, man. I was like, holy crap, this is amazing. And I remember reading an article around the time. I'm like, why do I need, like, the truth is it's nice once you kind of get comfortable with it, but initially I'm like, why do I need lane centering functionality? Like the wheel is gonna turn in a way, it's sort of like unnerving, right? Because you kind of like are losing some of that control. And really my job is just to kind of be present and have my hands on the steering wheel.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: my foot near the brake in the event that something goes haywire, right? And so I read this article about like, why are we doing this? Like, what is this technology? And it essentially was making the argument that this is a systematic desensitization of humans to a lack of control so that when we have the autonomous systems available to us, we're comfortable with that, right? Like if you were to get into an autonomous driving vehicle today, I don't know, for me, I would be fairly uncomfortable with that lack of control, right? But like this sort of like systematic dismantling of that locus of control and your sensitivity to maintaining that control theoretically is going to usher in a whole new era of products, consumer level products that like take the control away from us. Which is kind of an interesting thought. And so back to your question, like ⁓ how do you think about CMS? How do you think about
+
+Sean C Davis: Yep. Yep.
+
+Taylor MacDonald: Uh, you're right. Most of our clients, actually just did a pitch last week and this is an interesting case study. Um, we did a pitch last week for a client that has a extremely large established WordPress installation. Um, like most WordPress installations, you make one change. might ripple across things break. There's probably 50 goofy plugins in there. So there's tons of risks. Nothing's being updated. Nobody knows where to update anything. And.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: We originally walked into that pitch saying like, well, you know, maybe what we could do is, you know, just delete the CMS. what, imagine a world where you didn't have to do anything with your CMS. Well, I know that that's possible through automation tools and all this stuff, right. And to your point, like you could theoretically build like an MCP server, plug it into your chat, interface of choice and just speak to it. and say, hey, I want you to, you know, update the homepage, do this, do that, and the other. That's technically feasible today. And I think with the benefit of natural language processing and natural language understanding, we can enrich these experiences in a way that really does free you from the bounds and constraints of those validation rules and the, you know, brittle page layouts and all that kind of stuff. Not to mention the license fees and other, you know, expenditures, both in, you know, human resource capital, well as actual dollars and cents. that, however, is a fairly provocative statement, right? So my colleagues that were doing the pitch, they were like, whoa, whoa, whoa, you can't say that. Like that could freak them out. Like what if, you know what I mean? You're talking about something revolutionary. You haven't given me the lane assist yet version of the CMS you need. And so like in a lot of ways,
+
+Sean C Davis: Mm-hmm. ⁓ yep.
+
+Taylor MacDonald: I think that was good feedback. And so what we ended up doing was sort of slightly augmenting the pitch to say, what if you never had to log into your CMS before we're going to put a thin layer of automation above it. And it's going to effectively use natural language processing to interact with that CMS. Imagine a world where you could just press a button and say, change the hero image. Maybe it's like a little chat widget. You drag an image in, you're like, I want the hero image to be this image, right? You let go and it goes off and does a few things and the page refreshes right in front of you and you're done. And you're oh shit, that was easy. Nobody likes their CMS. That was the argument that I'm making here is like literally name one person who's like, this is a delightful experience. Nobody likes it. Nobody. It's like Excel spreadsheets are necessary and they're cool and you can like nerd out on them and stuff, but it's kind of a terrible user experience, right? So.
+
+Sean C Davis: Nope, nope.
+
+Taylor MacDonald: If natural language processing aims to eliminate the barrier of friction between you and whatever system you're interoperating with, whether it's your TV or your dishwasher, you know, could you reduce that friction and increase the positive user experience by taking advantage of this technology everywhere? What, you know, no more keyboards. It's minority report, dude. Like we finally got there.
+
+Sean C Davis: Mm hmm. So that's interesting because it's you're not really hinting at a gradual migration, you're hinting more at a desensitization. So it's almost like, okay, so you've got this layer that sits in front of the CMS today. And are you saying something like, I'm going to get you to work that way. for a year and you still have your comfort blanket of all your content is here if you need it. And then a year later, we're like, okay, cool. Now do you want to save $100,000? We're going to move the content.
+
+Taylor MacDonald: Yeah, that's interesting. guess fundamentally desensitizing somebody to losing control of their content by eliminating a CMS over time is way different than being like, get in this autonomous car and trust it with your life. ⁓ That, that only slightly that said, ⁓ it's more like an abstraction layer. Like if you think about it, right? So like,
+
+Sean C Davis: Only slightly. Right, yes, yes.
+
+Taylor MacDonald: You know, in software, we always do this. It's like, have these real specific systems that do real specific things, but then inevitably somebody comes along and is like, ⁓ could it also do this? And you're like, shit. Yeah, I guess it could. I could go back and rewrite all of it. Or I just kind of wrap it in something else and then manipulate it from the outside looking in. So I don't disrupt that core feature, that core function. That's an abstraction layer, right? You're just like, ⁓ you're building something on top of something else to augment the input output in some sort of way. And then in a way it's kind of it. you know, what is the, what's the admin tool? Gutenberg, that right? Like the WordPress, it's like the Gutenberg experience or editor or whatever, right? Sorry, I'm not a WordPress guy. Like, okay, that thing is renowned as being phenomenal. Like, and they've done a great job of building that interface. My argument would be build the interface that doesn't require an interface. You know, like I don't want to see it.
+
+Sean C Davis: ⁓ yeah, yeah, yeah. The editor. Yep, yep. Exactly.
+
+Taylor MacDonald: I don't want to touch it. I don't want have to log into it, but if I could press a button, I've gotten, ⁓ we talked last week about whisper flow or some of these, some of these, you know, text to speech tools. mean, there is a open AI has a text to speech model out there. can literally send text and it comes back as speech or spend a audio file over and it comes back as text. I mean, that's trivial now. It's every like, this could be integrated into everything.
+
+Sean C Davis: Yes. Yep.
+
+Taylor MacDonald: And my argument would be like, instead of having to press the stupid cycle button on my dishwasher, do do do do do do do, could you go around, have you ever like hit the delay button on your dishwasher? Well, there's 24 fucking hours in a day.
+
+Sean C Davis: Mind you have to hit it in like a very specific way and you gotta like sometimes you gotta flip the thing on and off.
+
+Taylor MacDonald: Right. Yeah, exactly. Yeah. Imagine a world where you're just like, dishwasher start. Yeah. Oh, sorry. I don't have any soap. Could you hook me up? I'm like, Oh, yeah, here's some soap right now. Start. Okay, cool. I'll be done in two hours. And then it pings your phone when it's done. So you can go, you know, do it over again. I just, I don't know. Like I, I'm very passionate about this because I hate, I'm, a, maybe this is it. I'm a terrible typer.
+
+Sean C Davis: Right.
+
+Taylor MacDonald: Part of the reason I'm like, feverish, it's like partly my own anxiety and like personality and passion bubbling close to the surface. The other part is fucking terrible typing. Like my accuracy is awful. So I'm constantly like backspacing and all this stuff. when I found this tool in AI where I typos don't matter anymore, like I don't, matter. you know, and you might argue like, well, is this, know, systematically like devaluing?
+
+Sean C Davis: Yeah Right, yes.
+
+Taylor MacDonald: the human expression or our language or, know, whatever. Yeah, maybe, but right now those aren't limiting factors for me. What is limiting is the amount of time I have in a day. And if I can increase my productivity, I actually dug up some stats on this. Hold on. Let's let's see. Natural language processing is, ⁓ has resulted in a 14 % more issues resolved in customer service from April, 2023, 34 % improvement in novice workers integrations with customer service. Chatbots can reduce average handle time by 77%. I mean, this is all like amazing figures that are a result of these natural language processing, right? Like NLP powered initiatives can reduce cost by
+
+Sean C Davis: Mmm, okay.
+
+Taylor MacDonald: 50 to 75 % according to this market Intel research report 2025. I I just, if you're a business owner and you want to increase your productivity, sure. mean, cutting humans in favor of agents is one strategy. It's kind of gross and has a lot of, you know, cultural impact. Giving every employee whisper flow so that they can increase their productivity by 30 % across the board. is almost a no brainer, from my vantage point.
+
+Sean C Davis: I 100 % agree. And I know it's a tangent, but like, it's one thing that's been really bugging me lately is like, okay, yes, I recognize I'm not an executive at a large organization. But also it just seems so short sighted. You're like, ⁓ yeah, I want some more profits this quarter. So I'm going to cut all these people. But in two, three, four, five years, if instead you invest in how to make those people more productive, because eventually you're going to have to hire more people anyways, if you're going to grow the technologies, not going to like expand infinite like it's good. I guess the other way to say this is it's going to be the companies that are investing in the people and giving the people the most recent power or the most capable powers and training them on it is like those are the companies that are going to succeed in the next decade.
+
+Taylor MacDonald: I agree. I just had lunch with a dude this week that his son is graduating from college this fall or sorry, this spring in May with a CS with a CS degree. Yeah. He's got a CS degree and he's starting to look around and it's just like, bro, like, I don't know what to tell you. Like, I feel bad for here's the thing. Like I got involved in this probably similar to you because I enjoyed solving puzzles. Like I just always thought that was interesting. And then
+
+Sean C Davis: Yeah, it's just scary probably, right? Ooh.
+
+Taylor MacDonald: when you can tell a machine what to do, it's like this amazing experience. Like, holy, holy crap. Like it just did the thing. I did that. Like that was me guys. Like I spoke its language, ⁓ which is so interesting. Cause like for years we've been trying to cultivate an entire generation of people who can speak computer languages. Well, now it's the opposite. Now the computers can speak our language.
+
+Sean C Davis: I did that, yes. Mm-hmm. Yes, yes. Amazing.
+
+Taylor MacDonald: Mind blown like that. I don't know. Anyway, so for the college grad that's, you know, looking for a job this June, you need to let go of like the, the puzzles still exist. They're just in different form would be us would be my opinion. Like you still have to, you know, you're just leveling up your puzzles. Just got like way more complicated. ⁓ although I, I can't imagine what it would be like being at the ground level trend.
+
+Sean C Davis: Yep, agree.
+
+Taylor MacDonald: get immersed in this stuff. I said this about front end development a couple years ago. It's like being a front end developer in 2022, miserable experience like that. There are so many things to worry about and so many new, I mean, it's great. And if you like it and it's fun and all that stuff, unfortunately, those jobs are all, you uh, it's not, it's not a good time to be exclusively a code slinger. Um, but if you're an engineering manager, it's a great time.
+
+Sean C Davis: Yes, yes. Okay, so back to...
+
+Taylor MacDonald: Sorry, those are all provocative statements to be clear. We're a very human first organization. So, you know, I'm trying to.
+
+Sean C Davis: Absolutely. I'm all human first too. But yeah, okay, so back to the architecture. you've got to have this desensitization layer, which I think makes a lot of sense. But now talk to me a little bit about your ideal state. for either, and I think maybe talk about this from two angles. There's the. I'm going to work for a startup that has no website today. So how am I setting them up for content management? And then I have this, I've just pitched this client who's got hundreds of thousands of WordPress records in a database. where are they gonna be in three years? So in terms of like, would you store, if we're gonna build this application, how are we gonna store that content? Is it always in code? Is it in our own database? Does it depend on what the scenario is?
+
+Taylor MacDonald: Let's start with number one, because I think that's the simpler scenario to approach, right? So if it's a greenfield application, you have a lot of control. You can pick whatever framework you want. could defer those choices to your coding buddy, your agent, sorry, your coding agent. The way I might approach it would be, at the end of the day, you look at a homepage, right? There's a H1, there's the image, there's other... you know, maybe it's some cards, there's like a carousel, you know, these are pretty common UI components. And thanks to React and some of these other modern front-end architectural paradigms, like these are digestible, self-contained, isolated blocks that can live on a page that simply just need to be imbued with the appropriate properties that represent the different content attributes that would get displayed inside that component. So if I was going to build something from the ground up, conceptually, I think All you're really doing is you're just mapping things on the page to rows in the database. ⁓ As human beings, we sometimes get tripped up on, it's this type of content or that type of content. Obviously that's important in terms of how you're rendering the thing on the page, but at the end of the day, it's still just strings. It's still just little data values. if I was going to, ideally, if there was a system in front of me where I could be like, okay, put a hero on the page, right? Maybe I open a web browser. I start the dev server. I'm looking at my local host, looking at my web browser, right? I'm like, okay, I want a hero. And it's like, boop, throws a hero up. mean, heroes are all generally like following the same pattern. Maybe it's a, maybe it tosses like modal window or options in front of me. It's like, well, pick which style hero you want. I like that one, right? ⁓ On the backend, the title, the eyebrow, the description text, the call to action, the image, these are, these are the attributes that make up the
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: elements that are rendered on the page. ⁓ Your system would say that somewhere, right? Like the application underpinning this voice technology where I'm like, hey, put a hero on the page. It's like, okay, cool. Here's the hero component. And I know I need these five attributes and I'm going to stick those over here in this key value store as hero one title, hero one background image or whatever. And like, maybe those are just string values that are sitting in a key value store.
+
+Sean C Davis: you
+
+Taylor MacDonald: The reason I say key values is because they're really fast. know, if you're going with like a Redis or Mongo or something like that, or what's the, there's a Netlify product. ⁓ Is it, is it blobs? Okay.
+
+Sean C Davis: ⁓ it's blobs, but blobs are actual, they're actual physical files in theory. So they're not, they're not really meant for content. They're meant more for files. So I think I would go more toward like a Mongo for something like this.
+
+Taylor MacDonald: Okay. ⁓ what about, but you guys just rolled out a product like literally yesterday, right? ⁓
+
+Sean C Davis: Yes, and that's a Postgres back database. ⁓ if you were that, it could work for that. ⁓ And one of the benefits I think of Postgres today is that the vectorization of that content becomes pretty ⁓ trivial. So if you also want to add some like AI capabilities in terms of search on top of this, then it's essentially baked into it.
+
+Taylor MacDonald: Yeah, okay, so that'd be perfect. ⁓ shit. That's a great idea. I didn't even consider that. But yeah, like if each component, each component type, the content they're in, that was all, you know, like an embedding, like a vector embedding that lives also inside the same Netlify database, then that could then even only further inform the interactions that you're having with the system via natural language. Cause they could like identify, ⁓ you're probably looking for this component or this is how we did it before on the other page. know, that kind of thing. That's cool. That's a good idea.
+
+Sean C Davis: So do you go that way in terms of, okay, so today when... The content management service has their front end application and the UI, but their API is code in front of a database. And that's generally because, I mean, they're not just going to store content in files. see that being more of the trend in AI generated applications because it's just so simple. You don't have one more dependency, but it also scales only to a point. And so it sounds like your instinct would be, but then you build one system and it doesn't matter how big the application is, it's really repeatable if you just take this key value store approach.
+
+Taylor MacDonald: ⁓ I mean, to be clear, I said key value. didn't, could be anything. Like you just need a data store and maybe that's a file system. think the problem. And we saw this, what was the CMS you, you love back in the day that totally, ⁓ shit the bed forestry.
+
+Sean C Davis: ⁓ the one that yeah, it was forestry. became Tina or something like that.
+
+Taylor MacDonald: Yeah. Okay. So like at the end of the day, like it was a good product. I'm sure Tina and all of the successor products from that same company are great. it was interesting though. It was a flat file based CMS, right? And so every time you would make an edit, it would have to write somewhere and then you'd have to like orchestrate commits from that somewhere back against your repo. Like that was a mess. ⁓
+
+Sean C Davis: Right, yes.
+
+Taylor MacDonald: You know, it took forever. think largely if you're writing something to disk, you're adding a ton of latency on all those requests. So if it could live in a memory space and be like super fast, or you could have like finely tuned database queries to pull this information back. think there's, there's value in approaching that. And of course, you know, you're going to have bottlenecks and performance issues no matter what tool you choose. It's a matter of like how you're going to approach that and like.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: some of the initial architecture. mean, one of the benefits of doing this in a database would be you could, you know, keep a record of the transaction, like the revision history of content over time, ⁓ without having to manage the commit stuff, like committing against a database, like for flat files, or sorry, committing against a repository for flat files. mean, that is not a, it's not the simplest thing. You think it's so easy because you could just write git commit, right?
+
+Sean C Davis: Yep. Yep.
+
+Taylor MacDonald: But I'll be honest, like having to programmatically do that in the past has been kind of a bear. ⁓ Maybe folks out in the world are doing this and have made it simple. Maybe natural language could make it simple. I don't know. But at the end of the day, yeah, you know, they're all just different strategies, right? Like just solving the same problem. So whether it's a file system or a memory-based cache or like ⁓ a traditional, you know, relational database or something like that.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: I think the question you need to ask yourself is like, what's an acceptable tolerance for slowness or scale or, you know, cost. mean, these all have bearings on the decision you would make,
+
+Sean C Davis: Yeah, yeah, yeah. Okay, so that's, I've been thinking very similarly and that's actually a good segue to the other big topic that's been, that I've been tinkering with a bit. And it was both in this project and another little side project that I'm tinkering with where I'm. I'm developing essentially a communication and working system for a custom agent team. And in both cases, I think what comes into play is security. I mean, that's been that's in the news all the time. And it came back up this week ⁓ with this this startup that had an agent delete both the database through railway and all of the backups, which is like, not funny, total disaster. ⁓
+
+Taylor MacDonald: Yeah.
+
+Sean C Davis: But there's real risk in that and I'm most concerned about it from that prompt injection or just you can't totally rely on skills. And so one thing I've thought about is how do you, I mean there's a bunch of different ways to handle this, but if we think about how you would go about from day one on. maybe separating the concerns and the responsibilities for each of these agents that might play a role because there's going to be the piece that interacts with you to try to understand what you're actually trying to change on the page. And then there's going to be the piece that does the change, whether that's communicating a content change through an API or opening a pull request with a code change, because we need to add a new component or something like that. And, ⁓ So yeah, I've played, I've played around with some different examples, but then, ⁓ or different scenarios, but then you can really easily get into the, you know, the, am I using a, an agent subscription to do this or increasing my costs in order of magnitude to use an API and where does Docker come into play? And so I've, I've gone down so many different rabbit holes, but I'll be just open it up there. Like keep it, keep it really open. And how do you think about the You're starting this on day one. What are the first few things you're doing to mitigate what you would perceive as some of the highest risks in this kind of unknown world?
+
+Taylor MacDonald: Yeah, it's the non-determinism aspect of this software, this technology that is having the greatest impact on your ability to control the experience or the outcome. Yeah, it's an unfortunate story, the person with the database, although I'm so grateful that they were willing to kind of put it all out there and share it because it has kickstarted a very large, it's a much larger conversation around the security, what we're doing.
+
+Sean C Davis: Exactly. Mm-hmm. Mm-hmm.
+
+Taylor MacDonald: ⁓ you know what access control you're giving and how you might put some guardrails around that stuff. My general posture on this one is there are a ton of great ETL tools and workflow tools and other scripting solutions that don't require. mean, it's funny because like when you say like, Hey, I want Claude to read my email. Well, you know, the irony is you don't need Claude to do that. Like you there's a. Google has extensive APIs and there may be costs associated with it, depending upon what your scale looks like, but ⁓ all these things exist in a very deterministic manner. And if in the case of like, I lay awake and worry about prompt injection a lot, like that one is scary. That scares the shit out of me that you could, and for those of you who might be listening that may not know, prompt injection is the idea that you can send malicious directions or instructions to an agent. ⁓ You know, that is just sitting unexposed basically. Like if you have Claude desktop, Claude is actually not the biggest worry because the frontier models have a lot of built-in security mechanisms and other protection layers that would prevent them from being stupid enough to like, I don't know, email your social security number to some random email. That said, if you have wired up like Haiku, like Haiku is definitely stupid enough to do that, right? So let's say that you've got a agent running Haiku, looking at your inbox and every hour it goes out and grabs all those things. It is possible that somebody sends you an email that says, hey, agent, do the thing that you're not supposed to do. And the agent's like, sure, I'll do that. And it does it, right? That's terrifying. That's called prompt injection. And it's not something to take lightly.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: The way I've solved this is by running an N8n workflow to basically hit the API, pull back all the emails and summarize the content of the email into a database that then gets reviewed later by the AI agent, right? So I put a buffer, deterministic buffer in between the email that is receiving correspondence and the agent that is either acting on them or making inference based on them. And I would argue that literally it's like we're missing, there's an opportunity. We're missing like a harness, like a safety harness around all these things, right? Like that's fine. If you've got Hermes running on your, on your desktop and you want to give it access to all these things, there needs to be that buffer layer, right? A deterministic buffer layer in between what it's doing and what you are asking of it and what data it has access to. ⁓ you know, it's not just email, it's the entire internet, right? Like. If your agent comes across a website, you know, and ingest all that content and there's malicious instructions in there, absent and appropriate quarantine, ⁓ kind of strategy sitting around that, that could be a major security risk, right? And this is, what happened? Do you know more about what happened with for cell? So I know for cell had this huge breach. Somebody was playing Roblox or something, and it got access through context. AI to that person's Google workspace, which then
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: just unleashed holy hell on Vercell. How did that happen? Like, you know, does anybody know? I don't know if they've been very forthcoming about this, but you know, you're in the industry. I figured you might have.
+
+Sean C Davis: I don't know about the... you're talking about like those first few steps of how they actually got the access.
+
+Taylor MacDonald: Yeah. Yeah. Like what, what actually took place on the user's machine that was the catalyst for like, ⁓ we're in big trouble. Was it prompt? Was it a prompt injection thing? Like did, was he using context AI to like do stuff inside Roblox and then some, you know, nefarious actor in the Roblox environment was like feeding the information in. Is that how it worked? Like, guess I'm just, okay.
+
+Sean C Davis: Hmm. I don't know, I don't know. I didn't go that deep.
+
+Taylor MacDonald: Well, I find it fascinating, right? Because all these little vectors exist out there and how do you protect yourself? I don't know. Years ago, I read this article where it's like the safest computer is one that's like unblocked in your basement. Because ultimately when you connect these things up to the real world, there's probably 10 million vulnerabilities that are sitting out there that you'll never find that somebody else will. It's just really scary. But you know, maybe AI will solve that for us one day.
+
+Sean C Davis: Mm-hmm. Yeah, yeah. So it's like you have the agents do the work in this theoretical safe space where they're only really allowed to communicate in specific channels. And so that they're leaving work to be done by some other programmatic workflow, which is like, yes, I can only delete or I can only post or whatever. it's those. those actions are more locked down and not they're maybe triggered by the agent but they're not performed by the agent so they don't have that extensive power.
+
+Taylor MacDonald: Yeah, more or less. mean, is it foolproof? No. I mean, I imagine somebody on the internet is going to comment back and say, well, you know, here's 12 arguments against that strategy. mean, again, the safest agent is going to be one that doesn't have access to delete your database. ⁓ But if that, for example, I mean, here's another strategy, right?
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: If you could give your autonomous agents access to CLI tooling that had built in governance controls on behalf of the organization that developed that thing, right? So like you're at Netlify, you guys have a CLI, that CLI is enormously powerful. I can create a new project, I can deploy, I can delete, I can do all the things, right? I could gain access to environment variables and other secrets and things like this, right through that command line. And I think... that is an opportunity for companies like yours to build in the governance controls while handing a tool set to an agent that protects me as the consumer, right? Like I could say, you know, here's my personal access token to my Netlify account and what guardrails do I mean, it can literally go delete everything in my account. Five minutes later, I'm like, what have you done? I mean, that's effectively what happened with this database situation that is being reported, right?
+
+Sean C Davis: Yes, exactly. Yep. Yep. Yep.
+
+Taylor MacDonald: How could you protect that? was the, who was the database system? it like super base? what was the, ⁓ do you know, do you remember?
+
+Sean C Davis: In what context?
+
+Taylor MacDonald: The actual, in the, the, the hacker news article where the dude's database got deleted. What was the service provider he was using?
+
+Sean C Davis: ⁓ the platform was Railway, but I don't... So I think it was maybe just one that was hosted on a VPS.
+
+Taylor MacDonald: Railway. Okay, all right. Okay. Okay. So these platforms as a service, like railway, render, Netlify, Vercell, I mean, you name it. Every one of you guys needs to be rushing to solve this problem simply by building a CLI that works with an agent. Like if I could just give your product to the agent with the expectation that the governance rules I have enforced in the CM or like in the tooling are enforced through the CLI, then I'm doing business with you.
+
+Sean C Davis: Yep, yep, yep.
+
+Taylor MacDonald: You know what I mean? Like at the end of the day, the company that solves this first is going to be the one that rises above the pack because it is such a pervasive challenge. But it's only pervasive because we're like YOLO and shit because it's amazing technology, but it's fucking stupid. And like the security guy at the end of the hall, your CISO is like about to lose his mind, not only because of this security issue, but also the shadow IT problem that's proliferating all the governance issues.
+
+Sean C Davis: Yep.
+
+Taylor MacDonald: Like the truth of the matter. And I think honestly, like you guys are handling it well with your, the, the AI gateway and the, ⁓ the governance controls piece baked in at a core foundational layer, like being able to service everything through a singular AI account. Like, like there's a bunch of strategies and steps that I feel like you guys are taking, which are responsible. If you could close the gap on what my autonomous agent. is allowed to do. Like if my agent was just another user of the platform, I can see that being like a huge opportunity for basically all these platforms as service providers.
+
+Sean C Davis: Yes, and I think you're hitting on a key point there where, so what I've done is I kind of have this mental model of. My agent is a user. so for these platforms that support me adding other users to my account, then I add a user account for my agent, which has its own email address. And then they can only do the things that I let them do through those permissions. And I think that's a, you know, and it's a great point about reading emails as well is like, okay, so that, that'll, you know, that's a decent practice. And I think. services and platforms across the board, what we'll probably start to see is more of these agent type of accounts where they get more controls, they're more locked down. But what it's, I think what we will still need is some level of a user has to be educated and informed because the capabilities are so much, right? Like you said, Google has extensive APIs today. But Claude also ships with Claude for Chrome or whatever that's called. And you can just tell it to go in and read and send your emails and completely bypass the API. So even these platforms can provide. these lockdown controls that say, all right, you can only delete the database if you log into this user account and click three buttons through the UI. And that's great. But I think that's probably about the extent to what the platform can do today, whereas the user can still be like, cool, go log into the system as me and click through the UI and delete the database.
+
+Taylor MacDonald: with great power comes great responsibility. What are you gonna say? Like maybe don't do that? I don't know. I mean, and I think there's an argument there too. A lot of the tech bro nihilist style folks out there, well, you shot yourself in the foot. We gave you enough rope and then you hung yourself.
+
+Sean C Davis: Right, yeah, yeah, right, right, right. Yeah, don't do it.
+
+Taylor MacDonald: If you've ever accidentally spun up a service on AWS and then got smacked with a $500 bill a month later, it's like, damn it. Like that was the dumb, like, if I, I'm an idiot, know, um, luckily in those scenarios, if it, yeah, we've all been there. I mean, it is what it is. It's just, you know, I don't, I don't know. I just,
+
+Sean C Davis: Yep, been there.
+
+Taylor MacDonald: This is what makes this world so complicated right now, right? Because there's so much opportunity, but there's this constant tug of like, should I do that or should I not? Like I catch myself doing that fairly frequently or, or have you ever accidentally like copied and pasted like a chunk of code, like error output into an agent only to realize there was a key like right in the middle of that, like a fully visible API tug and right in the middle. you're just like,
+
+Sean C Davis: Yes. ⁓ yeah.
+
+Taylor MacDonald: I'm such an idiot, you know, like there should be a safety harness, you know, that reads that input first that can literally be like, that is a key and like, read, you know what I mean? There's, there's so many of these things. I swear. Opus four six the other day, committed a bunch of sensitive stuff to a GitHub repo for it. I'm like, what are you doing? Like you're, how do you, how do you not know? Or in the case of, know, I have instructions, don't do this thing.
+
+Sean C Davis: Yeah, yep. You
+
+Taylor MacDonald: It sounds like that's exactly what happened with this railway database. This dude was like, I've told you seven times to not do that thing. He was like, Oh shit, my bad. I don't know. It's almost like it kind of reminds me. It kind of, it reminds me of dealing with my tw- uh, 13 year old. He's 13 now. Anyway, he didn't care. Like I'm like, Hey, don't do that. And he was like, whatever old man. So here's the question. You know, what do you, how do you negotiate that with your 13 year old? mean, you could.
+
+Sean C Davis: Yeah, yeah, what's in all caps? Yeah, this is important. Never do this thing. You
+
+Taylor MacDonald: ground them or whatever. In my case, that's not very effective strategy for his personality. So I'm just kind of like, I guess I just need to remove the, you know, the things that would potentially cause you self harm or, know, how do I control the environment so that you still have a fulfilling experience in life? You can still bounce around. You can still see all your friends. You can still have a great time. But I also locked the liquor cabinet because I don't want you and your buddies like, Getting wild.
+
+Sean C Davis: Yeah, yeah, yeah, yeah.
+
+Taylor MacDonald: If we take that same philosophical approach towards these autonomous agents, I think it's okay. We just haven't built, like we still need to build the harnessing. We still need to build the apparatus that protects us from them. You know, but I think there's a way to do that without sacrificing the positive user experience we get, you know, for example, if natural language is the currency of being able to provide instruction and get feedback.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: Well, none of like the underpinning functionality doesn't necessarily need that. Like if, for example, if you wanted to, I don't know, do something dangerous or destructive. If you had a deterministic system to execute that with appropriate guardrails in place, well, then all you're using AI for is the instruction to say, go run the workflow and ask for my approval. Right now it doesn't have access to delete the database. All it has is access to the thing that facilitates the
+
+Sean C Davis: Yep. Yeah. Yep.
+
+Taylor MacDonald: the curated ⁓ experience of deleting that database, one that you're in complete control of and have full audit ability.
+
+Sean C Davis: Yes, I love that. I think that's just such a smart flow. You got my wheels turning of like, okay, how many personal workflows do I have to go change now?
+
+Taylor MacDonald: ⁓ same, I know, dude. Well, I think that's for anybody who's like, I mean, sure, you may not be writing like HTML and CSS tomorrow, but like if you're feeling despair about the future, you just need to shift the way you're looking at it. Cause there's so much opportunity. mean, literally open your window and look down the street and I bet you'll see two or three businesses that could use some sort of deterministic outcome. with a reduced friction, whether that is like generating reports, know, event management, collateral, if it is, you know, QA, literally any name it, like you pick an industry, pick a thing. It can all benefit from this technology. It's just, it's different. The way we think about it today needs to be different than the way we have always historically thought about it.
+
+Sean C Davis: Yeah, totally agree. I feel like that's a good point to wrap on. ⁓ you've got me thinking all these ideas of, ⁓ OK, yeah, let's take another iteration on this prototype and see what we can come up with in this next week. And I'm sure that will spark even more topics for next week.
+
+Taylor MacDonald: Yeah. Yeah, I love it. Maybe next week we'll actually look at it. Time goes so fast when we get to chatting. Okay. Well, thank you, Sean. I appreciate that. It was a great conversation. Again, this is Blood, Sweat and Tokens, the podcast where we're exploring product development questions. How does natural language impact the way you're interacting with stuff and generally just like, you know, kicking the tires on agentic tooling, other...
+
+Sean C Davis: Yeah, that's what, yeah, let's play on that.
+
+Taylor MacDonald: you know, strategies and cool bells and whistles that exist today. ⁓ My co-host here is Sean Davis of Netlify. Thanks so much, Sean. I appreciate your time and we'll see you next week.
+
+Sean C Davis: Alright, thanks Taylor.

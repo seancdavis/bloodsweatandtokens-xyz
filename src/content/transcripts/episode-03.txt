@@ -1,0 +1,297 @@
+Taylor MacDonald: All right, we are live. Hey Sean, how's it going buddy?
+
+Sean C Davis: Good, what's up, Taylor?
+
+Taylor MacDonald: Not much. ⁓ Welcome everybody to episode three of blood, sweat and tokens. This is the podcast where we are kind of exploring agentic workflows and other tools in the era of product development, trying to figure out how does this augment the way we work with stuff? What are some barriers we might be able to break down or other disruptions that are coming to light now that we have all this amazing technology at our fingertips. How you been doing Sean? ⁓ Busy week this week.
+
+Sean C Davis: Busy week, I got my hands dirty a little bit with some of these prototypes and one is working and one is in a disastrous broken state, but proving out some of the theories that we talked through last week. So we can get into that a little bit later, but what's been on your mind this week?
+
+Taylor MacDonald: So lately I've been thinking a lot about the total cost of ownership, right? So episode one, we spent some time talking about why everybody hates their CMS or at least the fact that everybody seems to their CMS. know, there's never been a good solution. we talked a little bit at that time about like, do, why, you know, I think clients come into these software projects thinking like, if I have total control, then I don't have to call a developer anymore. Right? So the runaway cost, the long-term total cost of ownership in their head, I think is a much smaller calculation than in reality, right? Because in reality, the amount of time spent just in terms of general friction or validation errors or having to like log into that system or training and onboarding people to being able to use the software effectively. And I guess this applies way...
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: This concept applies to a much larger footprint than just CMS is to, right? mean, it's basically all software. I started doing some research on this and I thought this was fascinating that 60 % of first year budget on software development projects goes to implementation services. 60%. I think we said that was like 50 % on episode one. I just kind of guessed like maybe 50%. of every project goes to the CMS layer, which seemed like alarming enough, but this is a study by avidly, it looks like, or at least a blog post where they purport to say that 60 % of first year budget goes to implementation services. Let's see.
+
+Sean C Davis: Mmm, yeah, yep. And so with that, you're talking just about like wiring the pieces up and everything.
+
+Taylor MacDonald: Yeah, yeah, yeah, absolutely. So, yeah. And I was thinking about that too. Like why, you know, why are they so expensive? Why does this implementation cost so much? And I mean, it makes sense, right? Like there's, you know, proprietary, ⁓ endpoints or ways of doing things. This templating system is slightly different than that one. yeah, it's, ⁓ for example, ⁓ let's talk Salesforce, right? So Salesforce is a behemoth. It's a massive software corporation and has so many. amazing features and different, you know, pieces of functionality there. According to, ⁓ actually the same agency Salesforce implementation costs three to five times the license fee hub spot costs one and a half to two times the license fee just to implement. And that's fascinating, right? lot of our clients will look at this and they'll be like, well, I don't want to pay for the implementation is, or at least a lot of our clients will say, okay, I understand managed services and I'm willing to pay a contentful.
+
+Sean C Davis: Yeah, yeah.
+
+Taylor MacDonald: or a sanity for a long winded cost of ownership. But the implementation cost, you know, mean, that $100,000 price tag, that's a lot, you we're gonna have to bring that down. And I think that ultimately results in subpar work and then the dissatisfaction with the implementation that actually results. What's your perspective on that? I mean, does that sound right to you?
+
+Sean C Davis: Mm-hmm. Yeah, because we were it it sounds right. It's not it's not super surprising to me, but I think it's my brain goes right to what it's it does. It doesn't end there either. mean, you talked a lot about the ⁓ you talked a lot about in that first episode of. the turnover that companies will have and that they they pay that money but then they don't actually even use a lot of the work that they had done up front and I think that that's that's interesting. ⁓ And then there's the the other thing that I've been that's been rolling around in my head lately related to this slightly tangential is the Like where does the cost of the license itself come from? Because there is real, ⁓ there's real infrastructure costs. Like if you were to actually just say, hey, we're going to, we go back to the old build versus buy argument. Like I'm just going to build a Contentful clone and it's gonna work exactly the same way. if I even forget about what I paid to build it, what does it actually cost to implement it? This is an unrelated project that ⁓ I've been working on at Netlify, doing some build versus buy analysis. And one of the interesting things is not just, ⁓ what's way to say it? It's like, don't, so there's the implementation. And if we look at the, hey, I'm going to buy and implement this thing versus I'm going to build it. Now in this age of AI, the time it takes to build something has reduced to, it's not zero, but it feels like zero when you compare the two. But the whole calculation also includes these ongoing costs. And if the thing that you're going to buy also includes AI. ⁓ inference and you got to, and you got to pay for all of these tokens as well. You know, what's the long-term comparison in terms of infrastructure costs? know I'm all over the place there, but I'm wondering if you've considered that in that, ⁓ research too.
+
+Taylor MacDonald: I haven't. That's a, no, it's a really interesting. I have not considered that. I think often like those cost, the cost of inference, at least for platform as a service is often just bundled into the total subscription cost anyway. Right. So you're probably paying it. You're just, you know, you're it's, it's harder to distinguish that like, you know, the 20 % of this cost goes to this and 30 % goes here, you know, that kind of stuff.
+
+Sean C Davis: Right, right, yep.
+
+Taylor MacDonald: Sorry. So you, as you were talking there, one thought I had is, know, we often talk about how employees, when they leave companies, like the cost of replacement is how you think about this, right? So if somebody puts in their notice, let's say you have an employee that's making a hundred thousand dollars a year and they put in their notice, there's, there's been research that I don't have any examples right in front of me, but the general consensus on this, at least my understanding is it costs about one and a half times that person's salary to replace them. And then of course you get, you know,
+
+Sean C Davis: Yes, yep.
+
+Taylor MacDonald: If you're lucky, a three month, basically three month window where you have to cover that outage before you can get a butt in a seat. And then it probably takes another three months to get that person up. And I think that's where a lot of that one and a half, like that, that extra 50 % of time and there's an earner salary cost comes from. It's interesting. And as you think about this in the age of AI, you know, I'm curious to get your thoughts, particularly around your workflow, you know, all that time and energy ostensibly goes to onboarding.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: And you had talked about, you know, the implementation of a CMS. I think I can't remember the exact phrasing you just used, but like the amount of like customizations are unique. Maybe it's training materials that are targeted for a particular type of learning style or something like that. That once that employee leaves their natural attrition, all of that investment goes up in smoke. How do you, how in this day and age of AI, I mean, is there.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: opportunity to use the agents to amass kind of a core knowledge base of information so that you are retaining that domain knowledge and effectively reducing the cost of replacement, you know, as natural attrition occurs.
+
+Sean C Davis: Yes, yeah, I think so. I think, ⁓ I mean, with what we're talking about in using natural language and maybe clicking around a UI, I think that that onboarding, does, it kind of decreases to near zero because it's kind of like, well, you know how to use a web browser. So just use a web browser and say what you want to have happen. ⁓ And then maybe there's a couple little hooks in there that you got to get used to, but I feel like that user experience can get compressed quite a bit. The one thing I'm not totally sure about, I haven't gone super deep yet, is what does it mean to do the actual implementation of the thing? So, you know, imagine... In, I guess it was last week in episode two, what we talked about was the, hey, I'm handing you this perfect solution in a box off the shelf and you're gonna take it and you're gonna greenfield your website versus, hey, you've got this site that has 10,000 pages on it already and you're using Contentful. How do we put this interface in front of it and help you get there? And, ⁓ And so, yeah, one thing I'm curious to learn as I dig in more is, well, what's the cost of actually implementing this thing? Can the mechanism itself be smart enough that we can plug it in to any application? And I think early signs point to in theory, yes, but I think that's another consideration because, ⁓ and I don't know if your research turned this up or not, but. You know, we've worked in the past with some companies that have their own development teams and we're just giving them something that they can eventually take and manage versus, ⁓ you know, the agency's always going to be the go-to team that's responsible for that implementation as well. So I don't know, there's a lot, think, to figure out in that space as well.
+
+Taylor MacDonald: That's interesting. Yeah, so just to kind of recap the general concept that we have cultivated over the last couple of episodes is the theory here is that natural language can reduce the friction between your interface with any system, any system at all. Like if think about it, if you could just speak words to a computer when you have a problem in your language, in your, you know, with your error prone, linguistic style or whatever as a human, we're all aeroproofing. And the machine can receive those instructions and figure out what to do. Everything gets easier. You know, half the problem I have in any pro like, so okay, the database replication stopped. All right. I know conceptually what the problem is. That's just going to take me 12 steps to read the documentation and get to the finish line. Right. Or, ⁓ I need to do a calculation of my Excel spreadsheet. I could Google it.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: Google is like one step to reducing that friction because I know there's an answer out there. And as soon as I find it, then I can just copy and paste that back in. But if I could just yell at the computer, say, Hey, do the thing, just do this for me and let that machine just figure all that friction out. mean, it seems so simple to me, but anyway, so the idea was, that if there is a interface or a replacement for the interface that exists, that could be voice activated. How
+
+Sean C Davis: Yeah. Mm-hmm.
+
+Taylor MacDonald: much happier might we be, you know, here's another stat that I read as I was doing some research, 60 % or 66 % of technology projects and impartial or total failure. That's according to a report from 2020, which is crazy. If you think about that, right? Like we talked last time about the 50 to $60 million construction company that can't afford salt, like can't afford custom software. Well, that's why, you know, if you go dump,
+
+Sean C Davis: Yeah.
+
+Taylor MacDonald: a million dollars or more into the first year of software development and you have a 66 % chance of it failing, well then you're probably not gonna do that, right? But what AI has done is it's totally reduced the total cost of ownership. Sure, there's inference costs and there's still infrastructure costs as you're running it, but the actual strategic, like the development piece or being able to verbally articulate what the stakeholder wants and let a machine translate that shit, bam.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: It's crazy. Like now the 50 to $60 million construction company, my assumption would be that that 66 % would come down pretty precipitously in the wake of this revolution. Do you agree? Would you, would you say the same?
+
+Sean C Davis: I think so. Where do you think that comes from? Do you think ultimately it's because of people turnover and the length of time it takes to roll something out? mean, what do you think are like some of the biggest causes of those failures?
+
+Taylor MacDonald: Let's see. Causes. This article is written kind of weird. It's more of a sales pitch than anything. In fact, it's not, he, dude wrote a book. It looks like several years ago. And then this happens to be a real catchy thing. Let's see. According to standards groups. Yeah. Annual chaos report, 66 % of projects end in partial total failure. More projects are to air countering challenges or failing altogether. Even the smallest software projects fail one in 10 times.
+
+Sean C Davis: yeah You're like 66 % failed.
+
+Taylor MacDonald: Standish also found that 31 % of US IT projects were canceled outright and the performance of 53 % was so worrying that they were challenged. Oh, here we go. Research from McKinsey in 2020 found that 17 % of large IT projects go so badly that they threaten the very existence of the company. That's bananas, man.
+
+Sean C Davis: Oh my God. That's brutal. That's one in six. Wow.
+
+Taylor MacDonald: Yeah, that's crazy. So anyway, I, why maybe, I don't know. My assumption would be, mean, usually poor communication. Like one of the biggest challenges we have at our agency is that we do upfront discoveries. You know, those, you were involved in some of these when you worked with us, we'll do, we'll do like a six to eight week discovery. Most of our clients kind of grimace when they hear it, but I genuinely think that it is the most valuable aspect of the entire project with us.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: What it does, and it sounds silly, but like if you come in, you know, and you're like, well, I need a website. It's like, know you need a website, but like, why do you need a website? What are the KPI? It's like, what are the things that you're trying to accomplish from a business standpoint? What are your competitors doing? You know, what does the CEO think? Is that the same thing as the CFO? Is that the same thing as the CMO? You know, and so we'll get in and we'll go interview all these different people. We put basically put together like a blueprint. that blueprint will have very clear strategic objectives for the team to execute on. Then it goes into, you know, copy and design and, you know, IA and we're doing mood boards and all that crap. And then at the end of that process, it goes to the developers and then the developers are translating the design. Well, listen, dude, this is like five steps removed from the strategic observation that was identified during discovery. So, you know, my question would be like,
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: how clean and we have gates all along the way to make sure that our executive sponsors are keeping an eye on the end deliverable to make sure that it still lines up with that. But I would suspect that in these large organizations where you have an entire product team, that the doers are so far removed from the strategic, you know, idea guys that like, you know, when you get to the finish line, well, that doesn't solve the problem. Like that barely, barely does anything.
+
+Sean C Davis: Mm-hmm. Yeah, and that, I think that the timeline is a big part of it too. I'm thinking of, you know, non web projects, but I worked for a construction company for a while out of school and I worked in both the IT department and the marketing department. And there were two internal projects where we knew going into it, it was going to take. I think the marketing, the marketing project was like, is going to take a year to a year and a half. The IT one was like, we're, we're switching this underlying system. It's like a three to five year process or something like that. And so it's, it's not super surprising that those things really struggle because you need, mean, you need people who are going to stick around and see those projects through and you need your goals and three to five years to be the same as they are today. And something that, when we were working at Ample together, we were there during that, kind of the jam stack boom, or at least the early days of the jam stack. And one of the things that it introduced to us was that idea of the gradual migration of like. We can set, yeah, you can spend your six to eight weeks in discovery and a little bit more in design, but then we can start to show you things and put them in production right away. And ⁓ I feel like that idea of... yeah, we're going to spend $100,000 on a ⁓ CMS implementation kind of works against that. And maybe that's something that we're solving here as well is, and we talked about the two kind of layers and the migration from, hey, we're going to work with your existing system and we're going to get you into the ideal eventually. I just love that idea of if we could provide something where we're like, you know, give me a week, give me a week. and you'll have a better editing experience. I think that would blow people's minds.
+
+Taylor MacDonald: Yeah, I agree. yeah. So I think we've established everybody hates their CMS. It's, ⁓ expensive mostly because it's expensive. It's brittle. All right. So tell me a little bit about some of the prototypes that you've been working on, ⁓ in the last, you know, since we talked last week, ⁓ where'd you land? What problems were you trying to solve? It sounds like if, if there's two use cases, right? We have.
+
+Sean C Davis: Yeah, yep, yep. Yes.
+
+Taylor MacDonald: The Greenfield application. I need a website. I don't got anything. I'm more, you know, or I'm ready to build from the ground up. We're to do this completely fresh. And then obviously the alternative is the Brownfield version where it's like, listen, I've got, you know, 500 pages in Contentful today. I'm not happy with it. It's either too expensive, too brittle or whatever. I'm using Contentful as just one example, literally plug in any other CMS and somebody out there has got the same, the same grape.
+
+Sean C Davis: Mm-hmm. Yes. And I, so I started with the Contentful one and I use Contentful because we love to hate on Contentful, right? ⁓ And, and so I'm in the beginning stages of the more of the Greenfield application. But why don't, why don't I share this? Cause I think even just going deep into the Contentful side of things, which for, think most folks,
+
+Taylor MacDonald: Yeah
+
+Sean C Davis: that we would pilot this with, this is probably the case, right? It's like something is existing, let's see how it feels to put this layer in front of it. All right, sure.
+
+Taylor MacDonald: Yeah, let's real quickly, let's introduce so Contentful. If you're not familiar, this is a headless CMS. It's basically like an API burst to CMS. beautiful interface, super stable product. It's been around for, you know, the last 10 years, if not longer, they've done some great innovations on their product. One thing that I love about Contentful. is the product roadmap is crazy comprehensive. There, are more features inside that tool set than most competing products. mean, there's a, there's some feature parity around, around the market, but Contentful has been kind of an industry standard. Now, one of the challenges with Contentful is it is not cheap and they are shy about making adjustments to their pricing model to kind of reinforce that reality. That has caused a bunch of volatility for agencies like ours. And I'm sure Sean, your interactions with ⁓ folks out in the wild through the Netlify lens has probably had a similar sort of epiphanies. ⁓ And so I'm not entirely sure what their sales strategy is, but it has sort of encouraged a question of like, okay, if everybody hates their CMS and the CMS is consistently like brutally expensive or quite volatile on the landscape or there's a competitor. arms race about feature set and stuff like that, is there a better way to do this?
+
+Sean C Davis: Mm-hmm. Mm-hmm. Exactly. And my like, okay, wait, let's see. My window is too small. ⁓ yeah. It's, it's, it's horrible. It's the...
+
+Taylor MacDonald: Do you, is there like construction going on right next door to your office? We're going to put, we're going to put Riverside's background noise filter to the test this week.
+
+Sean C Davis: Is it, wait, where'd go? Where'd it go? All right. I feel like, okay, okay, okay, okay. Things are happening. Here we go. I was stuck in a full screen. I was stuck in a full screen browser and where the share window pops up, but the screen wasn't tall enough. So I couldn't, I didn't have the share button. Are we there? Hey, there we go.
+
+Taylor MacDonald: I can see it.
+
+Sean C Davis: Look at that. Okay, so ⁓ the thing I did, so I was just starting with text changes and let me kind of explain, I'll explain the architecture here a little bit because I think this is different than what the Greenfield application will look like, ⁓ particularly because the approach I took here was this is only content, the only thing that the agent can change. is the content. So ⁓ there's this application in production right here. We see BST demo site. And what I've done is over here, we're on this preview branch. So this is a feature we get right out of the box with Netlify. And the difference being this little button in the bottom corner, make a change. So we see when we're in production, we don't see that thing. When we're here, in this preview branch, we see this little modal. And we can then, you you could put this behind password protection or whatever. So you're only messing with the content in this case, but it's also, it's in a way you're in, you're sharing this environment. So we could get more complex there. Go ahead, we can just say something.
+
+Taylor MacDonald: Very cool. Let me ask you a question. How are you injecting that? Like, so this is a environmentally specific thing. Sometimes I get a little sensitive when I have to like write a bunch of code that lives in the, you know, it's like feature flags are amazing and I appreciate why they exist, but are you using a feature flag to expose this? Are you injecting this post build or using a Netlify build plugin to integrate this in certain environments? What does the actual underlying strategy look like?
+
+Sean C Davis: This one right here is ⁓ a React component that they would plug into their site. But we could take a number of different approaches here. Yeah, whether you wanted to be like, I'm going to add a ⁓ Edge function that only runs ⁓ in a certain branch or something like that. And I think a lot of that depends on I put this on Netlify, this is what I'm most familiar with, but I think for this to really serve the masses, it needs to be platform agnostic. And so what I was also trying to do was like, how can I take advantage of Netlify's workflows and Netlify's platform without building something that is, right, right, exactly, exactly. So this was like,
+
+Taylor MacDonald: Coupling yourself to Netlify.
+
+Sean C Davis: Super simple MVP. Hey, yeah, let's just throw a React component in there.
+
+Taylor MacDonald: Yeah, I appreciate that. yeah, I always struggle with that too. Like Netlify has such cool features and primitives. I love, it's an expressive place for me to do work, but I always find myself in this position of like, how tightly coupled am I to this infra? You know what I mean? ⁓ Netlify is phenomenal system, ⁓ but you who knows? Who knows what will be, you know, the next.
+
+Sean C Davis: Yep. Yep.
+
+Taylor MacDonald: platform provider tomorrow. Anyway, real quick, I have one other thought. So on Netlify deployment previews, you guys inject server side, like a little drawer for QA. What's that thing called? The Netlify, I don't even know what it's called. Is there a name? The drawer, okay. Could this somehow, one, how do you do that? Like how does that, or I don't know if you're allowed to tell me or not, like don't.
+
+Sean C Davis: Yeah, yeah. Yes. We just caught the drawer, I believe.
+
+Taylor MacDonald: don't get yourself in trouble, but I'm curious, like, how does that drawer work? Like, how do you, or how are you injecting that in for just those in deployment environments? And theoretically, if you have a very extensive build plugin system, is there any way to integrate this kind of little widget functionality that you've developed into that experience? ⁓ That would be cool.
+
+Sean C Davis: Yeah, yeah, yeah, absolutely. Cause there are different, there are different groupings of environments within Netlify. So you've got production and development, kind of like the ends of the spectrum. then there are, yes. And so this, this is a branch deploy, yeah, deploy context. So this is a branch deploy and then ⁓ there are also, so there's deploy previews as well.
+
+Taylor MacDonald: These are deploy context, right? Is that what you're referring to? Okay.
+
+Sean C Davis: And so what you were referring to is something that's going to get injected into the deploy preview context. ⁓ And then, we have the SDK. And so if you wanted to, you could develop something with the SDK that is much more tightly coupled to the platform itself. And so maybe that would be an approach to explore would be like, OK, I'm going to have the source of truth code hosted in this space over here. And then for each platform, we can tap into their respective SDK and hook in a little bit more tightly so you don't have the kind of like, you've got to add this react component and you need a react site or whatever. So it could work anywhere in theory.
+
+Taylor MacDonald: Exactly. Right. Okay. Sorry. Let's keep going.
+
+Sean C Davis: Cool, okay, so, oh, and the other thing you could do, I thought about this as well, is it could just be a Chrome extension also, because really all we're doing is looking at the DOM and trying to map something to what's in the CMS as well. So I...
+
+Taylor MacDonald: ⁓ Interesting. What if it was an electron, whatever it was an electron app that ran local on the Mac that just kind of like wrapped a chromium window, but then you could, anyway, keep going.
+
+Sean C Davis: I love this. No, yeah, we're off on a tangent slightly. But I'm telling you, I'm like, I feel like this ability to develop with AI tools just opens this whole new world. I went back to, okay, side tangent, because this is interesting to me. I went back to, ⁓ I went back to Chrome after years of using Arc because I loved Arc and.
+
+Taylor MacDonald: Let's do it. I love side tangents.
+
+Sean C Davis: then they, the browser company developed a dia, I think it was what it was called. And then did they get bought by Salesforce or something like that? ⁓
+
+Taylor MacDonald: Yeah. God, did they really? I didn't know that. I've used the, it's just okay for me.
+
+Sean C Davis: ⁓ no, was Atlassian. ⁓
+
+Taylor MacDonald: Sounds about right. Pets like we need like a dart board with all the big tech like.
+
+Sean C Davis: Oh yeah, yeah. And I didn't like Dia. It was beautiful. It didn't do what I wanted it to do. So I was like, okay, I'm going back to Chrome. And then I was immediately missing some of these keyboard shortcuts. And I was like, what's the right browser for this? And then I stopped myself and I was like, why don't I just build myself my own extensions that do exactly what I need them to do? Like a thing I have on here is there's no shortcut in Chrome for copying the URL. I mean, you have to select the URL and then hit copy. And I was like, well, let's just make an extension that does that. And so I have the shortcut now that will copy it and give me this little like. pop up here. So it's like that. I developed a little local desktop notification system in Objective-C, which I don't know how to write at all because I wanted some feedback. So anyways, that's the long story short being, yeah, I kind of love the idea of like, I don't know anything about this technology. Let's build it in it.
+
+Taylor MacDonald: Same, same. I'm doing the exact same thing. I, my side tangent has been converging primarily on amassing a singular, ⁓ a singular cerebral data store, basically like, okay, for years we've talked about this, you and I will have a conversation on a Tuesday and then I'll have 20 more conversations before we talk again on a Friday. And I'm like, dude, I cannot remember that thing that I wanted to share with you. Now, it's probably is because I'm approaching 50. It's probably has something to do with the fact that like, my entire adult life has been nothing but notification bubbles and alert boxes and shit. Think about this. How old are you? Were you born? When were you born? Sean? You're like,
+
+Sean C Davis: I was born in 1988. Yeah.
+
+Taylor MacDonald: mid-80s. Okay, so I'm eight years older than you. in the 90s, right around the time that you were kind of like becoming sentient, so to speak. AOL came out and it was crazy. It was banana. Like it was the coolest thing in the world. was the you've got mail era. And so like that ushered in all this opportunity, the bubble, all that crap. Fast forward 10 years, now you've got Facebook. You've got my space. You've got your iPhone came out. I don't know. 2005, something like that. Maybe 2008. I can't remember. I can't remember all the dates. Anyway, all those years we have just been laddering and layering and adding new ways to communicate. And so you said this joke where it was like, you know, you can call somebody on the phone, you could send them a text, you could send them an email, you could do all three of those things in triplicate. Right. And it's like information overload, you know, ⁓
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: Well, it's gotten way worse now, like in Slack, for example, we do tons of work and so we've been working in Slack at Ample since like 2012. And I have all this years of information. can't find any of it. It's all gone. You know, like if you and me and that one random person and then the intern are having a ⁓ threaded like direct message conversation game over, bro. You'll never find it again. Like it is gone. Like I cannot keep track.
+
+Sean C Davis: Yes. Mm-hmm. Mm-hmm.
+
+Taylor MacDonald: Or I'll have a conversation in the DM between you and me, and then it's not in the public channel. So nobody else is sharing that information. then like, so one trying to find stuff, the fact that like I doom scroll on my phone at night, you know, in the dark when I'm crying, drink alcohol, I, you know, I just, I see all this shit and I'm like, ⁓ that's fascinating. And I want to save it, but it's in here and I, know, I it's too late. I won't remember any of this shit. I'll have text conversations with my wife. fucking text messages coming in. ⁓ here's an interesting one. Your kids are a little bit younger than mine, but like all the different kid extracurricular activities like, you know, lacrosse and basketball and soccer and all that stuff. They all have different communication apps. They like, ⁓ you got to go to the group me app or you can go to the band app or you got to do, you know, and then ⁓ for my daughter, she's on class dojo. There's a whole
+
+Sean C Davis: Yes, yes, yes.
+
+Taylor MacDonald: never ending thread of consciousness about things. You can't find anything. There's no way to organize any of that information. It sucks. And then at the high school level, it's, ⁓ Schoology, which is the most abysmal experience ever. Like it looks like it was developed, you know, right around the time that, you know, the internet came online. And anyway, it's, it's just awful. And like, you can't manage any of this shit. And then on top of my wife's trying to business, I'm running a business.
+
+Sean C Davis: Hahaha
+
+Taylor MacDonald: ⁓ so how do you harness this? Like, how can you streamline all this communication? And so what I've been trying to do is come up with strategies to like funnel everything into basically a vector database that I can query, you know, from all the different agents. So using MCP to kind of stitch them all together. And I'm finally getting to this. It's like this, ⁓ example of the hive mind. And it's great because if you're like, Taylor, what was that one random thing? Or I'm like, ⁓ Sean, I meant to tell you this. I can literally go, I've got a.
+
+Sean C Davis: Mmm. Yes, okay.
+
+Taylor MacDonald: my Hermes agent running over here, can query and she can access all that information and be like, ⁓ dude, you know, last Monday you read an article by CERN about how there's potentially other dimensional, you know, forces that world and in the physics, you know, computational model that may mean the upside down is real. That's a story for another day. Anyway.
+
+Sean C Davis: That's fascinating. Okay, we're gonna have to look into that.
+
+Taylor MacDonald: Dude, it's so cool. Yeah, we need a whole nother hour to talk. Anyway, I'm sorry. Keep going with your demo. You've made it. You've loaded one screen.
+
+Sean C Davis: Okay, okay back to the to the Okay, here we go we're gonna do it alright so I the thing I put in I had like the beginnings of a Working thing last week and then you were like what if I could drop an image in there and I was like let's make it happen so Like alright, I'm gonna change the hero image. So I'm gonna take this thing here and I'm gonna be like here's this change the, while it's uploading, change the hero or use this image. Where'd go? There it is. Use this image for the hero on the homepage. Let's see if we can do two things at one time and change. Let's see, change the headline to be, I should, I should.
+
+Taylor MacDonald: Why are you not using Whisper Flow to do this? Listen to all that clanking. I agree.
+
+Sean C Davis: Cause the clacky keys are so satisfying. It's so satisfying. Okay, what should it be? It should be. ⁓ Come visit our second location. Hey. ⁓
+
+Taylor MacDonald: Yeah, that's great. Let's do that.
+
+Sean C Davis: and make the button say ⁓ shop now. Okay, great. Now we're gonna send that. Okay, so what this is doing is we're in a funky state, but basically I have on my desk here a Mac mini, because I bought one like everybody else did when OpenClaw exploded. And then I'm using this.
+
+Taylor MacDonald: All right, excellent. Okay. Yeah, you did. It's the best.
+
+Sean C Davis: tool I am loving lately is the CloudFlare tunnel. And so I ⁓ have a domain hooked up to CloudFlare. And then it creates this tunnel on my machine so that I'm here on the public web and it can communicate with this machine. So I could visit this anywhere. You could go do this today. ⁓ And so the work is happening on the Mac mini, the Mac mini is getting this message and then we kind of this one is a little bit more simplistic where there's just one agent. The next thing that I'm going to do is start to split out the difference between that. deterministic and non-deterministic functionality. it's like, ⁓ yeah, your agent, we talked about this with security last week, your agent is non-deterministic. It's going to figure out what to do. And then it's going to hand it off to this box that is very deterministic and locked down and like, okay, maybe it's not allowed to delete records or something like that.
+
+Taylor MacDonald: Yep. Here's how we do. Yep. I like that. Yes, I'm using on the Cloudflare node, I'm using a tool called tail scale for a very similar. It's basically like a private VPN and you just stitch it into all your machines and they can all kind of see each other. It's fascinating. It's really cool. Yeah, it's great. Okay. So I see it has ⁓ unpublished changes here, but I don't see it in the browser.
+
+Sean C Davis: Okay, so this. ⁓ yeah, yeah, yeah, I like that. I need a look at that. Yes, so this is something I want to talk to you about. So here's what happened behind the scenes. So we did the work on this Mac Mini and it updated probably one, I think all the hero stuff is shoved into one record. So we look, this is Contentful here and we now have.
+
+Taylor MacDonald: You know it's time to upgrade your plan, right? Because you're using Gindenful.
+
+Sean C Davis: Dude, dude, dude. We used Contentful a lot at Stackbit because a lot of the clients that we were building Stackbit for used Contentful. And so I hadn't been in here until I built this demo since Stackbit was still a company, which was like three years ago. And at that time, the free tier, could have 10 different sites in...
+
+Taylor MacDonald: Yeah.
+
+Sean C Davis: Or you could have 10 organizations or something like that. Not anymore.
+
+Taylor MacDonald: bro. They, they reduced the free tier went from a million API requests to a hundred that that is a 90 % reduction, 90 % reduction and right. Which is like, listen, dude, I get it. That's fine. I understand. But Jesus, like that is brutal. 90 % over like,
+
+Sean C Davis: Yeah, and now you can have one space. You can only have one space.
+
+Taylor MacDonald: I'll say overnight because it felt that way, but I'm sure they gave us probably 16 months worth of notices, but what client, you know, I don't know. Like you were humans. We don't tend to deal with things until it's too painful, but this situation feels it's almost like they took us for they. Okay. I use contentful daily. I am a contentful developer hero. I am connected in many ways. are partners to contentful. So I say this, but, ⁓
+
+Sean C Davis: Haha, yeah, yeah. You
+
+Taylor MacDonald: Yeah, it's not, I mean, clearly their sales strategy is not one of customer acquisition at this point. We'll say that anyway. ahead.
+
+Sean C Davis: Yep, yep, yep. Okay, so all these changes got made. Look, there's the new image. so here it says reload. So we're just gonna click that, reload. We've got this. It's updated, which is cool. ⁓ It's not in production. So I'm working in this totally safe space. And then when I'm ready, I can, ⁓ we gotta reload that again. I can say, all right, here's the change.
+
+Taylor MacDonald: It's awesome.
+
+Sean C Davis: then we'll publish that and what we'll see in Netlify over here, so this is the site in Netlify, what happened when this change was made three minutes ago is we rebuilt the preview branch and the reason that happened is because there's a webhook configured in Contentful. So all the agent did locally was it uploaded the image, it changed the content, and that save action in Contentful then comes back and hits Netlify and tells Netlify to rebuild this preview branch. And then we've got some other polling mechanism that happens that ⁓ is telling us when that build is done.
+
+Taylor MacDonald: Mm-hmm.
+
+Sean C Davis: And now production is done. So we should be able to refresh here and we're live in production. So it's cool. think the, the biggest problem I have with it right now is your, this is a super simple site. And I, what I think we're really solving this for is that site with 10,000 records, like the rebuilding preview branch is not.
+
+Taylor MacDonald: Awesome. Look at that. Mm-hmm.
+
+Sean C Davis: It's not really a feasible solution, right?
+
+Taylor MacDonald: Exactly. Right. So that I had the same thing. I've always thought this like this has been when we adopted the jam stack, the biggest challenge we had was, ⁓ at least initially it was previews. Previews were a disaster. ⁓ my God. For the first couple of years on Nullify, it was almost unusable and I felt guilty in a lot of ways for like encouraging.
+
+Sean C Davis: Yeah, yeah.
+
+Taylor MacDonald: Encouraging that framework with no clearly defined solution to that problem. So what we did early in those early years was just full builds and leverage the deployment preview. Right. You just have to wait a couple of minutes, which frankly isn't the end of the world, but it's like, if you're doing a lot of iterative content administration, it is brutal. Right. And so then we started building in like, you know, custom solutions inside Contentful to render markdown or.
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: You know, here we went through all these hoops, right? Next.js kind of blew up and that convergence of SSR and, and, ⁓ you know, like pregenerated pages kind of merged in a way that opened up this opportunity to start doing API routes that then facilitated better preview solutions, but they're still a little bit rough. And it was only maybe two or three years ago, the Contentful and other CMS products started releasing their preview solutions. So now they have a prescribed, here's how you do previews, which has been a major game changer, but ⁓ it's still clunky, right? How do we get to a world from what you just demoed to one that's more fluid, right? If this is all about user experience, we're gonna have to reduce that period of time. Maybe this is where the Electron app comes in, right? If that image could be formatted and displayed locally,
+
+Sean C Davis: Mm-hmm.
+
+Taylor MacDonald: So you get a image of what, like a picture of what that page would look like with that adjustment made to it. That could be a really quick feedback loop for the user. Then you hit publish and it can take as much time as it needs, but the user wants that immediate feedback to say, yeah, this feels good. I like this, or I can make 50 quick edits to the thing, you know, whether voice activated or not, right? Like that's even kind of beside the point, just being able to see what changed before it goes live seems like. a hurdle that we should maybe look to solve next.
+
+Sean C Davis: Yeah, think the, you know, because I think what's really comical to me is we start getting into some of the space of. ⁓ what we tinkered with for years at Stackbit because that was the problem statement, right? It's like, we need to preview this and we want to preview it right away. And one of the challenges, and when I was back at Ample, that's why we started messing with Forestry because Forestry was running a preview server all the time. But that's the development server. Yeah, so it's like, it's got to run the development server. ⁓ I think...
+
+Taylor MacDonald: Yeah, yeah. That was a disaster. Here's what I don't understand. Most, sorry, I get passionate about this. Cause like most of these front end frameworks are client side, right? The problem isn't updating what's on the page, right? You have the DOM, like you have a whole representation of all content on the page. Could we, could the, what if the CMS just manipulated the DOM and the DOM was the picture of the content that needed to be persisted in your database or something.
+
+Sean C Davis: So here's the trick. Yeah Yeah, yeah. Right, yeah.
+
+Taylor MacDonald: You know what mean? I don't know how feasible that is, at the end of the day, can open the DOM in your browser and you can change that text on that H1. It's immediate. You can see it reflected immediately. If I could use my voice-activated widget in the bottom right-hand corner of the site to effectively do that for the purposes of preview,
+
+Sean C Davis: i see what you're saying Sure, sure. Mm-hmm.
+
+Taylor MacDonald: before we go through the, I mean, when you like, okay, the example you showed, you use natural language and it made the updates. The problem wasn't that you, I mean, you already had the code rendered in your browser locally on your file system. I mean, it's right there. You know what I mean? When you said, update that image and change the H1 and the CTA, that went up to CloudFlare, came down to your Mac mini, which did the work, right?
+
+Sean C Davis: Yep.
+
+Taylor MacDonald: then deployed a new pull request, then came back up through CloudFir, back down to the little widget and said, hey, I'm done. Click here to see the preview. It's the round trip that's the problem, not the task. mean, the task, fine. Like, you know it's gonna take two minutes to do your production deploy. I'm just wondering, is there a world where you could kind of like, I mean, this is all, this shit is rendered on the client anyway.
+
+Sean C Davis: ⁓ yeah. Yep, yep.
+
+Taylor MacDonald: Do we really need to go back to the space in order to change a H one? I don't know. But you're right. I mean, that's the problem that stack that was trying to solve. And it's a hard problem to solve. Right. So arguably, I don't know that, I don't know that I have any, I have more problems than the answers at this point, but I do think it's a compelling question.
+
+Sean C Davis: Okay, so I think even if we don't get to the specific implementation solution, I think what you just described was there's almost two layers of preview. So I'm gonna type something in and then I want to, as quickly as possible, see what that could look like in the DOM and
+
+Taylor MacDonald: you
+
+Sean C Davis: Then when I'm good, I'm like, okay, cool. Let's go get, let's go get the actual production preview of that. And that's when we do the bigger round trip. So it's, it's almost like two layers. Well, I guess it would be a third layer if you consider production, because I think that review process is really important, right? Like of, of, I'm actually confident that this is what it's going to look like in production. And I'm just promoting the deploy.
+
+Taylor MacDonald: Yeah.
+
+Sean C Davis: ⁓ But that speed is a real challenge. So I kind of like that idea of, okay, this is, it's, it's maybe a little hacky. It's happening on your local environment because we're already loading this widget in the client. ⁓ Yeah. And then, and maybe there's some validation built in there of, we somehow know what's in Contentful and what's not in Contentful or something like that.
+
+Taylor MacDonald: be cool. You know with tools like Playwrights MCP and like the Chrome DevTools MCP, I wonder how much of that information, it would be sweet if you could somehow map all the nodes in the DOM, you know. conceptually so that when you're like, update the H one. It's like, Oh dude, it's right here. One. Like I know the X path or I know the marker and the DOM for what I need to implement. And then I also know how to couple that element to the data storage piece. You know, whether that's, you know, Mongo or, or, you know, what's the, whatever the, uh, the Postgres database that you guys just rolled out or, or some, or even, um, I mean, there's a SQL light even like there's.
+
+Sean C Davis: Mm-hmm. Mm-hmm. Yep.
+
+Taylor MacDonald: ⁓ my gosh, this is cool. All right. We've been talking for a while now, Sean. We should probably wrap this up, but I really appreciate you sharing that. ⁓ That's really got my mind going in all sorts of different directions. And it seems like you've proven that natural language is a solution to the problem. Now let's figure out how do we beef up that user experience a little bit and just kind of keep chipping away at our problem statement here. ⁓
+
+Sean C Davis: Yes, yep.
+
+Taylor MacDonald: Does that sound okay? Any parting thoughts or other perspectives you want to share before we wrap up today?
+
+Sean C Davis: I don't think so. ⁓ Well, yeah, okay, one. One is that this is a lot of fun because it's, ⁓ I think, but before we started, as we were conceptualizing what this podcast would be, one of the ideas we had was we should build it live. But I think this is. far more interesting because the work happens off screen and we can be like, okay, here's what it is. Now let's poke a bunch of holes in it and figure out what to show next week. And I think that's, that's a ton of fun for me. So I same, same, like just even showing it, talking through this and like, my, wheels are spinning. I'm ready to, I'm ready to build something for next week. Yeah.
+
+Taylor MacDonald: Yeah. ⁓ Okay. Well, Sean, I really appreciate it. It's been always a pleasure chatting with you. ⁓ We will debrief separately, but meanwhile, this has been Blood, Sweat & Tokens, episode three, ⁓ and we appreciate your time. ⁓ Please shoot us any, we should probably set up an email for the show. And ⁓ I think our website hopefully will be coming online very soon. So maybe that'll be my task for the next week. In the meantime, thanks.
+
+Sean C Davis: Yeah, maybe it'll already be here by the time this is published.
+
+Taylor MacDonald: Maybe once you have your Mac mini build it for us real quick. Go ahead and do that for lunch. All right. Thanks everybody. Thanks, Sean. We'll talk to you next week.
+
+Sean C Davis: Yeah, let's do it. See ya. He's gone. We're still recording too. All right. So this is the end, guess. Little Easter egg and some construction noise. I also don't think that I technically have permissions to end this. Yo. Hey, so this is this is also really funny because I'm technically still recording because there's no button for me to stop the recording. I think you can.
+
+Taylor MacDonald: Okay, stop.
