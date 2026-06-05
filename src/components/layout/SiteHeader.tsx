@@ -5,43 +5,37 @@ type SiteHeaderProps = {
 };
 
 const navItems = [
-  { href: '/episodes/', label: 'episodes' },
-  { href: '/about/', label: 'about' },
-  { href: '#subscribe', label: 'subscribe' },
+  { href: '/episodes/', label: 'Episodes' },
+  { href: '/about/', label: 'About' },
+  { href: '#subscribe', label: 'Subscribe' },
 ];
 
 function isActive(currentPath: string, href: string) {
   if (href.startsWith('#')) return false;
+  if (href === '/') return currentPath === '/';
   return currentPath === href || currentPath.startsWith(href);
 }
 
 export function SiteHeader({ currentPath }: SiteHeaderProps) {
   return (
-    <header className="site-header">
-      <div className="terminal-bar" aria-hidden="true">
-        <div className="terminal-lights">
-          <span />
-          <span />
-          <span />
-        </div>
-        <span>bst@pressure - bash - 132x40</span>
-        <span>P1/phosphor</span>
-      </div>
-
-      <div className="site-header__inner">
-        <PodcastMark compact />
-        <nav className="site-nav" aria-label="Primary navigation">
-          <span aria-hidden="true">[</span>
+    <header className="masthead">
+      <div className="masthead__inner">
+        <PodcastMark />
+        <nav className="nav" aria-label="Primary navigation">
           {navItems.map((item) => (
             <a key={item.href} href={item.href} aria-current={isActive(currentPath, item.href) ? 'page' : undefined}>
               {item.label}
             </a>
           ))}
-          <span aria-hidden="true">]</span>
         </nav>
-        <a className="terminal-command terminal-command--right" href="/episodes/">
-          ls episodes
-        </a>
+        <div className="masthead__cta">
+          <a className="btn btn--blood" href="/episodes/">
+            <span className="btn__tri" aria-hidden="true">
+              ▶
+            </span>
+            Listen
+          </a>
+        </div>
       </div>
     </header>
   );

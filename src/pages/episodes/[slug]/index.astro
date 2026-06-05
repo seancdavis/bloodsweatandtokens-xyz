@@ -66,13 +66,13 @@ const episodeJsonLd = {
   jsonLd={episodeJsonLd}
 >
   <main class="page-main">
-    <section class="episode-hero" aria-labelledby="episode-heading">
+    <section class="ep-hero" aria-labelledby="episode-heading">
       <div>
-        <p class="terminal-command">bst@pressure:~$ open episodes/{episodeCode(episode)}.txt</p>
-        <h1 id="episode-heading">{episode.shortTitle}</h1>
+        <p class="label label--blood ep-hero__kicker">{site.seasonLabel} · Episode {episodeCode(episode)}</p>
+        <h1 class="ep-hero__title" id="episode-heading">{episode.shortTitle}</h1>
       </div>
-      <aside class="episode-hero__meta">
-        <strong>EP {episodeCode(episode)}</strong>
+      <aside class="ep-hero__meta">
+        <strong>Ep {episodeCode(episode)}</strong>
         {formatEpisodeDate(episode.publishedAt)} · {durationClock(episode.duration)}
       </aside>
     </section>
@@ -88,29 +88,29 @@ const episodeJsonLd = {
       defaultMode={episode.id === latestEpisode.id ? 'audio' : 'video'}
     />
 
-    <section class="episode-body">
-      <article class="copy-block">
-        <h2>show notes</h2>
+    <section class="ep-body">
+      <article class="copy">
+        <h2>Show notes</h2>
         <div set:html={episode.descriptionHtml} />
       </article>
-      <aside class="episode-notes" aria-labelledby="episode-takeaways">
-        <h2 id="episode-takeaways">takeaways</h2>
+      <aside class="notes" aria-labelledby="episode-takeaways">
+        <h2 id="episode-takeaways">Takeaways</h2>
         <ul>
           {episode.takeaways.map((takeaway) => <li>{takeaway}</li>)}
         </ul>
-        <h2>chapters</h2>
+        <h2>Chapters</h2>
         <ul>
           {episode.chapters.map((chapter) => <li>{chapter}</li>)}
         </ul>
         <p>
-          <a href={episode.transcriptUrl} target="_blank" rel="noreferrer">source transcript</a>
+          <a href={episode.transcriptUrl} target="_blank" rel="noreferrer">Source transcript →</a>
         </p>
       </aside>
     </section>
 
     <section class="transcript" aria-labelledby="transcript-heading">
       <details>
-        <summary id="transcript-heading">transcript</summary>
+        <summary id="transcript-heading">Transcript</summary>
         <div class="transcript__content">
           {transcriptParagraphs.map((paragraph) => <p>{paragraph}</p>)}
         </div>

@@ -1,11 +1,12 @@
-type PodcastMarkProps = {
-  compact?: boolean;
-};
+import { DropsMark } from '../brand/DropsMark';
 
-export function PodcastMark({ compact = false }: PodcastMarkProps) {
+export function PodcastMark() {
   return (
-    <a className={`podcast-mark${compact ? ' podcast-mark--compact' : ''}`} href="/" aria-label="Blood, Sweat & Tokens home">
-      <span aria-hidden="true">BST</span>
+    <a className="brand" href="/" aria-label="Blood, Sweat & Tokens home">
+      <DropsMark className="brand__drops" />
+      <span className="brand__word" aria-hidden="true">
+        <b>B</b>ST
+      </span>
     </a>
   );
 }

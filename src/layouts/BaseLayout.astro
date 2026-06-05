@@ -34,6 +34,9 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#121110" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <title>{titleTemplate}</title>
     <meta name="title" content={titleTemplate} />
     <meta name="description" content={description} />
@@ -56,9 +59,10 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
     }
   </head>
   <body>
-    <div class="screen-texture" aria-hidden="true"></div>
-    <SiteHeader currentPath={Astro.url.pathname} />
-    <slot />
-    <SiteFooter links={footerLinks} />
+    <div class="frame">
+      <SiteHeader currentPath={Astro.url.pathname} />
+      <slot />
+      <SiteFooter links={footerLinks} />
+    </div>
   </body>
 </html>

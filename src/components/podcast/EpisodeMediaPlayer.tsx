@@ -26,29 +26,30 @@ export function EpisodeMediaPlayer({
   const videoUrl = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`;
 
   return (
-    <section className="media-player" id={id} aria-labelledby={`${id ?? episodeCode}-media-title`}>
-      <div className="media-player__header">
+    <section className="player" id={id} aria-labelledby={`${id ?? episodeCode}-media-title`}>
+      <div className="player__head">
         <div>
-          <p className="terminal-command">bst@pressure:~$ cat episodes/{episodeCode}.txt</p>
-          <p className="media-player__eyebrow">latest · ep {episodeCode}</p>
-          <h2 id={`${id ?? episodeCode}-media-title`}>{title}</h2>
+          <p className="player__eyebrow">Now playing · Ep {episodeCode}</p>
+          <h2 className="player__title" id={`${id ?? episodeCode}-media-title`}>
+            {title}
+          </h2>
         </div>
-        <span className="media-player__duration">{duration}</span>
+        <span className="player__dur">{duration}</span>
       </div>
 
-      <div className="media-player__switcher" role="group" aria-label="Choose media type">
-        <button type="button" aria-pressed={isAudio} onClick={() => setMode('audio')}>
-          audio
+      <div className="player__modes" role="group" aria-label="Choose media type">
+        <button type="button" className="player__mode" aria-pressed={isAudio} onClick={() => setMode('audio')}>
+          Audio
         </button>
-        <button type="button" aria-pressed={!isAudio} onClick={() => setMode('video')}>
-          youtube
+        <button type="button" className="player__mode" aria-pressed={!isAudio} onClick={() => setMode('video')}>
+          YouTube
         </button>
       </div>
 
-      <div className="media-player__stage">
+      <div className="player__stage">
         {isAudio ? (
-          <div className="media-player__audio">
-            <div className="media-player__meter" aria-hidden="true">
+          <div className="player__audio">
+            <div className="player__meter" aria-hidden="true">
               <span />
             </div>
             <audio controls preload="metadata" src={audioUrl}>

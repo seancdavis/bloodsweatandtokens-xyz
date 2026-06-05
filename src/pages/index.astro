@@ -1,11 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { BoarMark } from '../components/brand/BoarMark';
 import { EpisodeList } from '../components/podcast/EpisodeList';
 import { EpisodeMediaPlayer } from '../components/podcast/EpisodeMediaPlayer';
 import { HostGrid } from '../components/podcast/HostGrid';
 import { SubscribePanel } from '../components/podcast/SubscribePanel';
 import {
+  durationClock,
   episodeCode,
+  episodePath,
   episodes,
   hosts,
   latestEpisode,
@@ -23,45 +26,66 @@ const podcastJsonLd = {
   inLanguage: 'en',
   sameAs: platformLinks.map((link) => link.url),
 };
+
+const marqueeItems = [
+  'Ship the prototype',
+  'Delete your CMS',
+  'Follow the tokens',
+  'Real deadlines',
+  'No slides',
+];
+
+const premise = [
+  {
+    title: 'Real builds',
+    body: 'Every episode comes out of work happening between recordings: prototypes, dead ends, and production pressure.',
+  },
+  {
+    title: 'AI under load',
+    body: 'Agentic workflows as they actually behave inside real product systems — not the demo, the deadline.',
+  },
+  {
+    title: 'Season 1',
+    body: `${site.seasonTitle} asks whether natural language, agents, and a thin data layer can replace the admin UI.`,
+  },
+];
 ---
 
 <BaseLayout title={site.name} description={site.description} image={site.coverArt} jsonLd={podcastJsonLd}>
   <main class="page-main">
     <section class="hero" aria-labelledby="hero-heading">
-      <div>
-        <p class="terminal-command">bst@pressure:~$ ./podcast --live</p>
-        <p class="hero__kicker">[ok] pressure vessel online · streaming tokens at 94%</p>
-        <h1 id="hero-heading">Blood, Sweat <span>&amp; Tokens</span></h1>
-        <p class="hero__subtitle"># {site.tagline}</p>
+      <BoarMark className="hero__boar" />
+      <div class="hero__lead">
+        <p class="label label--blood hero__kicker">A podcast about building under pressure</p>
+        <h1 class="hero__title" id="hero-heading">
+          Blood,<br />Sweat &amp;<em>Tokens</em>
+        </h1>
+      </div>
+      <div class="hero__aside">
+        <p class="hero__sub">{site.description}</p>
         <div class="hero__actions">
-          <a class="button-link" href="#latest-player">play latest</a>
-          <a class="button-link button-link--quiet" href="#subscribe">subscribe</a>
+          <a class="btn btn--blood" href="#latest-player">
+            <span class="btn__tri" aria-hidden="true">▶</span>
+            Play Ep {episodeCode(latestEpisode)}
+          </a>
+          <a class="btn" href="/episodes/">Browse episodes</a>
         </div>
       </div>
-      <aside class="hero__diagnostics" aria-label="Show diagnostics">
-        <p class="terminal-command">cat season/001.txt</p>
-        <dl>
-          <dt>season</dt>
-          <dd>{site.seasonTitle}</dd>
-          <dt>cadence</dt>
-          <dd>weekly</dd>
-          <dt>hosts</dt>
-          <dd>Taylor MacDonald + Sean C. Davis</dd>
-          <dt>source</dt>
-          <dd>Riverside RSS</dd>
-        </dl>
-      </aside>
     </section>
 
-    <div class="ticker" aria-hidden="true">
-      <span>SHIP THE PROTOTYPE</span>
-      <span>DELETE YOUR CMS</span>
-      <span>FOLLOW THE TOKENS</span>
-      <span>REAL DEADLINES</span>
-      <span>NO SLIDES</span>
-      <span>SHIP THE PROTOTYPE</span>
-      <span>DELETE YOUR CMS</span>
-      <span>FOLLOW THE TOKENS</span>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        {marqueeItems.map((item) => <span>{item}</span>)}
+        {marqueeItems.map((item) => <span>{item}</span>)}
+      </div>
+    </div>
+
+    <div class="latest">
+      <span class="latest__tag">Latest</span>
+      <h2 class="latest__title">
+        <a href={episodePath(latestEpisode)}>{latestEpisode.shortTitle}</a>
+      </h2>
+      <span class="latest__meta">Ep {episodeCode(latestEpisode)} · {durationClock(latestEpisode.duration)}</span>
     </div>
 
     <EpisodeMediaPlayer
@@ -75,22 +99,19 @@ const podcastJsonLd = {
       defaultMode="audio"
     />
 
-    <section class="feature-grid" aria-label="Show premise">
-      <article class="feature-card">
-        <h3>Real builds</h3>
-        <p>Every episode comes from work happening between recordings: prototypes, dead ends, and production pressure.</p>
-      </article>
-      <article class="feature-card">
-        <h3>AI under load</h3>
-        <p>The show is about agentic workflows as they behave in real product systems, not just demos.</p>
-      </article>
-      <article class="feature-card">
-        <h3>Season 1</h3>
-        <p>{site.seasonTitle} asks whether natural language, agents, and a thin data layer can replace the admin UI.</p>
-      </article>
+    <section class="premise" aria-label="Show premise">
+      {
+        premise.map((item, index) => (
+          <article class="premise__card">
+            <span class="premise__no">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))
+      }
     </section>
 
-    <EpisodeList episodes={episodes} limit={4} heading="recent episodes" />
+    <EpisodeList episodes={episodes} limit={4} heading="Recent episodes" />
     <HostGrid hosts={hosts} />
     <SubscribePanel links={platformLinks} />
   </main>
