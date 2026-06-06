@@ -11,6 +11,8 @@ type EpisodeMediaPlayerProps = {
   audioUrl: string;
   videoId: string;
   defaultMode?: MediaMode;
+  /** Borderless, page-width treatment (used on the episode detail page). */
+  bare?: boolean;
 };
 
 const METER_BARS = 7;
@@ -22,6 +24,7 @@ export function EpisodeMediaPlayer({
   audioUrl,
   videoId,
   defaultMode = 'audio',
+  bare = false,
 }: EpisodeMediaPlayerProps) {
   const [mode, setMode] = useState<MediaMode>(defaultMode);
   const [playing, setPlaying] = useState(false);
@@ -30,7 +33,7 @@ export function EpisodeMediaPlayer({
 
   return (
     <section
-      className={`player${playing && isAudio ? ' is-playing' : ''}`}
+      className={`player${bare ? ' player--bare' : ''}${playing && isAudio ? ' is-playing' : ''}`}
       id={id}
       aria-label={`Player — ${title} (Ep ${episodeCode})`}
     >

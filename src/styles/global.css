@@ -621,6 +621,13 @@ svg {
   background: var(--ink-raise);
 }
 
+/* Borderless, page-width player — sits inline with the rest of the detail page. */
+.player--bare {
+  border: 0;
+  background: transparent;
+  padding: 0 var(--pad);
+}
+
 .player__modes {
   display: flex;
   gap: 0;
