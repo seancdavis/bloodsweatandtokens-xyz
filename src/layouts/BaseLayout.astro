@@ -60,7 +60,7 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
   </head>
   <body>
     <div class="frame">
-      <SiteHeader currentPath={Astro.url.pathname} />
+      <SiteHeader client:load currentPath={Astro.url.pathname} />
       <slot />
       <SiteFooter links={footerLinks} />
     </div>

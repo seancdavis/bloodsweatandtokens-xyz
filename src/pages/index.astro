@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { BoarMark } from '../components/brand/BoarMark';
+import { IconPlay } from '../components/brand/icons';
 import { EpisodeList } from '../components/podcast/EpisodeList';
 import { EpisodeMediaPlayer } from '../components/podcast/EpisodeMediaPlayer';
 import { HostGrid } from '../components/podcast/HostGrid';
@@ -65,7 +66,7 @@ const premise = [
         <p class="hero__sub">{site.description}</p>
         <div class="hero__actions">
           <a class="btn btn--blood" href="#latest-player">
-            <span class="btn__tri" aria-hidden="true">▶</span>
+            <IconPlay />
             Play Ep {episodeCode(latestEpisode)}
           </a>
           <a class="btn" href="/episodes/">Browse episodes</a>
@@ -93,7 +94,6 @@ const premise = [
       id="latest-player"
       episodeCode={episodeCode(latestEpisode)}
       title={latestEpisode.shortTitle}
-      duration={latestEpisode.duration}
       audioUrl={latestEpisode.audioUrl}
       videoId={latestEpisode.videoId}
       defaultMode="audio"

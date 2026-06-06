@@ -1,47 +1,46 @@
 import { useState } from 'react';
+import { IconAudio, IconVideo } from '../brand/icons';
 
 type MediaMode = 'audio' | 'video';
 
 type EpisodeMediaPlayerProps = {
   id?: string;
   episodeCode: string;
+  /** Used only for the accessible label — the visible title lives in the page above the player. */
   title: string;
-  duration: string;
   audioUrl: string;
   videoId: string;
   defaultMode?: MediaMode;
 };
 
+const METER_BARS = 7;
+
 export function EpisodeMediaPlayer({
   id,
   episodeCode,
   title,
-  duration,
   audioUrl,
   videoId,
   defaultMode = 'audio',
 }: EpisodeMediaPlayerProps) {
   const [mode, setMode] = useState<MediaMode>(defaultMode);
+  const [playing, setPlaying] = useState(false);
   const isAudio = mode === 'audio';
   const videoUrl = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`;
 
   return (
-    <section className="player" id={id} aria-labelledby={`${id ?? episodeCode}-media-title`}>
-      <div className="player__head">
-        <div>
-          <p className="player__eyebrow">Now playing · Ep {episodeCode}</p>
-          <h2 className="player__title" id={`${id ?? episodeCode}-media-title`}>
-            {title}
-          </h2>
-        </div>
-        <span className="player__dur">{duration}</span>
-      </div>
-
+    <section
+      className={`player${playing && isAudio ? ' is-playing' : ''}`}
+      id={id}
+      aria-label={`Player — ${title} (Ep ${episodeCode})`}
+    >
       <div className="player__modes" role="group" aria-label="Choose media type">
         <button type="button" className="player__mode" aria-pressed={isAudio} onClick={() => setMode('audio')}>
+          <IconAudio />
           Audio
         </button>
         <button type="button" className="player__mode" aria-pressed={!isAudio} onClick={() => setMode('video')}>
+          <IconVideo />
           YouTube
         </button>
       </div>
@@ -50,9 +49,18 @@ export function EpisodeMediaPlayer({
         {isAudio ? (
           <div className="player__audio">
             <div className="player__meter" aria-hidden="true">
-              <span />
+              {Array.from({ length: METER_BARS }, (_, i) => (
+                <span key={i} />
+              ))}
             </div>
-            <audio controls preload="metadata" src={audioUrl}>
+            <audio
+              controls
+              preload="metadata"
+              src={audioUrl}
+              onPlay={() => setPlaying(true)}
+              onPause={() => setPlaying(false)}
+              onEnded={() => setPlaying(false)}
+            >
               <a href={audioUrl}>Download the episode audio</a>
             </audio>
           </div>

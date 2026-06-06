@@ -27,7 +27,23 @@ interface Props {
 
 const { episode } = Astro.props;
 const relatedEpisodes = episodes.filter((item) => item.id !== episode.id).slice(0, 3);
-const transcriptParagraphs = episode.transcript.split(/\n{2,}/).filter(Boolean);
+
+const speakerMap: Record<string, string> = {
+  'Taylor MacDonald': 'Taylor',
+  'Sean C Davis': 'Sean',
+  'Sean C. Davis': 'Sean',
+};
+
+const transcriptLines = episode.transcript
+  .split(/\n{2,}/)
+  .map((paragraph) => paragraph.trim())
+  .filter(Boolean)
+  .map((paragraph) => {
+    const match = paragraph.match(/^([A-Z][A-Za-z.\s]{1,38}?):\s+([\s\S]+)$/);
+    if (!match) return { who: '', text: paragraph };
+    const rawWho = match[1].trim();
+    return { who: speakerMap[rawWho] ?? rawWho, text: match[2].trim() };
+  });
 const episodeJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'PodcastEpisode',
@@ -68,7 +84,7 @@ const episodeJsonLd = {
   <main class="page-main">
     <section class="ep-hero" aria-labelledby="episode-heading">
       <div>
-        <p class="label label--blood ep-hero__kicker">{site.seasonLabel} · Episode {episodeCode(episode)}</p>
+        <p class="label label--blood ep-hero__kicker">{site.seasonLabel} — {site.seasonTitle}</p>
         <h1 class="ep-hero__title" id="episode-heading">{episode.shortTitle}</h1>
       </div>
       <aside class="ep-hero__meta">
@@ -82,7 +98,6 @@ const episodeJsonLd = {
       id="episode-player"
       episodeCode={episodeCode(episode)}
       title={episode.shortTitle}
-      duration={episode.duration}
       audioUrl={episode.audioUrl}
       videoId={episode.videoId}
       defaultMode={episode.id === latestEpisode.id ? 'audio' : 'video'}
@@ -112,7 +127,14 @@ const episodeJsonLd = {
       <details>
         <summary id="transcript-heading">Transcript</summary>
         <div class="transcript__content">
-          {transcriptParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {
+            transcriptLines.map((line) => (
+              <p class="tr-line">
+                {line.who && <span class="tr-who">{line.who}</span>}
+                <span class="tr-text">{line.text}</span>
+              </p>
+            ))
+          }
         </div>
       </details>
     </section>

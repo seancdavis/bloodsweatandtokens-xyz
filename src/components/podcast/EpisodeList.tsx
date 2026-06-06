@@ -1,5 +1,6 @@
 import type { Episode } from '../../data/podcast';
 import { durationClock, episodeCode, episodePath, formatEpisodeListDate } from '../../data/podcast';
+import { IconPlay } from '../brand/icons';
 
 type EpisodeListProps = {
   episodes: Episode[];
@@ -30,7 +31,7 @@ export function EpisodeList({ episodes, heading = 'Recent episodes', limit }: Ep
               <span className="episode__date">{formatEpisodeListDate(episode.publishedAt)}</span>
               <span className="episode__dur">{durationClock(episode.duration)}</span>
               <span className="episode__play" aria-hidden="true">
-                ▶
+                <IconPlay />
               </span>
             </a>
           </li>
