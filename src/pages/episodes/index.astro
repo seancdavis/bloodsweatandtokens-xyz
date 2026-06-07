@@ -11,17 +11,17 @@ import { episodes, platformLinks, site } from '../../data/podcast';
   image={site.coverArt}
 >
   <main class="page-main">
-    <section class="episode-hero" aria-labelledby="episodes-heading">
+    <section class="ep-hero" aria-labelledby="episodes-heading">
       <div>
-        <p class="terminal-command">bst@pressure:~$ ls -l episodes/</p>
-        <h1 id="episodes-heading">Episode <span>feed</span></h1>
+        <p class="label label--blood ep-hero__kicker">The feed</p>
+        <h1 class="ep-hero__title" id="episodes-heading">Every episode</h1>
       </div>
-      <aside class="episode-hero__meta">
-        <strong>{episodes.length}</strong>
-        published episodes · {site.seasonLabel}: {site.seasonTitle}
+      <aside class="ep-hero__meta">
+        <strong>{episodes.length} episodes</strong>
+        {site.seasonLabel}: {site.seasonTitle}
       </aside>
     </section>
-    <EpisodeList episodes={episodes} heading="all episodes" />
+    <EpisodeList episodes={episodes} heading="All episodes" />
     <SubscribePanel links={platformLinks} />
   </main>
 </BaseLayout>

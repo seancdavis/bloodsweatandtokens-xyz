@@ -1,57 +1,69 @@
 import { useState } from 'react';
+import { IconAudio, IconVideo } from '../brand/icons';
 
 type MediaMode = 'audio' | 'video';
 
 type EpisodeMediaPlayerProps = {
   id?: string;
   episodeCode: string;
+  /** Used only for the accessible label — the visible title lives in the page above the player. */
   title: string;
-  duration: string;
   audioUrl: string;
   videoId: string;
   defaultMode?: MediaMode;
+  /** Borderless, page-width treatment (used on the episode detail page). */
+  bare?: boolean;
 };
+
+const METER_BARS = 7;
 
 export function EpisodeMediaPlayer({
   id,
   episodeCode,
   title,
-  duration,
   audioUrl,
   videoId,
   defaultMode = 'audio',
+  bare = false,
 }: EpisodeMediaPlayerProps) {
   const [mode, setMode] = useState<MediaMode>(defaultMode);
+  const [playing, setPlaying] = useState(false);
   const isAudio = mode === 'audio';
   const videoUrl = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`;
 
   return (
-    <section className="media-player" id={id} aria-labelledby={`${id ?? episodeCode}-media-title`}>
-      <div className="media-player__header">
-        <div>
-          <p className="terminal-command">bst@pressure:~$ cat episodes/{episodeCode}.txt</p>
-          <p className="media-player__eyebrow">latest · ep {episodeCode}</p>
-          <h2 id={`${id ?? episodeCode}-media-title`}>{title}</h2>
-        </div>
-        <span className="media-player__duration">{duration}</span>
-      </div>
-
-      <div className="media-player__switcher" role="group" aria-label="Choose media type">
-        <button type="button" aria-pressed={isAudio} onClick={() => setMode('audio')}>
-          audio
+    <section
+      className={`player${bare ? ' player--bare' : ''}${playing && isAudio ? ' is-playing' : ''}`}
+      id={id}
+      aria-label={`Player — ${title} (Ep ${episodeCode})`}
+    >
+      <div className="player__modes" role="group" aria-label="Choose media type">
+        <button type="button" className="player__mode" aria-pressed={isAudio} onClick={() => setMode('audio')}>
+          <IconAudio />
+          Audio
         </button>
-        <button type="button" aria-pressed={!isAudio} onClick={() => setMode('video')}>
-          youtube
+        <button type="button" className="player__mode" aria-pressed={!isAudio} onClick={() => setMode('video')}>
+          <IconVideo />
+          YouTube
         </button>
       </div>
 
-      <div className="media-player__stage">
+      <div className="player__stage">
         {isAudio ? (
-          <div className="media-player__audio">
-            <div className="media-player__meter" aria-hidden="true">
-              <span />
+          <div className="player__audio">
+            <div className="player__meter" aria-hidden="true">
+              {Array.from({ length: METER_BARS }, (_, i) => (
+                <span key={i} />
+              ))}
             </div>
-            <audio controls preload="metadata" src={audioUrl}>
+            <audio
+              controls
+              preload="metadata"
+              src={audioUrl}
+              onPlay={() => setPlaying(true)}
+              onPause={() => setPlaying(false)}
+              onEnded={() => setPlaying(false)}
+            >
               <a href={audioUrl}>Download the episode audio</a>
             </audio>
           </div>

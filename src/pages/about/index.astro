@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BoarMark } from '../../components/brand/BoarMark';
 import { HostGrid } from '../../components/podcast/HostGrid';
 import { SubscribePanel } from '../../components/podcast/SubscribePanel';
 import { hosts, platformLinks, site } from '../../data/podcast';
@@ -11,19 +12,21 @@ import { hosts, platformLinks, site } from '../../data/podcast';
   image={site.coverArt}
 >
   <main class="page-main">
-    <section class="about-panel" aria-labelledby="about-heading">
-      <p class="terminal-command">bst@pressure:~$ less README.md</p>
-      <h1 id="about-heading">{site.name}</h1>
-      <p>
-        {site.tagline} Taylor MacDonald and Sean C. Davis are documenting a real experiment: can you replace the
-        content management layer with agents, natural language, and a thin data model without pretending the hard parts
-        disappear?
-      </p>
-      <p>
-        {site.seasonLabel}, <strong>{site.seasonTitle}</strong>, takes aim at the most expensive and least-loved layer
-        of the web stack. The premise is simple: code between episodes, record what changed, and end every conversation
-        with the next thing to build.
-      </p>
+    <section class="about" aria-labelledby="about-heading">
+      <BoarMark className="about__boar" />
+      <div class="about__lead">
+        <p class="label label--blood">About the show</p>
+        <h1 class="about__title" id="about-heading">Building<br />under<br />pressure</h1>
+        <p>
+          Taylor MacDonald and Sean C. Davis are documenting a real experiment: can you replace the content management
+          layer with agents, natural language, and a thin data model without pretending the hard parts disappear?
+        </p>
+        <p>
+          {site.seasonLabel}, <strong>{site.seasonTitle}</strong>, takes aim at the most expensive and least-loved layer
+          of the web stack. The premise is simple: code between episodes, record what changed, and end every
+          conversation with the next thing to build.
+        </p>
+      </div>
     </section>
     <HostGrid hosts={hosts} />
     <SubscribePanel links={platformLinks} />

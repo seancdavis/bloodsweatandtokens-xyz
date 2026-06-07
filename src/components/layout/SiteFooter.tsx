@@ -1,5 +1,5 @@
 import type { PlatformLink } from '../../data/podcast';
-import { PodcastMark } from './PodcastMark';
+import { BoarMark } from '../brand/BoarMark';
 
 type SiteFooterProps = {
   links: PlatformLink[];
@@ -7,16 +7,25 @@ type SiteFooterProps = {
 
 export function SiteFooter({ links }: SiteFooterProps) {
   return (
-    <footer className="site-footer" id="subscribe">
-      <div className="site-footer__command">bst@pressure:~$ subscribe --platform</div>
-      <nav className="site-footer__links" aria-label="Podcast and company links">
+    <footer className="footer" id="subscribe">
+      <a className="footer__brand" href="/" aria-label="Blood, Sweat & Tokens home">
+        <BoarMark className="footer__boar" />
+        <span className="footer__word">
+          Blood,
+          <br />
+          Sweat
+          <b>&nbsp;&amp;</b>
+          <br />
+          Tokens
+        </span>
+      </a>
+      <nav className="footer__links" aria-label="Podcast and company links">
         {links.map((link) => (
           <a key={`${link.label}-${link.url}`} href={link.url} target="_blank" rel="noreferrer">
             {link.label}
           </a>
         ))}
       </nav>
-      <PodcastMark compact />
     </footer>
   );
 }

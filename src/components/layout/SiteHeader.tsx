@@ -1,47 +1,63 @@
+import { useState } from 'react';
 import { PodcastMark } from './PodcastMark';
+import { IconPlay } from '../brand/icons';
 
 type SiteHeaderProps = {
   currentPath: string;
 };
 
 const navItems = [
-  { href: '/episodes/', label: 'episodes' },
-  { href: '/about/', label: 'about' },
-  { href: '#subscribe', label: 'subscribe' },
+  { href: '/episodes/', label: 'Episodes' },
+  { href: '/about/', label: 'About' },
+  { href: '#subscribe', label: 'Subscribe' },
 ];
 
 function isActive(currentPath: string, href: string) {
   if (href.startsWith('#')) return false;
+  if (href === '/') return currentPath === '/';
   return currentPath === href || currentPath.startsWith(href);
 }
 
 export function SiteHeader({ currentPath }: SiteHeaderProps) {
-  return (
-    <header className="site-header">
-      <div className="terminal-bar" aria-hidden="true">
-        <div className="terminal-lights">
-          <span />
-          <span />
-          <span />
-        </div>
-        <span>bst@pressure - bash - 132x40</span>
-        <span>P1/phosphor</span>
-      </div>
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
 
-      <div className="site-header__inner">
-        <PodcastMark compact />
-        <nav className="site-nav" aria-label="Primary navigation">
-          <span aria-hidden="true">[</span>
+  return (
+    <header className="masthead">
+      <div className="masthead__inner">
+        <PodcastMark />
+
+        <button
+          type="button"
+          className="masthead__burger"
+          aria-expanded={open}
+          aria-controls="primary-nav"
+          aria-label="Toggle navigation menu"
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="masthead__burger-box" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
+        </button>
+
+        <nav id="primary-nav" className={`nav${open ? ' is-open' : ''}`} aria-label="Primary navigation">
           {navItems.map((item) => (
-            <a key={item.href} href={item.href} aria-current={isActive(currentPath, item.href) ? 'page' : undefined}>
+            <a
+              key={item.href}
+              href={item.href}
+              aria-current={isActive(currentPath, item.href) ? 'page' : undefined}
+              onClick={close}
+            >
               {item.label}
             </a>
           ))}
-          <span aria-hidden="true">]</span>
+          <a className="btn btn--blood nav__listen" href="/episodes/" onClick={close}>
+            <IconPlay />
+            Listen
+          </a>
         </nav>
-        <a className="terminal-command terminal-command--right" href="/episodes/">
-          ls episodes
-        </a>
       </div>
     </header>
   );
