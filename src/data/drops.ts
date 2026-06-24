@@ -5,6 +5,8 @@
 
 export type Drop = {
   id: string;
+  /** sequential code: SSEE + a letter for the Nth drop of that episode (e.g. 0101A) */
+  code: string;
   slug: string;
   title: string;
   dek: string;
@@ -17,9 +19,10 @@ export type Drop = {
 export const drops: Drop[] = [
   {
     id: 'owning-the-stack',
+    code: '0101A',
     slug: 'owning-the-stack',
     title: 'Owning the Stack',
-    dek: 'How the platform behind the show went from an engine-plus-adapters sprawl (v0.2) to one owned, content-as-data stack (v0.3) — and deleted most of the moving parts on the way.',
+    dek: 'Why the platform behind the show stopped being a bespoke stack per client (v0.2) and became one base that talks to a single hub (v0.3) — the happy path, and why it is so much simpler.',
     kind: 'System map',
     publishedAt: '2026-06-24',
     episodeSlug: 'smooth-operations-how-ai-eliminates-cms-friction',

@@ -18,48 +18,52 @@ interface Transform {
   k: number;
 }
 
+// --- compact line icons (stroke = currentColor) ---
+const ico = { width: 18, height: 18, viewBox: '0 0 20 20', fill: 'none' } as const;
+const stroke = { stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+const IconMinus = () => (<svg {...ico} aria-hidden="true"><line x1="4" y1="10" x2="16" y2="10" {...stroke} /></svg>);
+const IconPlus = () => (<svg {...ico} aria-hidden="true"><line x1="4" y1="10" x2="16" y2="10" {...stroke} /><line x1="10" y1="4" x2="10" y2="16" {...stroke} /></svg>);
+const IconFit = () => (<svg {...ico} aria-hidden="true"><rect x="3.5" y="5.5" width="13" height="9" rx="1" {...stroke} /></svg>);
+const IconExpand = () => (<svg {...ico} aria-hidden="true"><path d="M8 10H3m0 0l2.5-2.5M3 10l2.5 2.5M12 10h5m0 0l-2.5-2.5M17 10l-2.5 2.5" {...stroke} /></svg>);
+const IconFullscreen = () => (<svg {...ico} aria-hidden="true"><path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4" {...stroke} /></svg>);
+
 /**
  * An owned, hand-built SVG canvas: pan (drag / two-finger), zoom (buttons,
  * ⌘/ctrl-scroll, pinch), fit, expand (full-bleed) and true fullscreen. Nodes are
  * <foreignObject> HTML cards (so text reuses CSS) that pan/zoom with the group
- * transform; edges are SVG paths. Base fit is handled by the viewBox, so it
- * renders correctly server-side and the user transform layers on top.
+ * transform; edges are SVG paths. Base fit is the viewBox, so it renders
+ * correctly server-side and the user transform layers on top.
  */
 export default function DiagramCanvas({ diagram, label }: Props) {
-  const shellRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
   const [t, setT] = useState<Transform>({ x: 0, y: 0, k: 1 });
   const [expanded, setExpanded] = useState(false);
   const [isFs, setIsFs] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
   const pinch = useRef<{ dist: number; midX: number; midY: number } | null>(null);
 
   const byId = nodeIndex(diagram);
 
-  // logical(viewBox) -> screen scale, from the svg root CTM
-  const rootScale = useCallback(() => {
-    const m = svgRef.current?.getScreenCTM();
-    return m ? m.a : 1;
-  }, []);
+  const rootScale = useCallback(() => svgRef.current?.getScreenCTM()?.a ?? 1, []);
 
   const panByScreen = useCallback((dxScreen: number, dyScreen: number) => {
     const s = rootScale() || 1;
     setT((p) => ({ ...p, x: p.x + dxScreen / s, y: p.y + dyScreen / s }));
   }, [rootScale]);
 
-  // zoom by `factor`, keeping the point under (clientX, clientY) fixed
   const zoomAtClient = useCallback((clientX: number, clientY: number, factor: number) => {
     const svg = svgRef.current;
     const m = svg?.getScreenCTM();
     if (!svg || !m) return;
-    const Ls = new DOMPoint(clientX, clientY).matrixTransform(m.inverse()); // logical pt under cursor
+    const Ls = new DOMPoint(clientX, clientY).matrixTransform(m.inverse());
     setT((p) => {
       const k2 = clampK(p.k * factor);
       if (k2 === p.k) return p;
-      const c = { x: (Ls.x - p.x) / p.k, y: (Ls.y - p.y) / p.k }; // content pt under cursor
+      const c = { x: (Ls.x - p.x) / p.k, y: (Ls.y - p.y) / p.k };
       return { k: k2, x: p.x + (p.k - k2) * c.x, y: p.y + (p.k - k2) * c.y };
     });
   }, []);
@@ -76,7 +80,7 @@ export default function DiagramCanvas({ diagram, label }: Props) {
   const onPointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
     (e.target as Element).setPointerCapture?.(e.pointerId);
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    if (pointers.current.size >= 2) pinch.current = null; // re-baseline on next move
+    if (pointers.current.size >= 2) pinch.current = null;
   };
 
   const onPointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
@@ -84,12 +88,10 @@ export default function DiagramCanvas({ diagram, label }: Props) {
     if (!prev) return;
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     const pts = [...pointers.current.values()];
-
     if (pts.length === 1) {
       panByScreen(e.clientX - prev.x, e.clientY - prev.y);
       return;
     }
-    // two-finger: pinch-zoom around the midpoint + pan by midpoint drift
     const [a, b] = pts;
     const dist = Math.hypot(a.x - b.x, a.y - b.y);
     const midX = (a.x + b.x) / 2;
@@ -106,8 +108,7 @@ export default function DiagramCanvas({ diagram, label }: Props) {
     if (pointers.current.size < 2) pinch.current = null;
   };
 
-  // ⌘/ctrl-wheel zoom (plain wheel / trackpad scroll passes through to the page).
-  // Native listener so we can preventDefault (React's onWheel is passive).
+  // ⌘/ctrl-wheel zoom (plain scroll passes to the page). Native, non-passive.
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
@@ -120,7 +121,6 @@ export default function DiagramCanvas({ diagram, label }: Props) {
     return () => svg.removeEventListener('wheel', onWheel);
   }, [zoomAtClient]);
 
-  // fullscreen state sync
   useEffect(() => {
     const onChange = () => setIsFs(document.fullscreenElement === containerRef.current);
     document.addEventListener('fullscreenchange', onChange);
@@ -135,7 +135,7 @@ export default function DiagramCanvas({ diagram, label }: Props) {
   };
 
   return (
-    <div className="dgmc-shell" ref={shellRef} data-expanded={expanded ? '' : undefined}>
+    <div className="dgmc-shell" data-expanded={expanded ? '' : undefined}>
       <div className="dgmc" ref={containerRef} data-fs={isFs ? '' : undefined} role="img" aria-label={label}>
         <svg
           ref={svgRef}
@@ -148,46 +148,21 @@ export default function DiagramCanvas({ diagram, label }: Props) {
           onPointerCancel={endPointer}
         >
           <defs>
-            <pattern id="dgmc-dots" width="30" height="30" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.3" className="dgmc__dot" />
-            </pattern>
-            <marker
-              id="dgmc-arrow"
-              viewBox="0 0 10 10"
-              refX="8.5"
-              refY="5"
-              markerWidth="7"
-              markerHeight="7"
-              orient="auto-start-reverse"
-            >
+            <marker id="dgmc-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="context-stroke" />
             </marker>
           </defs>
 
           <g transform={`translate(${t.x} ${t.y}) scale(${t.k})`}>
-            <rect
-              className="dgmc__grid"
-              x={-1000}
-              y={-1000}
-              width={diagram.width + 2000}
-              height={diagram.height + 2000}
-              fill="url(#dgmc-dots)"
-            />
-
             {/* regions */}
             {diagram.groups?.map((g) => {
               const box = groupBox(g, byId);
+              const labelY = g.labelAt === 'bottom' ? box.y + box.h - 22 : box.y - 4;
               return (
                 <g key={g.id}>
-                  <rect
-                    className={`dgmc-region dgmc-region--${g.tone ?? 'zone'}`}
-                    x={box.x}
-                    y={box.y}
-                    width={box.w}
-                    height={box.h}
-                  />
+                  <rect className={`dgmc-region dgmc-region--${g.tone ?? 'zone'}`} x={box.x} y={box.y} width={box.w} height={box.h} />
                   {g.label && (
-                    <foreignObject x={box.x + 8} y={box.y - 4} width={box.w - 16} height={26}>
+                    <foreignObject x={box.x + 8} y={labelY} width={box.w - 16} height={26}>
                       <div className="dgmc-region__label">{g.label}</div>
                     </foreignObject>
                   )}
@@ -212,9 +187,7 @@ export default function DiagramCanvas({ diagram, label }: Props) {
                   />
                   {e.label && (
                     <foreignObject x={mid.x - 84} y={mid.y - 14} width={168} height={28}>
-                      <div className="dgmc-edge-label">
-                        <span>{e.label}</span>
-                      </div>
+                      <div className="dgmc-edge-label"><span>{e.label}</span></div>
                     </foreignObject>
                   )}
                 </g>
@@ -248,31 +221,21 @@ export default function DiagramCanvas({ diagram, label }: Props) {
         )}
 
         <div className="dgmc__controls">
-          <button type="button" className="dgmc__btn" onClick={() => zoomCenter(1 / 1.2)} aria-label="Zoom out">
-            &minus;
-          </button>
-          <button type="button" className="dgmc__btn" onClick={fit} aria-label="Fit to view">
-            Fit
-          </button>
-          <button type="button" className="dgmc__btn" onClick={() => zoomCenter(1.2)} aria-label="Zoom in">
-            +
-          </button>
-          <button
-            type="button"
-            className="dgmc__btn dgmc__btn--wide"
-            onClick={() => setExpanded((v) => !v)}
-            aria-pressed={expanded}
-          >
-            {expanded ? 'Contract' : 'Expand'}
-          </button>
-          <button type="button" className="dgmc__btn dgmc__btn--wide" onClick={toggleFs} aria-pressed={isFs}>
-            {isFs ? 'Exit' : 'Fullscreen'}
-          </button>
+          <button type="button" className="dgmc__btn" onClick={() => zoomCenter(1 / 1.2)} title="Zoom out" aria-label="Zoom out"><IconMinus /></button>
+          <button type="button" className="dgmc__btn" onClick={() => zoomCenter(1.2)} title="Zoom in" aria-label="Zoom in"><IconPlus /></button>
+          <button type="button" className="dgmc__btn" onClick={fit} title="Fit to view" aria-label="Fit to view"><IconFit /></button>
+          <button type="button" className="dgmc__btn" onClick={() => setExpanded((v) => !v)} title={expanded ? 'Contract' : 'Expand to full width'} aria-label="Expand to full width" aria-pressed={expanded}><IconExpand /></button>
+          <button type="button" className="dgmc__btn" onClick={toggleFs} title={isFs ? 'Exit fullscreen' : 'Fullscreen'} aria-label="Fullscreen" aria-pressed={isFs}><IconFullscreen /></button>
+          <button type="button" className="dgmc__btn dgmc__btn--help" onClick={() => setShowHelp((v) => !v)} title="How to navigate" aria-label="How to navigate" aria-expanded={showHelp}>?</button>
         </div>
 
-        <p className="dgmc__hint" aria-hidden="true">
-          drag to pan · ⌘/ctrl-scroll or pinch to zoom
-        </p>
+        {showHelp && (
+          <div className="dgmc__help" role="status">
+            <p>Drag to pan.</p>
+            <p>⌘/Ctrl-scroll — or pinch — to zoom.</p>
+            <p>Use the buttons to fit, expand, or go fullscreen.</p>
+          </div>
+        )}
       </div>
     </div>
   );

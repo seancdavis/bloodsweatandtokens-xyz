@@ -10,6 +10,7 @@ import '../../styles/drops.css';
 
 interface Props {
   label?: string;
+  code?: string;
   title: string;
   dek?: string;
   description?: string;
@@ -17,14 +18,16 @@ interface Props {
   episodeTitle?: string;
 }
 
-const { label = 'Drop', title, dek, description, episodeSlug, episodeTitle } = Astro.props;
+const { label = 'Drop', code, title, dek, description, episodeSlug, episodeTitle } = Astro.props;
 const metaDescription = description ?? dek ?? site.description;
 ---
 
 <BaseLayout title={title} description={metaDescription}>
   <main class="page-main">
     <section class="drop-hero" aria-labelledby="drop-heading">
-      <p class="label label--blood drop-hero__kicker">{label}</p>
+      <p class="label label--blood drop-hero__kicker">
+        {label}{code && <span class="drop-hero__code">{code}</span>}
+      </p>
       <h1 class="drop-hero__title" id="drop-heading">{title}</h1>
       {dek && <p class="drop-hero__dek">{dek}</p>}
       {episodeSlug && episodeTitle && (

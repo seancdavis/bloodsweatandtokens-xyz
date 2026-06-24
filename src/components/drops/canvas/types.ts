@@ -43,6 +43,8 @@ export interface DiagramGroup {
   tone?: 'zone' | 'adapter';
   /** padding around member-node bounds */
   pad?: number;
+  /** where the label tab sits relative to the region (default: top) */
+  labelAt?: 'top' | 'bottom';
 }
 
 export interface LegendItem {

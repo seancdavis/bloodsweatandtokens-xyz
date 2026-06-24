@@ -18,6 +18,17 @@
   margin-bottom: 18px;
 }
 
+.drop-hero__code {
+  margin-left: 10px;
+  padding: 2px 8px;
+  border: 1px solid var(--rule-strong);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--dim);
+}
+
 .drop-hero__title {
   margin: 0;
   max-width: 18ch;
@@ -60,29 +71,50 @@
   padding: clamp(24px, 3.5vw, 44px) var(--pad) clamp(48px, 7vw, 96px);
 }
 
-/* --- Prose around a drop (the SEO / accessible surface) ------------------- */
+/* --- Article prose around the canvases (the SEO / accessible surface) ------ */
 
-.drop-prose {
-  margin-top: clamp(28px, 4vw, 48px);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(20px, 3vw, 44px);
-  max-width: 1000px;
+.drop-lede {
+  max-width: 72ch;
+  font-size: clamp(16px, 1.6vw, 19px);
+  line-height: 1.6;
+  color: rgba(233, 227, 213, 0.86);
 }
 
-.drop-prose__col h2 {
-  margin: 0 0 10px;
+.drop-section {
+  margin-top: clamp(36px, 5vw, 64px);
+}
+
+.drop-section__head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.drop-section__ver {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--blood);
 }
 
-.drop-prose__col p {
+.drop-section h2 {
   margin: 0;
-  font-size: clamp(15px, 1.4vw, 17px);
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.drop-section > p {
+  margin: 0 0 8px;
+  max-width: 72ch;
+  font-size: clamp(15px, 1.45vw, 17px);
   line-height: 1.6;
   color: rgba(233, 227, 213, 0.82);
 }
@@ -114,12 +146,6 @@
   color: var(--blood);
 }
 
-@media (max-width: 640px) {
-  .drop-prose {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ==========================================================================
    The canvas (.dgmc-*)
    ========================================================================== */
@@ -138,14 +164,16 @@
 
 .dgmc {
   position: relative;
-  height: clamp(440px, 70vh, 720px);
+  height: clamp(380px, 56vh, 600px);
   background: var(--ink);
   border: 1px solid var(--rule-strong);
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .dgmc-shell[data-expanded] .dgmc {
-  height: clamp(560px, 86vh, 1000px);
+  height: clamp(520px, 84vh, 920px);
 }
 
 .dgmc:fullscreen {
@@ -163,14 +191,6 @@
 
 .dgmc__svg:active {
   cursor: grabbing;
-}
-
-.dgmc__dot {
-  fill: rgba(233, 227, 213, 0.06);
-}
-
-.dgmc__grid {
-  pointer-events: none;
 }
 
 /* --- Regions -------------------------------------------------------------- */
@@ -202,11 +222,11 @@
 .dgmc-edge {
   fill: none;
   stroke-width: 1.6;
-  stroke-linecap: round;
+  stroke-linecap: butt;
 }
 
 .dgmc-edge--flow {
-  stroke: rgba(233, 227, 213, 0.5);
+  stroke: #8f897d;
 }
 
 .dgmc-edge--data {
@@ -244,7 +264,7 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 15px 16px 13px;
+  padding: 16px 18px 15px;
   overflow: hidden;
   background: color-mix(in oklab, var(--tone-color) 13%, var(--ink));
   border: 1px solid color-mix(in oklab, var(--tone-color) 34%, transparent);
@@ -340,24 +360,25 @@
 }
 
 .dgmc__btn {
-  min-width: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
   height: 34px;
-  padding: 0 10px;
+  padding: 0;
   border: 1px solid var(--rule-strong);
   background: rgba(18, 17, 16, 0.74);
   backdrop-filter: blur(8px);
   color: var(--bone);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   cursor: pointer;
   transition: background 0.12s linear, color 0.12s linear, border-color 0.12s linear;
 }
 
-.dgmc__btn--wide {
-  letter-spacing: 0.1em;
+.dgmc__btn--help {
+  font-size: 15px;
 }
 
 .dgmc__btn:hover,
@@ -405,24 +426,31 @@
 
 /* --- Hint ----------------------------------------------------------------- */
 
-.dgmc__hint {
+.dgmc__help {
   position: absolute;
+  top: 54px;
   right: 12px;
-  bottom: 12px;
-  margin: 0;
+  width: 224px;
+  padding: 12px 14px;
+  background: rgba(18, 17, 16, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--rule-strong);
+}
+
+.dgmc__help p {
+  margin: 0 0 6px;
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
   color: var(--dim);
-  pointer-events: none;
+}
+
+.dgmc__help p:last-child {
+  margin-bottom: 0;
 }
 
 @media (max-width: 640px) {
-  .dgmc__hint {
-    display: none;
-  }
-
   .dgmc__legend {
     font-size: 9px;
     padding: 8px 10px;

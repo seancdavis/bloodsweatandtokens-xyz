@@ -1,7 +1,7 @@
 ---
 import DropLayout from '../../components/drops/DropLayout.astro';
 import DiagramCanvas from '../../components/drops/canvas/DiagramCanvas';
-import { owningTheStack } from '../../data/drops/owning-the-stack';
+import { v02, v03 } from '../../data/drops/owning-the-stack';
 import { drops } from '../../data/drops';
 
 const drop = drops.find((d) => d.slug === 'owning-the-stack')!;
@@ -9,44 +9,59 @@ const drop = drops.find((d) => d.slug === 'owning-the-stack')!;
 
 <DropLayout
   label="System map"
+  code={drop.code}
   title={drop.title}
   dek={drop.dek}
   episodeSlug={drop.episodeSlug}
   episodeTitle={drop.episodeTitle}
 >
-  <DiagramCanvas
-    client:load
-    diagram={owningTheStack}
-    label="Architecture map comparing the v0.2 engine-plus-adapters platform with the v0.3 owned, content-as-data stack. Drag to pan; scroll or pinch to zoom; expand or go fullscreen for more room."
-  />
+  <p class="drop-lede">
+    The first version of this platform let every client keep their own stack — their own framework,
+    their own cloud, maybe their own CMS — and stitched it together with a desktop app and a central
+    orchestrator. The current version goes the other way: one base, one hub, one set of backends.
+    Here is the happy path, before and after.
+  </p>
 
-  <section class="drop-prose" aria-label="What you're looking at">
-    <div class="drop-prose__col">
-      <h2>v0.2 — behind a build</h2>
-      <p>
-        The old platform drove everything through a Hono orchestrator on a Mac mini, behind a Tauri
-        desk app. Content reached each site through an adapter layer — a ContentSource (Contentful or
-        our own infra) and a CloudPlatform (Netlify or Cloudflare) — and every change ran through a
-        build and a deploy, glued together with a tunnel and webhook chains. Two clouds, an external
-        CMS, four adapters.
-      </p>
+  <section class="drop-section" aria-labelledby="v02-heading">
+    <div class="drop-section__head">
+      <span class="drop-section__ver">v0.2</span>
+      <h2 id="v02-heading">A bespoke stack per client</h2>
     </div>
-    <div class="drop-prose__col">
-      <h2>v0.3 — content as data</h2>
-      <p>
-        The new platform owns one stack. A hub (Astro SSR on Netlify) is the control plane, content
-        API, and fast AI, and it owns a single tenant-isolated Postgres. Customer sites SSR their
-        content from the hub per request; the engine — a developer agent on the Mac mini — only opens
-        capability PRs. Preview and publish become data operations: a DB write and a cache-tag purge,
-        with no build per edit.
-      </p>
+    <p>
+      A desktop app shipped to every user. Each client ran their own website on their own stack — one
+      on Netlify with Contentful, another on Cloudflare with a content backend they self-hosted — and
+      they brought whatever framework they liked. The orchestrator in the middle, reaching each stack
+      through per-client adapters, was the only shared piece. Flexible, but a lot of surface area.
+    </p>
+    <DiagramCanvas
+      client:visible
+      diagram={v02}
+      label="v0.2: a desktop app plus a central orchestrator reaching two divergent client stacks — Client A on Netlify with Contentful, Client B on Cloudflare with a self-hosted content backend."
+    />
+  </section>
+
+  <section class="drop-section" aria-labelledby="v03-heading">
+    <div class="drop-section__head">
+      <span class="drop-section__ver">v0.3</span>
+      <h2 id="v03-heading">One base, everything through the hub</h2>
     </div>
+    <p>
+      Now every customer site starts from the same base template and the same shared libraries (Astro
+      and the toolkits that work with the system). Each site talks to one hub — that is how it reads
+      content, writes content, and reaches the AI. Only the hub talks to the backends behind it, the
+      Postgres database and OpenRouter. The sites stay simple; the hub holds the complexity.
+    </p>
+    <DiagramCanvas
+      client:visible
+      diagram={v03}
+      label="v0.3: two customer sites built from one shared base template, each talking only to a central hub, which alone reaches the Postgres database and OpenRouter."
+    />
   </section>
 
   <p class="drop-coda">
-    The generality was the over-engineering. The whole v0.2 apparatus — an external CMS, four
-    adapters, a second cloud, a tunnel, and webhook chains — existed only because content lived behind
-    a <strong>build</strong>. Pull content into one owned Postgres behind Astro SSR and preview and
-    publish become <strong>data operations</strong>. Most of the moving parts simply fall away.
+    Same job, far fewer moving parts. v0.2 multiplied a whole stack — framework, cloud, content source —
+    for every client. v0.3 keeps <strong>one base</strong> and routes everything through <strong>one
+    hub</strong>, so the only thing that grows per client is content. That is the simplicity worth
+    owning.
   </p>
 </DropLayout>
