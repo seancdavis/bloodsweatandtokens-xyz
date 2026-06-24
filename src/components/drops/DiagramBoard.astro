@@ -1,0 +1,28 @@
+---
+/**
+ * DiagramBoard — the framed drawing surface. Stack Lanes + Connectors inside.
+ * Optional `tag` + `tally` render a header; a `legend` slot sits at the bottom.
+ */
+interface Props {
+  tag?: string;
+  tally?: string;
+  caption?: string;
+}
+
+const { tag, tally, caption } = Astro.props;
+const hasHead = Boolean(tag || tally);
+---
+
+<figure class="dgm-board">
+  {hasHead && (
+    <div class="dgm-board__head">
+      {tag && <span class="dgm-board__tag">{tag}</span>}
+      {tally && <span class="dgm-board__tally">{tally}</span>}
+    </div>
+  )}
+  <div class="dgm-board__surface">
+    <slot />
+  </div>
+  {caption && <figcaption class="dgm-board__caption">{caption}</figcaption>}
+  <slot name="legend" />
+</figure>

@@ -1,0 +1,24 @@
+---
+/**
+ * Node — a single box in a diagram. The atom of the vocabulary.
+ * Real HTML text (accessible, responsive). Body copy goes in the default slot.
+ */
+interface Props {
+  title: string;
+  kind?: string;
+  runsOn?: string;
+  tone?: 'default' | 'accent' | 'muted' | 'ghost';
+}
+
+const { title, kind, runsOn, tone = 'default' } = Astro.props;
+const hasBody = Astro.slots.has('default');
+---
+
+<div class:list={['dgm-node', tone !== 'default' && `dgm-node--${tone}`]}>
+  {kind && <p class="dgm-node__kind">{kind}</p>}
+  <p class="dgm-node__title">{title}</p>
+  {hasBody && (
+    <div class="dgm-node__body"><slot /></div>
+  )}
+  {runsOn && <p class="dgm-node__runs">{runsOn}</p>}
+</div>

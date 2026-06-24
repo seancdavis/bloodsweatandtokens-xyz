@@ -8,6 +8,7 @@ type SiteHeaderProps = {
 
 const navItems = [
   { href: '/episodes/', label: 'Episodes' },
+  { href: '/drops/', label: 'Drops' },
   { href: '/about/', label: 'About' },
   { href: '#subscribe', label: 'Subscribe' },
 ];

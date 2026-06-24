@@ -1,0 +1,137 @@
+---
+import DropLayout from '../../components/drops/DropLayout.astro';
+import BeforeAfter from '../../components/drops/BeforeAfter.astro';
+import DiagramBoard from '../../components/drops/DiagramBoard.astro';
+import Lane from '../../components/drops/Lane.astro';
+import Node from '../../components/drops/Node.astro';
+import Connector from '../../components/drops/Connector.astro';
+import Legend from '../../components/drops/Legend.astro';
+import { drops } from '../../data/drops';
+
+const drop = drops.find((d) => d.slug === 'owning-the-stack')!;
+---
+
+<DropLayout
+  label="System map"
+  title={drop.title}
+  dek={drop.dek}
+  episodeSlug={drop.episodeSlug}
+  episodeTitle={drop.episodeTitle}
+>
+  <BeforeAfter
+    beforeVer="v0.2"
+    beforeTitle="Engine + adapters — content lives behind a build"
+    afterVer="v0.3"
+    afterTitle="Own the stack — content lives as data"
+  >
+    {/* ---------- BEFORE: the v0.2 engine + adapters sprawl ---------- */}
+    <DiagramBoard
+      slot="before"
+      tag="Before · v0.2"
+      tally="2 clouds · external CMS · 4 adapters · build per change"
+    >
+      <Lane label="Editing surface">
+        <Node title="Desk" kind="Tauri app" runsOn="native app">
+          requests · plan items · streaming · cost panel
+        </Node>
+      </Lane>
+
+      <Connector dir="down" label="SSE + REST" />
+
+      <Lane label="Engine">
+        <Node title="Orchestrator" kind="Hono" tone="accent" runsOn="Mac mini">
+          planner loop (OpenRouter) · executor · SSE · cost guards · SQLite state
+        </Node>
+      </Lane>
+
+      <Connector dir="down" label="stable interfaces" />
+
+      <Lane label="Adapter layer" framed>
+        <Node title="ContentSource" kind="adapter">Contentful · own-infra</Node>
+        <Node title="CloudPlatform" kind="adapter">Netlify · Cloudflare</Node>
+      </Lane>
+
+      <Connector dir="down" label="build → deploy" />
+
+      <Lane label="Content + cloud">
+        <Node title="Contentful" kind="external CMS">entries via the CMA</Node>
+        <Node title="Content-infra" kind="per-client Netlify project">
+          Postgres · Functions · Image CDN · pgvector
+        </Node>
+        <Node title="Cloudflare Pages" kind="second cloud">CF Pages API + webhook</Node>
+      </Lane>
+
+      <Legend
+        slot="legend"
+        title="Retired in v0.3"
+        items={[
+          { tone: 'gone', label: 'External CMS' },
+          { tone: 'gone', label: 'Adapter layer' },
+          { tone: 'gone', label: 'Second cloud' },
+          { tone: 'gone', label: 'Desk app' },
+          { tone: 'gone', label: 'Webhook chains + tunnel' },
+          { tone: 'gone', label: 'Build per change' },
+        ]}
+      />
+    </DiagramBoard>
+
+    {/* ---------- AFTER: the v0.3 owned, content-as-data stack ---------- */}
+    <DiagramBoard
+      slot="after"
+      tag="After · v0.3"
+      tally="1 cloud · 1 owned DB · 0 adapters · no build per edit"
+    >
+      <Lane label="Code track">
+        <Node title="Engine" kind="Claude / Codex CLI" runsOn="Mac mini, tunneled">
+          a developer agent, and nothing more → opens PRs
+        </Node>
+      </Lane>
+
+      <Connector dir="down" tone="accent" label="capability PR · code, not content" />
+
+      <Lane label="Delivery">
+        <Node title="Customer site" kind="Astro SSR · per workspace" runsOn="Netlify">
+          renders pages + blocks from the hub, per request
+        </Node>
+      </Lane>
+
+      <Connector dir="bi" label="served by the hub · SSR per request" />
+
+      <Lane label="Control plane">
+        <Node title="Hub" kind="Astro SSR · Netlify" tone="accent" runsOn="Netlify">
+          control plane · content API · fast AI · schema registry
+        </Node>
+        <Connector dir="bi-h" label="fast AI" />
+        <Node title="OpenRouter" kind="cheap models" tone="muted">
+          DeepSeek / Qwen — serverless
+        </Node>
+      </Lane>
+
+      <Connector dir="down" label="owns one DB" />
+
+      <Lane label="Data">
+        <Node title="Netlify Postgres" kind="one shared DB">
+          tenant-isolated by workspace
+        </Node>
+      </Lane>
+
+      <Legend
+        slot="legend"
+        title="What's new"
+        items={[
+          { tone: 'accent', label: 'Hub owns the DB' },
+          { tone: 'kept', label: 'SDK / extension' },
+          { tone: 'kept', label: 'Engine = dev agent only' },
+        ]}
+      />
+    </DiagramBoard>
+  </BeforeAfter>
+
+  <p class="drop-coda">
+    The generality was the over-engineering. The whole v0.2 apparatus — an external CMS, four
+    adapters, a second cloud, a tunnel, and webhook chains — existed only because content lived
+    behind a <strong>build</strong>. Pull content into one owned Postgres behind Astro SSR and
+    preview and publish become <strong>data operations</strong>: a DB write and a cache-tag purge.
+    Most of the moving parts simply fall away.
+  </p>
+</DropLayout>
