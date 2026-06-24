@@ -22,17 +22,13 @@ export const v02: Diagram = {
   width: 1320,
   height: 820,
   nodes: [
-    {
-      id: 'desk',
-      x: 535,
-      y: 40,
-      w: 230,
-      h: 96,
-      tone: 'control',
-      kind: 'desktop app',
-      title: 'Desk',
-      body: 'one copy installed per user',
-    },
+    // a desktop app — one copy per user, across every client
+    { id: 'desk-a1', x: 56, y: 30, w: 176, h: 70, tone: 'control', kind: 'Client A · User 1', title: 'Desk' },
+    { id: 'desk-a2', x: 248, y: 30, w: 176, h: 70, tone: 'control', kind: 'Client A · User 2', title: 'Desk' },
+    { id: 'desk-a3', x: 440, y: 30, w: 176, h: 70, tone: 'control', kind: 'Client A · User 3', title: 'Desk' },
+    { id: 'desk-b1', x: 706, y: 30, w: 176, h: 70, tone: 'control', kind: 'Client B · User 1', title: 'Desk' },
+    { id: 'desk-b2', x: 898, y: 30, w: 176, h: 70, tone: 'control', kind: 'Client B · User 2', title: 'Desk' },
+    { id: 'desk-b3', x: 1090, y: 30, w: 176, h: 70, tone: 'control', kind: 'Client B · User 3', title: 'Desk' },
     {
       id: 'orchestrator',
       x: 520,
@@ -114,7 +110,12 @@ export const v02: Diagram = {
     },
   ],
   edges: [
-    { from: 'desk', to: 'orchestrator', label: 'SSE · REST', kind: 'flow' },
+    { from: 'desk-a1', to: 'orchestrator', kind: 'flow' },
+    { from: 'desk-a2', to: 'orchestrator', kind: 'flow' },
+    { from: 'desk-a3', to: 'orchestrator', kind: 'flow' },
+    { from: 'desk-b1', to: 'orchestrator', kind: 'flow' },
+    { from: 'desk-b2', to: 'orchestrator', kind: 'flow' },
+    { from: 'desk-b3', to: 'orchestrator', kind: 'flow' },
     { from: 'orchestrator', to: 'site-a', label: 'adapter', kind: 'flow' },
     { from: 'orchestrator', to: 'site-b', label: 'adapter', kind: 'flow' },
     { from: 'site-a', to: 'netlify', label: 'deploys', kind: 'flow' },
