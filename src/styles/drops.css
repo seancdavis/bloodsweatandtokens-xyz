@@ -1,16 +1,10 @@
 /* ==========================================================================
-   DROPS — bespoke pages (diagrams + other one-offs) in the BST house style.
-   A small, reusable "diagram vocabulary" built from the global design tokens:
-   boards, lanes (tiers), nodes (boxes), connectors (edges), legends. Authoring a
-   new drawing = composing these — no external drawing tool, no per-diagram SVG.
-   All selectors are namespaced .dgm-* / .drop* so they never touch global.css.
+   DROPS — bespoke pages (diagrams + one-offs) in the BST house style.
+   Two parts: (1) page chrome (hero / index / coda); (2) the .dgmc-* interactive
+   SVG canvas — an owned drawing surface (pan / zoom / fullscreen) whose visual
+   language is color-encoded (subsystem = color) and deliberately low-border.
+   All selectors are namespaced so they never touch global.css.
    ========================================================================== */
-
-:root {
-  --dgm-node-border: 1.5px;
-  --dgm-radius: 0px; /* brutalist: square corners */
-  --dgm-gap: clamp(14px, 1.8vw, 22px);
-}
 
 /* --- Drop page hero ------------------------------------------------------- */
 
@@ -63,7 +57,34 @@
 }
 
 .drop-body {
-  padding: clamp(28px, 4vw, 56px) var(--pad) clamp(48px, 7vw, 96px);
+  padding: clamp(24px, 3.5vw, 44px) var(--pad) clamp(48px, 7vw, 96px);
+}
+
+/* --- Prose around a drop (the SEO / accessible surface) ------------------- */
+
+.drop-prose {
+  margin-top: clamp(28px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 44px);
+  max-width: 1000px;
+}
+
+.drop-prose__col h2 {
+  margin: 0 0 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blood);
+}
+
+.drop-prose__col p {
+  margin: 0;
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.6;
+  color: rgba(233, 227, 213, 0.82);
 }
 
 .drop-coda {
@@ -93,446 +114,324 @@
   color: var(--blood);
 }
 
-/* --- Board: the framed drawing surface ------------------------------------ */
-
-.dgm-board {
-  margin: 0;
-  border: 1px solid var(--rule-strong);
-  background: var(--ink-raise);
+@media (max-width: 640px) {
+  .drop-prose {
+    grid-template-columns: 1fr;
+  }
 }
 
-.dgm-board__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 14px;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--rule-strong);
+/* ==========================================================================
+   The canvas (.dgmc-*)
+   ========================================================================== */
+
+.dgmc-shell {
+  position: relative;
+  margin-top: clamp(8px, 2vw, 18px);
 }
 
-.dgm-board__tag {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--bone);
+/* Expand: break out of the centered .frame to viewport width. */
+.dgmc-shell[data-expanded] {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-inline: clamp(12px, 3vw, 40px);
 }
 
-.dgm-board__tally {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--dim);
-}
-
-.dgm-board__surface {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  padding: clamp(20px, 3vw, 34px);
-}
-
-.dgm-board__caption {
-  margin: 0;
-  padding: 14px 18px;
-  border-top: 1px solid var(--rule);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--dim);
-}
-
-/* --- Lane: a labelled tier / group of nodes ------------------------------- */
-
-.dgm-lane {
-  width: 100%;
-}
-
-.dgm-lane__label {
-  margin: 0 0 10px;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--dim);
-  text-align: center;
-}
-
-.dgm-lane__nodes {
-  display: flex;
-  gap: var(--dgm-gap);
-  align-items: stretch;
-  justify-content: center;
-}
-
-.dgm-lane__nodes--row {
-  flex-flow: row wrap;
-}
-
-.dgm-lane__nodes--col {
-  flex-direction: column;
-  align-items: center;
-}
-
-.dgm-lane--framed {
-  border: 1px dashed var(--rule-strong);
-  padding: 16px;
-}
-
-.dgm-lane--framed > .dgm-lane__label {
-  width: max-content;
-  margin: -26px auto 14px;
-  padding: 0 8px;
-  background: var(--ink-raise);
-}
-
-/* --- Node: the core box --------------------------------------------------- */
-
-.dgm-node {
-  flex: 0 1 auto;
-  min-width: 150px;
-  max-width: 290px;
-  border: var(--dgm-node-border) solid var(--rule-strong);
-  border-radius: var(--dgm-radius);
+.dgmc {
+  position: relative;
+  height: clamp(440px, 70vh, 720px);
   background: var(--ink);
-  padding: 14px 16px;
-  text-align: left;
+  border: 1px solid var(--rule-strong);
+  overflow: hidden;
 }
 
-.dgm-node__kind {
-  margin: 0 0 6px;
+.dgmc-shell[data-expanded] .dgmc {
+  height: clamp(560px, 86vh, 1000px);
+}
+
+.dgmc:fullscreen {
+  height: 100vh;
+  border: 0;
+}
+
+.dgmc__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.dgmc__svg:active {
+  cursor: grabbing;
+}
+
+.dgmc__dot {
+  fill: rgba(233, 227, 213, 0.06);
+}
+
+.dgmc__grid {
+  pointer-events: none;
+}
+
+/* --- Regions -------------------------------------------------------------- */
+
+.dgmc-region {
+  pointer-events: none;
+}
+
+.dgmc-region--zone {
+  fill: rgba(233, 227, 213, 0.022);
+}
+
+.dgmc-region--adapter {
+  fill: rgba(233, 227, 213, 0.05);
+}
+
+.dgmc-region__label {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--dim);
-}
-
-.dgm-node__title {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.12;
-  color: var(--bone);
-}
-
-.dgm-node__body {
-  margin: 8px 0 0;
-  font-size: 12.5px;
-  line-height: 1.42;
-  color: rgba(233, 227, 213, 0.74);
-}
-
-.dgm-node__runs {
-  margin: 12px 0 0;
-  padding-top: 8px;
-  border-top: 1px solid var(--rule);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--dim);
-}
-
-/* Tones */
-.dgm-node--accent {
-  border-color: var(--blood);
-  box-shadow: inset 0 3px 0 var(--blood);
-}
-
-.dgm-node--accent .dgm-node__kind {
-  color: var(--blood);
-}
-
-.dgm-node--muted {
-  min-width: 120px;
-  border-color: var(--rule);
-  background: transparent;
-}
-
-.dgm-node--muted .dgm-node__title {
-  font-size: 15px;
-  color: rgba(233, 227, 213, 0.82);
-}
-
-.dgm-node--ghost {
-  border-style: dashed;
-  border-color: var(--rule);
-  background: transparent;
-  opacity: 0.62;
-}
-
-.dgm-node--ghost .dgm-node__title {
-  text-decoration: line-through;
-  text-decoration-color: var(--blood);
-  text-decoration-thickness: 1.5px;
-}
-
-/* --- Connector: a directional edge between tiers -------------------------- */
-
-.dgm-conn {
-  --dgm-conn-color: var(--rule-strong);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dgm-conn--accent {
-  --dgm-conn-color: var(--blood);
-}
-
-.dgm-conn--v {
-  flex-direction: column;
-  min-height: 46px;
-  padding-block: 4px;
-}
-
-.dgm-conn--h {
-  flex-direction: row;
-  min-width: 46px;
-  padding-inline: 6px;
-  align-self: center;
-}
-
-.dgm-conn__line {
-  background: var(--dgm-conn-color);
-}
-
-.dgm-conn--v .dgm-conn__line {
-  width: 2px;
-  height: 26px;
-}
-
-.dgm-conn--h .dgm-conn__line {
-  width: 30px;
-  height: 2px;
-}
-
-.dgm-conn__head {
-  width: 0;
-  height: 0;
-  flex: none;
-}
-
-.dgm-conn__head--down {
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 7px solid var(--dgm-conn-color);
-}
-
-.dgm-conn__head--up {
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 7px solid var(--dgm-conn-color);
-}
-
-.dgm-conn__head--right {
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 7px solid var(--dgm-conn-color);
-}
-
-.dgm-conn__head--left {
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-right: 7px solid var(--dgm-conn-color);
-}
-
-.dgm-conn__label {
-  position: absolute;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--dim);
   white-space: nowrap;
 }
 
-.dgm-conn--v .dgm-conn__label {
-  left: calc(50% + 12px);
-  top: 50%;
-  transform: translateY(-50%);
+/* --- Edges ---------------------------------------------------------------- */
+
+.dgmc-edge {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
 }
 
-.dgm-conn--h .dgm-conn__label {
-  bottom: calc(50% + 9px);
-  left: 50%;
-  transform: translateX(-50%);
+.dgmc-edge--flow {
+  stroke: rgba(233, 227, 213, 0.5);
 }
 
-/* --- Legend / "what changed" key ------------------------------------------ */
+.dgmc-edge--data {
+  stroke: var(--tokens);
+}
 
-.dgm-legend {
-  list-style: none;
-  margin: 0;
-  padding: 16px 18px;
-  border-top: 1px solid var(--rule);
+.dgmc-edge--code {
+  stroke: var(--blood);
+}
+
+.dgmc-edge-label {
   display: flex;
-  flex-flow: row wrap;
-  gap: 10px 22px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  pointer-events: none;
 }
 
-.dgm-legend__title {
-  width: 100%;
-  margin: 0 0 4px;
+.dgmc-edge-label span {
+  background: var(--ink);
+  padding: 2px 7px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+/* --- Nodes ---------------------------------------------------------------- */
+
+.dgmc-node {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 15px 16px 13px;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--tone-color) 13%, var(--ink));
+  border: 1px solid color-mix(in oklab, var(--tone-color) 34%, transparent);
+  user-select: none;
+}
+
+.dgmc-node__bar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--tone-color);
+}
+
+.dgmc-node__kind {
+  margin: 0 0 5px;
+  font-family: var(--mono);
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  color: var(--tone-color);
+}
+
+.dgmc-node__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
   color: var(--bone);
 }
 
-.dgm-legend__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
+.dgmc-node__body {
+  margin: 7px 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: rgba(233, 227, 213, 0.72);
+}
+
+.dgmc-node__runs {
+  margin: 9px 0 0;
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--dim);
-}
-
-.dgm-legend__swatch {
-  width: 14px;
-  height: 14px;
-  flex: none;
-  border: 1.5px solid var(--rule-strong);
-}
-
-.dgm-legend__swatch--accent {
-  border-color: var(--blood);
-  background: var(--blood);
-}
-
-.dgm-legend__swatch--gone {
-  border-style: dashed;
-  border-color: var(--rule);
-  background: transparent;
-}
-
-.dgm-legend__swatch--kept {
-  border-color: var(--bone);
-  background: transparent;
-}
-
-/* --- Before / After frame ------------------------------------------------- */
-
-.dgm-ba {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(20px, 3vw, 40px);
-  align-items: start;
-}
-
-.dgm-ba__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 6px 12px;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--rule-strong);
-}
-
-.dgm-ba__tag {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+  font-size: 10px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--dim);
 }
 
-.dgm-ba__head--after .dgm-ba__tag {
-  color: var(--blood);
+/* Tone = subsystem (drives the bar, tint, kind text, and legend swatch). */
+.dgmc-node--control {
+  --tone-color: var(--blood);
+}
+.dgmc-node--data {
+  --tone-color: var(--tokens);
+}
+.dgmc-node--delivery {
+  --tone-color: var(--sweat);
+}
+.dgmc-node--ai {
+  --tone-color: #9a93dd;
+}
+.dgmc-node--external {
+  --tone-color: var(--dim);
+}
+.dgmc-node--retired {
+  --tone-color: var(--dim);
+  opacity: 0.5;
 }
 
-.dgm-ba__ver {
+.dgmc-node.is-focal {
+  background: color-mix(in oklab, var(--tone-color) 20%, var(--ink));
+  border-color: color-mix(in oklab, var(--tone-color) 60%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--tone-color) 40%, transparent),
+    0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.dgmc-node.is-focal .dgmc-node__bar {
+  height: 4px;
+}
+
+.dgmc-node.is-focal .dgmc-node__title {
+  font-size: 19px;
+}
+
+/* --- Controls ------------------------------------------------------------- */
+
+.dgmc__controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+}
+
+.dgmc__btn {
+  min-width: 38px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--rule-strong);
+  background: rgba(18, 17, 16, 0.74);
+  backdrop-filter: blur(8px);
+  color: var(--bone);
   font-family: var(--mono);
   font-size: 12px;
+  font-weight: 700;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.12s linear, color 0.12s linear, border-color 0.12s linear;
+}
+
+.dgmc__btn--wide {
+  letter-spacing: 0.1em;
+}
+
+.dgmc__btn:hover,
+.dgmc__btn:focus-visible {
+  background: var(--bone);
+  color: var(--ink);
+  border-color: var(--bone);
+}
+
+/* --- Legend --------------------------------------------------------------- */
+
+.dgmc__legend {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  margin: 0;
+  padding: 10px 12px;
+  list-style: none;
+  display: flex;
+  flex-flow: column;
+  gap: 7px;
+  background: rgba(18, 17, 16, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--rule);
+}
+
+.dgmc__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--dim);
 }
 
-.dgm-ba__title {
-  flex-basis: 100%;
-  margin: 4px 0 0;
-  font-size: clamp(18px, 2vw, 22px);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
-  color: var(--bone);
+.dgmc__legend-swatch {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  background: var(--tone-color);
+  border: 1px solid color-mix(in oklab, var(--tone-color) 50%, transparent);
 }
 
-/* --- Responsive ----------------------------------------------------------- */
+/* --- Hint ----------------------------------------------------------------- */
 
-@media (max-width: 900px) {
-  .dgm-ba {
-    grid-template-columns: 1fr;
-    gap: clamp(28px, 6vw, 44px);
-  }
-
-  .dgm-ba__col + .dgm-ba__col {
-    border-top: 1px solid var(--rule-strong);
-    padding-top: clamp(28px, 6vw, 44px);
-  }
+.dgmc__hint {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dim);
+  pointer-events: none;
 }
 
 @media (max-width: 640px) {
-  .dgm-lane__nodes--row {
-    flex-direction: column;
-    align-items: center;
+  .dgmc__hint {
+    display: none;
   }
 
-  .dgm-node,
-  .dgm-node--muted {
-    width: 100%;
-    max-width: 340px;
-  }
-
-  /* horizontal connectors read better as vertical ones when stacked */
-  .dgm-conn--h {
-    flex-direction: column;
-    min-width: 0;
-    min-height: 38px;
-  }
-
-  .dgm-conn--h .dgm-conn__line {
-    width: 2px;
-    height: 22px;
-  }
-
-  .dgm-conn--h .dgm-conn__head--right {
-    border-top: 7px solid var(--dgm-conn-color);
-    border-bottom: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-  }
-
-  .dgm-conn--h .dgm-conn__head--left {
-    border-bottom: 7px solid var(--dgm-conn-color);
-    border-top: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-  }
-
-  .dgm-conn--h .dgm-conn__label {
-    position: static;
-    transform: none;
-    margin-top: 4px;
+  .dgmc__legend {
+    font-size: 9px;
+    padding: 8px 10px;
   }
 }
 
-/* --- Drops index list ----------------------------------------------------- */
+/* ==========================================================================
+   Drops index list
+   ========================================================================== */
 
 .drops-index {
   padding-block: clamp(8px, 2vw, 20px) clamp(40px, 6vw, 72px);
