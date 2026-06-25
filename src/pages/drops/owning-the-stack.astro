@@ -1,0 +1,67 @@
+---
+import DropLayout from '../../components/drops/DropLayout.astro';
+import DiagramCanvas from '../../components/drops/canvas/DiagramCanvas';
+import { v02, v03 } from '../../data/drops/owning-the-stack';
+import { drops } from '../../data/drops';
+
+const drop = drops.find((d) => d.slug === 'owning-the-stack')!;
+---
+
+<DropLayout
+  label="System map"
+  code={drop.code}
+  title={drop.title}
+  dek={drop.dek}
+  episodeSlug={drop.episodeSlug}
+  episodeTitle={drop.episodeTitle}
+>
+  <p class="drop-lede">
+    The first version of this platform let every client keep their own stack — their own framework,
+    their own cloud, maybe their own CMS — and stitched it together with a desktop app and a central
+    orchestrator. The current version goes the other way: one base, one hub, one set of backends.
+    Here is the happy path, before and after.
+  </p>
+
+  <section class="drop-section" aria-labelledby="v02-heading">
+    <div class="drop-section__head">
+      <span class="drop-section__ver">v0.2</span>
+      <h2 id="v02-heading">A bespoke stack per client</h2>
+    </div>
+    <p>
+      A desktop app shipped to every user. Each client ran their own website on their own stack — one
+      on Netlify with Contentful, another on Cloudflare with a content backend they self-hosted — and
+      they brought whatever framework they liked. The orchestrator in the middle, reaching each stack
+      through per-client adapters, was the only shared piece. Flexible, but a lot of surface area.
+    </p>
+    <DiagramCanvas
+      client:visible
+      diagram={v02}
+      label="v0.2: a desktop app plus a central orchestrator reaching two divergent client stacks — Client A on Netlify with Contentful, Client B on Cloudflare with a self-hosted content backend."
+    />
+  </section>
+
+  <section class="drop-section" aria-labelledby="v03-heading">
+    <div class="drop-section__head">
+      <span class="drop-section__ver">v0.3</span>
+      <h2 id="v03-heading">One base, everything through the hub</h2>
+    </div>
+    <p>
+      Now every customer site starts from the same base template and the same shared libraries (Astro
+      and the toolkits that work with the system). Each site talks to one hub — that is how it reads
+      content, writes content, and reaches the AI. Only the hub talks to the backends behind it, the
+      Postgres database and OpenRouter. The sites stay simple; the hub holds the complexity.
+    </p>
+    <DiagramCanvas
+      client:visible
+      diagram={v03}
+      label="v0.3: two customer sites built from one shared base template, each talking only to a central hub, which alone reaches the Postgres database and OpenRouter."
+    />
+  </section>
+
+  <p class="drop-coda">
+    Same job, far fewer moving parts. v0.2 multiplied a whole stack — framework, cloud, content source —
+    for every client. v0.3 keeps <strong>one base</strong> and routes everything through <strong>one
+    hub</strong>, so the only thing that grows per client is content. That is the simplicity worth
+    owning.
+  </p>
+</DropLayout>

@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { drops } from '../../data/drops';
+import '../../styles/drops.css';
+
+const sorted = [...drops].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+---
+
+<BaseLayout
+  title="Drops"
+  description="Bespoke pages — architecture diagrams and other one-off drawings from Blood, Sweat & Tokens."
+>
+  <main class="page-main">
+    <section class="ep-hero" aria-labelledby="drops-heading">
+      <div>
+        <p class="label label--blood ep-hero__kicker">Bespoke pages</p>
+        <h1 class="ep-hero__title" id="drops-heading">Drops</h1>
+      </div>
+      <aside class="ep-hero__meta">
+        <strong>{drops.length} {drops.length === 1 ? 'drop' : 'drops'}</strong>
+        Diagrams &amp; one-offs, in the house style
+      </aside>
+    </section>
+
+    <section class="drops-index wrap" aria-label="All drops">
+      <ol>
+        {
+          sorted.map((drop) => (
+            <li class="drop-row">
+              <a class="drop-row__link" href={`/drops/${drop.slug}/`}>
+                <span class="drop-row__no">{drop.code}</span>
+                <span class="drop-row__main">
+                  <span class="drop-row__kind">{drop.kind}</span>
+                  <span class="drop-row__title">{drop.title}</span>
+                  <span class="drop-row__dek">{drop.dek}</span>
+                </span>
+                {drop.episodeTitle && <span class="drop-row__ep">{drop.episodeTitle}</span>}
+                <span class="drop-row__go" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </main>
+</BaseLayout>

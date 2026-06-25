@@ -1,0 +1,44 @@
+---
+/**
+ * DropLayout — the per-drop page wrapper. Standard hero (label/title/dek +
+ * optional companion-episode link), pulls in drops.css, then yields the slot
+ * for the drop's bespoke composition. Keeps each drop page to just its content.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../data/podcast';
+import '../../styles/drops.css';
+
+interface Props {
+  label?: string;
+  code?: string;
+  title: string;
+  dek?: string;
+  description?: string;
+  episodeSlug?: string;
+  episodeTitle?: string;
+}
+
+const { label = 'Drop', code, title, dek, description, episodeSlug, episodeTitle } = Astro.props;
+const metaDescription = description ?? dek ?? site.description;
+---
+
+<BaseLayout title={title} description={metaDescription}>
+  <main class="page-main">
+    <section class="drop-hero" aria-labelledby="drop-heading">
+      <p class="label label--blood drop-hero__kicker">
+        {label}{code && <span class="drop-hero__code">{code}</span>}
+      </p>
+      <h1 class="drop-hero__title" id="drop-heading">{title}</h1>
+      {dek && <p class="drop-hero__dek">{dek}</p>}
+      {episodeSlug && episodeTitle && (
+        <a class="drop-hero__episode" href={`/episodes/${episodeSlug}/`}>
+          Companion to {episodeTitle} &rarr;
+        </a>
+      )}
+    </section>
+    <div class="drop-body">
+      <slot />
+      <a class="drop-back" href="/drops/">&larr; All drops</a>
+    </div>
+  </main>
+</BaseLayout>
